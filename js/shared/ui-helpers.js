@@ -107,10 +107,10 @@ function clearForm(form) {
   form.reset();
 
   const errorElements = form.querySelectorAll(".input__error");
-  errorElements.forEach(error => error.remove());
+  errorElements.forEach((error) => error.remove());
 
   const errorInputs = form.querySelectorAll(".input--error");
-  errorInputs.forEach(input => input.classList.remove("input--error"));
+  errorInputs.forEach((input) => input.classList.remove("input--error"));
 }
 
 /**
@@ -137,7 +137,7 @@ function formatDate(dateString, locale = "en-US") {
   return date.toLocaleDateString(locale, {
     year: "numeric",
     month: "long",
-    day: "numeric"
+    day: "numeric",
   });
 }
 
@@ -209,5 +209,5 @@ export {
   formatDateShort,
   debounce,
   scrollToElement,
-  copyToClipboard
+  copyToClipboard,
 };
