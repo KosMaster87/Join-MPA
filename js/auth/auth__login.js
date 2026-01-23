@@ -130,16 +130,23 @@ async function handleGuestLogin() {
   try {
     showLoading(guestBtn);
 
-    // Guest users use a predefined account
-    const guestEmail = "guest@join.com";
-    const guestPassword = "guest123";
+    // Guest login: Create anonymous guest session without authentication
+    const guestData = {
+      uid: "guest-user",
+      email: "guest@join.com",
+      displayName: "Guest User",
+      isGuest: true,
+    };
 
-    const user = await signInWithAuth(guestEmail, guestPassword);
-    await saveUserSession(user.uid, guestEmail);
+    // Save guest session to localStorage
+    localStorage.setItem("userId", guestData.uid);
+    localStorage.setItem("userEmail", guestData.email);
+    localStorage.setItem("isGuest", "true");
 
     showToast("Logged in as guest!", "success");
     redirectToSummary();
   } catch (error) {
+    console.error("Guest login error:", error);
     showToast("Guest login failed. Please try again.", "error");
   } finally {
     hideLoading(guestBtn);

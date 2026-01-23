@@ -11,12 +11,13 @@
     <title>Join - Summary</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="../assets/img/auth/logo.svg" />
+    <link rel="icon" type="image/svg+xml" href="../assets/img/shared/join-logo-white.svg" />
 
     <!-- CSS -->
     <link rel="stylesheet" href="../css/base/variables.css" />
     <link rel="stylesheet" href="../css/base/reset.css" />
     <link rel="stylesheet" href="../css/base/fonts.css" />
+    <link rel="stylesheet" href="../css/layout/app-layout.css" />
     <link rel="stylesheet" href="../css/components/header.css" />
     <link rel="stylesheet" href="../css/components/menu.css" />
     <link rel="stylesheet" href="../css/pages/summary.css" />
@@ -51,15 +52,18 @@
   </head>
 
   <body>
-    <!-- Header -->
-    <div w3-include-html="../assets/templates/header.html"></div>
+    <!-- App Layout Container -->
+    <div class="app-layout">
+      <!-- Header -->
+      <header class="app-layout__header" w3-include-html="../assets/templates/header.html"></header>
 
-    <!-- Sidebar Menu -->
-    <div w3-include-html="../assets/templates/menu.html"></div>
+      <!-- Sidebar Menu -->
+      <nav class="app-layout__menu" w3-include-html="../assets/templates/menu.html"></nav>
 
-    <!-- Main Content -->
-    <main class="summary">
-      <div class="summary__container">
+      <!-- Main Content -->
+      <main class="app-layout__main">
+        <div class="summary">
+          <div class="summary__container">
         <!-- Greeting Section -->
         <section class="summary__greeting">
           <h1 class="summary__greeting-time" id="greetingTime">Good morning,</h1>
@@ -199,7 +203,9 @@
           </article>
         </section>
       </div>
+    </div>
     </main>
+    </div>
 
     <!-- Loading Overlay -->
     <div id="loadingOverlay" style="display: none"></div>
