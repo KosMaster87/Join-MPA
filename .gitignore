@@ -82,3 +82,11 @@ docs/
 
 # Old Project files
 old-join-project/
+
+# JSDoc output
+/jsdoc-output/
+/docs-generated/
+
+# Test files (optional)
+*.test.js
+*.spec.js
