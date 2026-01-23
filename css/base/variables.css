@@ -6,26 +6,26 @@
 :root {
   /* Colors - Primary */
   --color-primary: #2a3647;
-  --color-primary-light: #4a5568;
-  --color-primary-dark: #1a2332;
+  --color-primary-light: #2a3d59;
+  --color-primary-dark: #091931;
 
   /* Colors - Accent */
   --color-accent: #29abe2;
   --color-accent-light: #4fc3f7;
-  --color-accent-dark: #1a8bb8;
+  --color-accent-dark: #005dff;
 
   /* Colors - Feedback */
-  --color-success: #00d35a;
+  --color-success: #7ae229;
   --color-error: #ff3d00;
-  --color-warning: #ffc107;
+  --color-warning: #ffa800;
   --color-info: #29abe2;
 
   /* Colors - Neutral */
   --color-white: #ffffff;
   --color-black: #000000;
-  --color-gray-50: #f6f6f6;
+  --color-gray-50: #f6f7f8;
   --color-gray-100: #eeeeee;
-  --color-gray-200: #d1d1d1;
+  --color-gray-200: #cdcdcd;
   --color-gray-300: #a8a8a8;
   --color-gray-400: #7a7a7a;
   --color-gray-500: #5c5c5c;
@@ -33,9 +33,36 @@
   --color-gray-700: #2e2e2e;
   --color-gray-800: #1a1a1a;
 
+  /* Colors - Task Categories */
+  --color-user-story: #0038ff;
+  --color-technical-task: #1fd7c1;
+
+  /* Colors - Priority */
+  --color-urgent-high: #ff3d00;
+  --color-urgent-medium: #ffa800;
+  --color-urgent-low: #7ae229;
+
+  /* Colors - Profile Badges */
+  --color-badge-1: #ff7a00;
+  --color-badge-2: #9327ff;
+  --color-badge-3: #6e52ff;
+  --color-badge-4: #fc71ff;
+  --color-badge-5: #ffbb2b;
+  --color-badge-6: #1fd7c1;
+  --color-badge-7: #462f8a;
+  --color-badge-8: #ff4646;
+  --color-badge-9: #00bee8;
+  --color-badge-10: #ffe62b;
+  --color-badge-11: #c3ff2b;
+  --color-badge-12: #0038ff;
+  --color-badge-13: #ffc701;
+  --color-badge-14: #ff745e;
+  --color-badge-15: #ffa35e;
+  --color-badge-16: #ff5eb3;
+
   /* Typography - Font Family */
-  --font-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, sans-serif;
+  --font-primary:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* Typography - Font Size */
   --font-size-xs: 0.75rem; /* 12px */
@@ -77,12 +104,12 @@
   /* Shadows */
   --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   --shadow-card: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
 
   /* Transitions */

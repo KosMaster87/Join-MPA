@@ -28,7 +28,7 @@ async function registerWithAuth(email, password) {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
-      password
+      password,
     );
     return userCredential.user;
   } catch (error) {
@@ -50,7 +50,7 @@ async function signInWithAuth(email, password) {
     const userCredential = await signInWithEmailAndPassword(
       auth,
       email,
-      password
+      password,
     );
     return userCredential.user;
   } catch (error) {
@@ -163,5 +163,5 @@ export {
   getCurrentAuthUser,
   onAuthChange,
   deleteCurrentUser,
-  isUserAuthenticated
+  isUserAuthenticated,
 };

@@ -1,25 +1,13 @@
 <header class="header">
-  <div class="header__logo">
-    <img
-      class="header__logo-img"
-      src="./assets/img/header/headerLogo.svg"
-      alt="Join Logo"
-    />
-  </div>
-
   <div class="header__title">
     <h1 class="header__title-text">Kanban Project Management Tool</h1>
   </div>
 
   <div class="header__actions">
-    <button
-      class="header__help-btn"
-      onclick="navigateToPage('help')"
-      aria-label="Help"
-    >
+    <button class="header__help-btn" aria-label="Help">
       <img
         class="header__icon"
-        src="./assets/img/header/help.svg"
+        src="../assets/img/header/help.svg"
         alt="Help"
       />
     </button>
@@ -27,7 +15,6 @@
     <button
       class="header__profile-btn"
       id="headerProfileBtn"
-      onclick="toggleUserMenu()"
       aria-label="User menu"
     >
       <span id="userInitials" class="header__user-initials"></span>
@@ -36,25 +23,19 @@
     <nav class="header__user-menu" id="headerUserMenu" hidden>
       <ul class="header__menu-list">
         <li class="header__menu-item">
-          <button
-            class="header__menu-link"
-            onclick="navigateToPage('legality')"
-          >
+          <button class="header__menu-link" id="headerLegalityBtn">
             Legal Notice
           </button>
         </li>
         <li class="header__menu-item">
-          <button
-            class="header__menu-link"
-            onclick="navigateToPage('policy')"
-          >
+          <button class="header__menu-link" id="headerPolicyBtn">
             Privacy Policy
           </button>
         </li>
         <li class="header__menu-item">
           <button
             class="header__menu-link header__menu-link--logout"
-            onclick="handleLogout()"
+            id="headerLogoutBtn"
           >
             Log out
           </button>

@@ -74,9 +74,11 @@ function navigateToPublicPage(pageName) {
 /**
  * Redirects to login page (index.html).
  * Used when user logs out or session expires.
+ * Detects if called from pages/ subdirectory or root.
  */
 function redirectToLogin() {
-  window.location.href = "./index.html";
+  const isInPagesFolder = window.location.pathname.includes("/pages/");
+  window.location.href = isInPagesFolder ? "../index.html" : "./index.html";
 }
 
 /**
@@ -96,3 +98,11 @@ function checkAuthentication() {
 
   return true;
 }
+
+export {
+  includeHTML,
+  navigateToPage,
+  navigateToPublicPage,
+  redirectToLogin,
+  checkAuthentication,
+};
