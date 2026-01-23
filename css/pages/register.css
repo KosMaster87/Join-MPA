@@ -1,10 +1,5 @@
-/**
- * Register Page Styles
- * BEM naming convention
- */
-
 /* ==========================================================================
-   Register Page Layout
+   Register Block
    ========================================================================== */
 
 .register {
@@ -18,6 +13,16 @@
   padding: var(--spacing-xl) var(--spacing-md);
 }
 
+@media (max-width: 480px) {
+  .register {
+    padding: var(--spacing-md);
+  }
+}
+
+/* ==========================================================================
+   Register Elements
+   ========================================================================== */
+
 /* Logo */
 .register__logo {
   position: absolute;
@@ -25,6 +30,14 @@
   left: var(--spacing-xl);
   width: 100px;
   height: auto;
+}
+
+@media (max-width: 768px) {
+  .register__logo {
+    width: 60px;
+    top: var(--spacing-lg);
+    left: var(--spacing-lg);
+  }
 }
 
 /* Back Link */
@@ -41,6 +54,15 @@
   background-color: var(--color-white);
   box-shadow: var(--shadow-sm);
   transition: all var(--transition-base);
+}
+
+@media (max-width: 768px) {
+  .register__back {
+    top: var(--spacing-lg);
+    right: var(--spacing-lg);
+    width: 36px;
+    height: 36px;
+  }
 }
 
 .register__back:hover {
@@ -68,6 +90,18 @@
   max-width: 500px;
 }
 
+@media (max-width: 768px) {
+  .register__box {
+    padding: var(--spacing-xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .register__box {
+    padding: var(--spacing-lg);
+  }
+}
+
 .register__header {
   text-align: center;
   margin-bottom: var(--spacing-2xl);
@@ -80,10 +114,28 @@
   margin-bottom: var(--spacing-sm);
 }
 
+@media (max-width: 768px) {
+  .register__title {
+    font-size: var(--font-size-3xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .register__title {
+    font-size: var(--font-size-2xl);
+  }
+}
+
 .register__subtitle {
   font-size: var(--font-size-base);
   color: var(--color-gray-500);
   margin-bottom: var(--spacing-lg);
+}
+
+@media (max-width: 480px) {
+  .register__subtitle {
+    font-size: var(--font-size-sm);
+  }
 }
 
 .register__divider {
@@ -189,6 +241,12 @@
   width: 18px;
   height: 18px;
   margin-top: 2px;
+@media (max-width: 768px) {
+  .register__btn-group {
+    flex-direction: column;
+  }
+}
+
   cursor: pointer;
   accent-color: var(--color-accent);
   flex-shrink: 0;
@@ -327,56 +385,7 @@
   border-radius: var(--radius-md);
   font-weight: var(--font-weight-bold);
   transition: all var(--transition-base);
-}
-
-.register__success-btn:hover {
-  background-color: var(--color-accent);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-/* ==========================================================================
-   Responsive Design
-   ========================================================================== */
-
-@media (max-width: 768px) {
-  .register__logo {
-    width: 60px;
-    top: var(--spacing-lg);
-    left: var(--spacing-lg);
-  }
-
-  .register__back {
-    top: var(--spacing-lg);
-    right: var(--spacing-lg);
-    width: 36px;
-    height: 36px;
-  }
-
-  .register__box {
-    padding: var(--spacing-xl);
-  }
-
-  .register__title {
-    font-size: var(--font-size-3xl);
-  }
-
-  .register__btn-group {
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 480px) {
-  .register {
-    padding: var(--spacing-md);
-  }
-
-  .register__box {
-    padding: var(--spacing-lg);
-  }
-
-  .register__title {
-    font-size: var(--font-size-2xl);
+}   font-size: var(--font-size-2xl);
   }
 
   .register__subtitle {

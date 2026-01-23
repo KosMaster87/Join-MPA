@@ -1,10 +1,5 @@
-/**
- * Login Page Styles
- * BEM naming convention
- */
-
 /* ==========================================================================
-   Login Page Layout
+   Login Block
    ========================================================================== */
 
 .login {
@@ -17,6 +12,10 @@
   overflow: hidden;
 }
 
+/* ==========================================================================
+   Login Elements
+   ========================================================================== */
+
 /* Logo */
 .login__logo {
   position: absolute;
@@ -24,6 +23,14 @@
   left: var(--spacing-xl);
   width: 100px;
   height: auto;
+}
+
+@media (max-width: 768px) {
+  .login__logo {
+    width: 60px;
+    top: var(--spacing-lg);
+    left: var(--spacing-lg);
+  }
 }
 
 /* Sign Up Link */
@@ -36,9 +43,30 @@
   gap: var(--spacing-md);
 }
 
+@media (max-width: 768px) {
+  .login__signup {
+    top: var(--spacing-lg);
+    right: var(--spacing-lg);
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+}
+
 .login__signup-text {
   color: var(--color-gray-600);
   font-size: var(--font-size-base);
+}
+
+@media (max-width: 768px) {
+  .login__signup-text {
+    font-size: var(--font-size-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .login__signup-text {
+    display: none;
+  }
 }
 
 .login__signup-btn {
@@ -48,6 +76,13 @@
   border-radius: var(--radius-md);
   font-weight: var(--font-weight-bold);
   transition: background-color var(--transition-base);
+}
+
+@media (max-width: 768px) {
+  .login__signup-btn {
+    padding: var(--spacing-xs) var(--spacing-md);
+    font-size: var(--font-size-sm);
+  }
 }
 
 .login__signup-btn:hover {
@@ -68,12 +103,37 @@
   margin: var(--spacing-xl);
 }
 
+@media (max-width: 768px) {
+  .login__box {
+    padding: var(--spacing-xl);
+    margin: var(--spacing-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .login__box {
+    padding: var(--spacing-lg);
+  }
+}
+
 .login__title {
   font-size: var(--font-size-4xl);
   font-weight: var(--font-weight-bold);
   color: var(--color-primary);
   margin-bottom: var(--spacing-sm);
   text-align: center;
+}
+
+@media (max-width: 768px) {
+  .login__title {
+    font-size: var(--font-size-3xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .login__title {
+    font-size: var(--font-size-2xl);
+  }
 }
 
 .login__subtitle {
@@ -171,6 +231,12 @@
 /* Remember Me Checkbox */
 .login__checkbox-group {
   display: flex;
+  @media (max-width: 768px) {
+    .login__btn-group {
+      flex-direction: column;
+    }
+  }
+
   align-items: center;
   gap: var(--spacing-sm);
 }
@@ -295,61 +361,6 @@
 @keyframes logoZoom {
   0% {
     transform: scale(2);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-/* ==========================================================================
-   Responsive Design
-   ========================================================================== */
-
-@media (max-width: 768px) {
-  .login__logo {
-    width: 60px;
-    top: var(--spacing-lg);
-    left: var(--spacing-lg);
-  }
-
-  .login__signup {
-    top: var(--spacing-lg);
-    right: var(--spacing-lg);
-    flex-direction: column;
-    gap: var(--spacing-sm);
-  }
-
-  .login__signup-text {
-    font-size: var(--font-size-sm);
-  }
-
-  .login__signup-btn {
-    padding: var(--spacing-xs) var(--spacing-md);
-    font-size: var(--font-size-sm);
-  }
-
-  .login__box {
-    padding: var(--spacing-xl);
-    margin: var(--spacing-md);
-  }
-
-  .login__title {
-    font-size: var(--font-size-3xl);
-  }
-
-  .login__btn-group {
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 480px) {
-  .login__signup-text {
-    display: none;
-  }
-
-  .login__box {
     padding: var(--spacing-lg);
   }
 

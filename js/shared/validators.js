@@ -93,7 +93,10 @@ function validatePhone(phone) {
   const digitsOnly = phone.replace(/\D/g, "");
 
   if (digitsOnly.length < 6) {
-    return { isValid: false, error: "Phone number must contain at least 6 digits" };
+    return {
+      isValid: false,
+      error: "Phone number must contain at least 6 digits",
+    };
   }
 
   return { isValid: true, error: "" };
@@ -130,7 +133,7 @@ function validateRequired(value, fieldName = "This field", minLength = 1) {
   if (value.trim().length < minLength) {
     return {
       isValid: false,
-      error: `${fieldName} must be at least ${minLength} characters`
+      error: `${fieldName} must be at least ${minLength} characters`,
     };
   }
 
@@ -174,7 +177,10 @@ function showFieldError(inputElement, errorMessage) {
   if (!errorElement || !errorElement.classList.contains("input__error")) {
     errorElement = document.createElement("span");
     errorElement.classList.add("input__error");
-    inputElement.parentNode.insertBefore(errorElement, inputElement.nextSibling);
+    inputElement.parentNode.insertBefore(
+      errorElement,
+      inputElement.nextSibling,
+    );
   }
 
   errorElement.textContent = errorMessage;
@@ -204,5 +210,5 @@ export {
   validateRequired,
   validateDate,
   showFieldError,
-  clearFieldError
+  clearFieldError,
 };

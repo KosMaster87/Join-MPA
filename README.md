@@ -23,7 +23,8 @@ Join is a Multi-Page Application (MPA) that helps teams organize their work usin
 - **Language**: Vanilla JavaScript (ES6+)
 - **HTML**: Semantic HTML5
 - **CSS**: Custom CSS with BEM naming convention
-- **Templating**: Custom `includeHTML.js` for component imports
+- **Modules**: ES6 Modules (import/export)
+- **Templating**: Custom `include-html.js` for template loading
 - **Architecture**: MPA (Multi-Page Application) - NO frameworks, NO state management
 
 ### Backend
@@ -51,22 +52,23 @@ join-mpa/
 ## 🎨 Code Conventions
 
 ### JavaScript
-- **No ES6 Classes** - Use factory functions, closures, and IIFE modules
-- **No window globals** - Functions imported via `<script>` tags in logical order
+- **ES6 Modules** - import/export pattern, exports at end of file
+- **No ES6 Classes** - Use factory functions and pure functions
 - **Max 14 lines** per function
 - **Max 400 lines** per file
 - **JSDoc comments** required for all functions
 - **camelCase** naming for variables and functions
 
 ### CSS
-- **BEM methodology** for all class names
-- **No deep nesting** - flat CSS structure
-- **Component-based** organization
+- **BEM methodology** - See [BEM-CONVENTIONS.md](BEM-CONVENTIONS.md)
+- **Mobile-First** responsive design
+- **Media Queries** direkt bei Blocks/Elements
 
 ### File Naming
 - **JavaScript**: BEM-inspired (e.g., `board__drag.js`, `contact__validation.js`)
 - **CSS**: Feature-based (e.g., `board.css`, `add-task.css`)
 - **HTML**: Descriptive page names (e.g., `board.html`, `contacts.html`)
+
 
 ## ✨ Key Features
 
@@ -105,36 +107,8 @@ join-mpa/
 - Personalized greeting
 - Quick overview of all tasks
 
+
 ## 🔧 Development Guidelines
-
-### Branch Strategy
-```
-main                   # Production
-├── develop            # Development branch
-    ├── feature/setup-firebase
-    ├── feature/auth-system
-    ├── feature/board-basic
-    └── feature/contacts-crud
-```
-
-### Forbidden Patterns
-```javascript
-// ❌ WRONG: No ES6 Classes
-class TaskManager {}
-
-// ❌ WRONG: No window globals
-window.setItem = setItem;
-
-// ✅ CORRECT: Factory functions
-function createTaskManager(config) {
-  return { addTask, getTasks };
-}
-
-// ✅ CORRECT: IIFE modules
-const TaskModule = (() => {
-  return { addTask, getTasks };
-})();
-```
 
 ## 📦 Installation & Setup
 
@@ -154,51 +128,6 @@ const TaskModule = (() => {
    - Use Live Server or any local HTTP server
    - Open `index.html` in your browser
 
-## 🎯 Implementation Phases
-
-### Phase 1: Setup & Foundation ✅
-- [x] Project structure
-- [x] Firebase configuration
-- [x] Include HTML system
-- [x] Git branching strategy
-
-### Phase 2: Core Services (In Progress)
-- [ ] Firestore CRUD service
-- [ ] Auth service (login, register, logout)
-- [ ] Data service (user, tasks, contacts)
-
-### Phase 3: Authentication
-- [ ] Login page + functionality
-- [ ] Register page + validation
-- [ ] Guest login
-- [ ] Route protection
-
-### Phase 4: Shared Components
-- [ ] Header
-- [ ] Sidebar/Menu
-- [ ] Templates
-
-### Phase 5: Board Feature
-- [ ] Board initialization
-- [ ] Task rendering
-- [ ] Drag & Drop
-- [ ] Search functionality
-
-### Phase 6: Task Management
-- [ ] Add task form
-- [ ] Task validation
-- [ ] Subtask management
-- [ ] Contact assignment
-
-### Phase 7: Contact Management
-- [ ] Contact list
-- [ ] Add/Edit/Delete contacts
-- [ ] Contact validation
-
-### Phase 8: Dashboard & Polish
-- [ ] Summary/Dashboard
-- [ ] Help & Legal pages
-- [ ] Final testing & bug fixes
 
 ## 📝 User Stories Checklist
 
@@ -211,15 +140,6 @@ All user stories from the project specification will be implemented:
 - Dashboard with statistics
 - Help & legal pages
 
-## 🧪 Testing
-
-Before submission:
-- [ ] All features tested in Chrome, Firefox, Safari, Edge
-- [ ] Responsive design tested (min. 320px)
-- [ ] At least 5 realistic tasks created
-- [ ] At least 10 contacts created
-- [ ] No console errors
-- [ ] All user stories validated
 
 ## 🤝 Contributing
 
@@ -231,7 +151,6 @@ Educational project - Developer Akademie
 
 ## 🔗 Links
 
-- [Project Specification](./SPECIFICATION.md) (if applicable)
 - [Firebase Console](https://console.firebase.google.com/)
 - [BEM Methodology](http://getbem.com/)
 - [JSDoc Documentation](https://jsdoc.app/)

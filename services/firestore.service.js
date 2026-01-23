@@ -36,7 +36,10 @@ async function setDocument(collectionName, docId, data) {
     const docRef = doc(db, collectionName, docId);
     await setDoc(docRef, data, { merge: true });
   } catch (error) {
-    console.error(`Error writing document ${docId} to ${collectionName}:`, error);
+    console.error(
+      `Error writing document ${docId} to ${collectionName}:`,
+      error,
+    );
     throw error;
   }
 }
@@ -60,7 +63,10 @@ async function getDocument(collectionName, docId) {
 
     return null;
   } catch (error) {
-    console.error(`Error getting document ${docId} from ${collectionName}:`, error);
+    console.error(
+      `Error getting document ${docId} from ${collectionName}:`,
+      error,
+    );
     throw error;
   }
 }
@@ -103,7 +109,10 @@ async function updateDocument(collectionName, docId, data) {
     const docRef = doc(db, collectionName, docId);
     await updateDoc(docRef, data);
   } catch (error) {
-    console.error(`Error updating document ${docId} in ${collectionName}:`, error);
+    console.error(
+      `Error updating document ${docId} in ${collectionName}:`,
+      error,
+    );
     throw error;
   }
 }
@@ -121,7 +130,10 @@ async function deleteDocument(collectionName, docId) {
     const docRef = doc(db, collectionName, docId);
     await deleteDoc(docRef);
   } catch (error) {
-    console.error(`Error deleting document ${docId} from ${collectionName}:`, error);
+    console.error(
+      `Error deleting document ${docId} from ${collectionName}:`,
+      error,
+    );
     throw error;
   }
 }
@@ -158,7 +170,7 @@ async function queryDocuments(collectionName, field, operator, value) {
   try {
     const q = query(
       collection(db, collectionName),
-      where(field, operator, value)
+      where(field, operator, value),
     );
     const querySnapshot = await getDocs(q);
     const documents = [];
@@ -200,5 +212,5 @@ export {
   deleteDocument,
   addDocument,
   queryDocuments,
-  documentExists
+  documentExists,
 };

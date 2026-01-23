@@ -1,0 +1,213 @@
+/* ==========================================================================
+   Header Block
+   ========================================================================== */
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-md);
+  z-index: var(--z-dropdown);
+}
+
+@media (min-width: 481px) {
+  .header {
+    left: 180px;
+  }
+}
+
+@media (min-width: 769px) {
+  .header {
+    left: 200px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .header {
+    left: 240px;
+    height: 80px;
+    padding: 0 var(--spacing-xl);
+  }
+}
+
+/* ==========================================================================
+   Header Elements
+   ========================================================================== */
+
+/* Title */
+.header__title {
+  flex: 1;
+  text-align: center;
+  padding: 0 var(--spacing-lg);
+  display: none;
+}
+
+@media (min-width: 481px) {
+  .header__title {
+    display: block;
+  }
+}
+
+.header__title-text {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-primary);
+  margin: 0;
+}
+
+@media (min-width: 769px) {
+  .header__title-text {
+    font-size: var(--font-size-lg);
+  }
+}
+
+/* Logo */
+.header__logo-img {
+  height: 30px;
+}
+
+@media (min-width: 1025px) {
+  .header__logo-img {
+    height: 40px;
+  }
+}
+
+/* Actions */
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-left: auto;
+}
+
+@media (min-width: 481px) {
+  .header__actions {
+    margin-left: 0;
+  }
+}
+
+@media (min-width: 769px) {
+  .header__actions {
+    gap: var(--spacing-lg);
+  }
+}
+
+.header__help-btn,
+.header__profile-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-full);
+  transition: background-color var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header__help-btn:hover,
+.header__profile-btn:hover {
+  background-color: var(--color-gray-100);
+}
+
+.header__icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Profile Button */
+.header__profile-btn {
+  width: 40px;
+  height: 40px;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  position: relative;
+}
+
+@media (min-width: 769px) {
+  .header__profile-btn {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+.header__profile-btn:hover {
+  background-color: var(--color-accent);
+}
+
+.header__user-initials {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+}
+
+@media (min-width: 769px) {
+  .header__user-initials {
+    font-size: var(--font-size-lg);
+  }
+}
+
+/* ==========================================================================
+   User Menu Dropdown
+   ========================================================================== */
+
+.header__user-menu {
+  position: absolute;
+  top: calc(100% + var(--spacing-sm));
+  right: var(--spacing-md);
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  min-width: 180px;
+  padding: var(--spacing-sm) 0;
+}
+
+@media (min-width: 769px) {
+  .header__user-menu {
+    right: var(--spacing-xl);
+  }
+}
+
+.header__user-menu[hidden] {
+  display: none;
+}
+
+.header__menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.header__menu-item {
+  margin: 0;
+}
+
+.header__menu-link {
+  width: 100%;
+  padding: var(--spacing-md) var(--spacing-lg);
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: var(--font-size-base);
+  color: var(--color-primary);
+  transition: background-color var(--transition-base);
+}
+
+.header__menu-link:hover {
+  background-color: var(--color-gray-100);
+}
+
+.header__menu-link--logout {
+  color: var(--color-error);
+  border-top: 1px solid var(--color-gray-200);
+  margin-top: var(--spacing-xs);
+  padding-top: var(--spacing-md);
+}

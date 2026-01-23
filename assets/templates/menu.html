@@ -2,7 +2,7 @@
   <div class="menu__logo">
     <img
       class="menu__logo-img"
-      src="./assets/img/menu/desktopFooterLogo.svg"
+      src="../assets/img/shared/join-logo-white.svg"
       alt="Join Logo"
     />
   </div>
@@ -10,13 +10,9 @@
   <nav class="menu__navigation">
     <ul class="menu__list">
       <li class="menu__item">
-        <button
-          class="menu__link"
-          id="navSummary"
-          onclick="navigateToPage('summary')"
-        >
+        <button class="menu__link" id="navSummary">
           <img
-            src="./assets/img/menu/summaryIcon.svg"
+            src="../assets/img/menu/summaryIcon.svg"
             class="menu__icon"
             alt=""
           />
@@ -25,28 +21,16 @@
       </li>
 
       <li class="menu__item">
-        <button
-          class="menu__link"
-          id="navBoard"
-          onclick="navigateToPage('board')"
-        >
-          <img
-            src="./assets/img/menu/Vector.svg"
-            class="menu__icon"
-            alt=""
-          />
+        <button class="menu__link" id="navBoard">
+          <img src="../assets/img/menu/Vector.svg" class="menu__icon" alt="" />
           <span class="menu__text">Board</span>
         </button>
       </li>
 
       <li class="menu__item">
-        <button
-          class="menu__link"
-          id="navAddTask"
-          onclick="navigateToPage('add-task')"
-        >
+        <button class="menu__link" id="navAddTask">
           <img
-            src="./assets/img/menu/addTasksIcon.svg"
+            src="../assets/img/menu/addTasksIcon.svg"
             class="menu__icon"
             alt=""
           />
@@ -55,13 +39,9 @@
       </li>
 
       <li class="menu__item">
-        <button
-          class="menu__link"
-          id="navContacts"
-          onclick="navigateToPage('contacts')"
-        >
+        <button class="menu__link" id="navContacts">
           <img
-            src="./assets/img/menu/contactsIcon.svg"
+            src="../assets/img/menu/contactsIcon.svg"
             class="menu__icon"
             alt=""
           />
@@ -72,17 +52,13 @@
   </nav>
 
   <footer class="menu__footer">
-    <button
-      class="menu__footer-link"
-      onclick="navigateToPublicPage('policy')"
-    >
-      Privacy Policy
-    </button>
-    <button
-      class="menu__footer-link"
-      onclick="navigateToPublicPage('legality')"
-    >
-      Legal Notice
-    </button>
+    <ul class="menu__footer-list">
+      <li>
+        <a href="./policy.html" class="menu__footer-link"> Privacy Policy </a>
+      </li>
+      <li>
+        <a href="./legality.html" class="menu__footer-link"> Legal Notice </a>
+      </li>
+    </ul>
   </footer>
 </aside>
