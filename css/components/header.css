@@ -3,10 +3,7 @@
    ========================================================================== */
 
 .header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  width: 100%;
   height: 60px;
   background-color: var(--color-white);
   box-shadow: var(--shadow-sm);
@@ -14,24 +11,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--spacing-md);
-  z-index: var(--z-dropdown);
-}
 
-@media (min-width: 481px) {
-  .header {
-    left: 180px;
-  }
-}
-
-@media (min-width: 769px) {
-  .header {
-    left: 200px;
-  }
-}
-
-@media (min-width: 1025px) {
-  .header {
-    left: 240px;
+  @media (min-width: 768px) {
     height: 80px;
     padding: 0 var(--spacing-xl);
   }
@@ -41,17 +22,25 @@
    Header Elements
    ========================================================================== */
 
+/* Logo */
+.header__logo-img {
+  height: 30px;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
 /* Title */
 .header__title {
   flex: 1;
   text-align: center;
   padding: 0 var(--spacing-lg);
   display: none;
-}
 
-@media (min-width: 481px) {
-  .header__title {
-    display: block;
+  @media (min-width: 768px) {
+    display: flex;
+    justify-content: flex-start;
   }
 }
 
@@ -60,22 +49,9 @@
   font-weight: var(--font-weight-normal);
   color: var(--color-primary);
   margin: 0;
-}
 
-@media (min-width: 769px) {
-  .header__title-text {
+  @media (min-width: 1024px) {
     font-size: var(--font-size-lg);
-  }
-}
-
-/* Logo */
-.header__logo-img {
-  height: 30px;
-}
-
-@media (min-width: 1025px) {
-  .header__logo-img {
-    height: 40px;
   }
 }
 
@@ -87,72 +63,85 @@
   margin-left: auto;
 }
 
-@media (min-width: 481px) {
-  .header__actions {
-    margin-left: 0;
-  }
-}
-
-@media (min-width: 769px) {
-  .header__actions {
-    gap: var(--spacing-lg);
-  }
-}
-
-.header__help-btn,
-.header__profile-btn {
+/* Help Button */
+.header__help-btn {
   background: none;
   border: none;
   cursor: pointer;
-  padding: var(--spacing-sm);
-  border-radius: var(--radius-full);
-  transition: background-color var(--transition-base);
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform var(--transition-base);
 }
 
-.header__help-btn:hover,
-.header__profile-btn:hover {
-  background-color: var(--color-gray-100);
+.header__help-btn:hover {
+  transform: scale(1.2);
 }
 
 .header__icon {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
+  display: block;
+
+  @media (min-width: 768px) {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 /* Profile Button */
 .header__profile-btn {
   width: 40px;
   height: 40px;
-  background-color: var(--color-primary);
-  color: var(--color-white);
+  background-color: var(--color-white);
+  border: 3px solid var(--color-primary);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
-}
+  transition: background-color var(--transition-base);
 
-@media (min-width: 769px) {
-  .header__profile-btn {
+  @media (min-width: 768px) {
     width: 48px;
     height: 48px;
   }
 }
 
 .header__profile-btn:hover {
-  background-color: var(--color-accent);
+  background-color: var(--color-gray-100);
 }
 
 .header__user-initials {
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
   text-transform: uppercase;
-}
+  color: var(--color-accent);
 
-@media (min-width: 769px) {
-  .header__user-initials {
-    font-size: var(--font-size-lg);
+  @media (min-width: 768px) {
+    font-size: var(--font-size-xl);
   }
 }
+
+/* Profile Button Badge Colors */
+.header__profile-btn--badge-1 .header__user-initials { color: var(--color-badge-1); }
+.header__profile-btn--badge-2 .header__user-initials { color: var(--color-badge-2); }
+.header__profile-btn--badge-3 .header__user-initials { color: var(--color-badge-3); }
+.header__profile-btn--badge-4 .header__user-initials { color: var(--color-badge-4); }
+.header__profile-btn--badge-5 .header__user-initials { color: var(--color-badge-5); }
+.header__profile-btn--badge-6 .header__user-initials { color: var(--color-badge-6); }
+.header__profile-btn--badge-7 .header__user-initials { color: var(--color-badge-7); }
+.header__profile-btn--badge-8 .header__user-initials { color: var(--color-badge-8); }
+.header__profile-btn--badge-9 .header__user-initials { color: var(--color-badge-9); }
+.header__profile-btn--badge-10 .header__user-initials { color: var(--color-badge-10); }
+.header__profile-btn--badge-11 .header__user-initials { color: var(--color-badge-11); }
+.header__profile-btn--badge-12 .header__user-initials { color: var(--color-badge-12); }
+.header__profile-btn--badge-13 .header__user-initials { color: var(--color-badge-13); }
+.header__profile-btn--badge-14 .header__user-initials { color: var(--color-badge-14); }
+.header__profile-btn--badge-15 .header__user-initials { color: var(--color-badge-15); }
+.header__profile-btn--badge-16 .header__user-initials { color: var(--color-badge-16); }
 
 /* ==========================================================================
    User Menu Dropdown
@@ -160,18 +149,18 @@
 
 .header__user-menu {
   position: absolute;
-  top: calc(100% + var(--spacing-sm));
-  right: var(--spacing-md);
+  top: calc(5% + var(--spacing-sm));
+  right: 1rem;
   background-color: var(--color-white);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-lg) 0 var(--radius-lg) var(--radius-lg);
   box-shadow: var(--shadow-lg);
   min-width: 180px;
   padding: var(--spacing-sm) 0;
-}
+  z-index: var(--z-dropdown);
 
-@media (min-width: 769px) {
-  .header__user-menu {
-    right: var(--spacing-xl);
+  @media (min-width: 768px) {
+    top: calc(8% + var(--spacing-sm));
+    right: 1rem;
   }
 }
 

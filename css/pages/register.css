@@ -10,12 +10,10 @@
   background-color: var(--color-gray-50);
   position: relative;
   overflow: hidden;
-  padding: var(--spacing-xl) var(--spacing-md);
-}
+  padding: var(--spacing-md);
 
-@media (max-width: 480px) {
-  .register {
-    padding: var(--spacing-md);
+  @media (min-width: 640px) {
+    padding: var(--spacing-xl) var(--spacing-md);
   }
 }
 
@@ -26,27 +24,25 @@
 /* Logo */
 .register__logo {
   position: absolute;
-  top: var(--spacing-xl);
-  left: var(--spacing-xl);
-  width: 100px;
+  top: var(--spacing-lg);
+  left: var(--spacing-lg);
+  width: 60px;
   height: auto;
-}
 
-@media (max-width: 768px) {
-  .register__logo {
-    width: 60px;
-    top: var(--spacing-lg);
-    left: var(--spacing-lg);
+  @media (min-width: 768px) {
+    width: 100px;
+    top: var(--spacing-xl);
+    left: var(--spacing-xl);
   }
 }
 
 /* Back Link */
 .register__back {
   position: absolute;
-  top: var(--spacing-xl);
-  right: var(--spacing-xl);
-  width: 40px;
-  height: 40px;
+  top: var(--spacing-lg);
+  right: var(--spacing-lg);
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -54,14 +50,12 @@
   background-color: var(--color-white);
   box-shadow: var(--shadow-sm);
   transition: all var(--transition-base);
-}
 
-@media (max-width: 768px) {
-  .register__back {
-    top: var(--spacing-lg);
-    right: var(--spacing-lg);
-    width: 36px;
-    height: 36px;
+  @media (min-width: 768px) {
+    top: var(--spacing-xl);
+    right: var(--spacing-xl);
+    width: 40px;
+    height: 40px;
   }
 }
 
@@ -85,20 +79,16 @@
   background-color: var(--color-white);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-card);
-  padding: var(--spacing-3xl);
+  padding: var(--spacing-lg);
   width: 100%;
   max-width: 500px;
-}
 
-@media (max-width: 768px) {
-  .register__box {
+  @media (min-width: 640px) {
     padding: var(--spacing-xl);
   }
-}
 
-@media (max-width: 480px) {
-  .register__box {
-    padding: var(--spacing-lg);
+  @media (min-width: 768px) {
+    padding: var(--spacing-3xl);
   }
 }
 
@@ -108,33 +98,27 @@
 }
 
 .register__title {
-  font-size: var(--font-size-4xl);
+  font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
   color: var(--color-primary);
   margin-bottom: var(--spacing-sm);
-}
 
-@media (max-width: 768px) {
-  .register__title {
+  @media (min-width: 640px) {
     font-size: var(--font-size-3xl);
   }
-}
 
-@media (max-width: 480px) {
-  .register__title {
-    font-size: var(--font-size-2xl);
+  @media (min-width: 768px) {
+    font-size: var(--font-size-4xl);
   }
 }
 
 .register__subtitle {
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
   color: var(--color-gray-500);
   margin-bottom: var(--spacing-lg);
-}
 
-@media (max-width: 480px) {
-  .register__subtitle {
-    font-size: var(--font-size-sm);
+  @media (min-width: 640px) {
+    font-size: var(--font-size-base);
   }
 }
 
@@ -192,6 +176,7 @@
   height: 20px;
   color: var(--color-gray-400);
   flex-shrink: 0;
+  object-fit: contain;
 }
 
 .register__input {
@@ -214,12 +199,13 @@
   width: 20px;
   height: 20px;
   cursor: pointer;
-  color: var(--color-gray-400);
-  transition: color var(--transition-base);
+  flex-shrink: 0;
+  object-fit: contain;
+  transition: opacity var(--transition-base);
 }
 
 .register__input-toggle:hover {
-  color: var(--color-gray-600);
+  opacity: 0.7;
 }
 
 .register__error {
@@ -241,12 +227,6 @@
   width: 18px;
   height: 18px;
   margin-top: 2px;
-@media (max-width: 768px) {
-  .register__btn-group {
-    flex-direction: column;
-  }
-}
-
   cursor: pointer;
   accent-color: var(--color-accent);
   flex-shrink: 0;
@@ -275,6 +255,11 @@
   display: flex;
   gap: var(--spacing-md);
   margin-top: var(--spacing-lg);
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
 }
 
 .register__btn {
@@ -385,10 +370,9 @@
   border-radius: var(--radius-md);
   font-weight: var(--font-weight-bold);
   transition: all var(--transition-base);
-}   font-size: var(--font-size-2xl);
-  }
+  font-size: var(--font-size-2xl);
+}
 
-  .register__subtitle {
-    font-size: var(--font-size-sm);
-  }
+.register__subtitle {
+  font-size: var(--font-size-sm);
 }
