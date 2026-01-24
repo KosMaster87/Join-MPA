@@ -19,69 +19,62 @@
 /* Logo */
 .login__logo {
   position: absolute;
-  top: var(--spacing-xl);
-  left: var(--spacing-xl);
-  width: 100px;
+  top: var(--spacing-lg);
+  left: var(--spacing-lg);
+  width: 60px;
   height: auto;
-}
 
-@media (max-width: 768px) {
-  .login__logo {
-    width: 60px;
-    top: var(--spacing-lg);
-    left: var(--spacing-lg);
+  @media (min-width: 768px) {
+    width: 100px;
+    top: var(--spacing-xl);
+    left: var(--spacing-xl);
   }
 }
 
 /* Sign Up Link */
 .login__signup {
   position: absolute;
-  top: var(--spacing-xl);
-  right: var(--spacing-xl);
+  top: var(--spacing-lg);
+  right: var(--spacing-lg);
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
-}
+  gap: var(--spacing-sm);
+  flex-direction: column;
 
-@media (max-width: 768px) {
-  .login__signup {
-    top: var(--spacing-lg);
-    right: var(--spacing-lg);
-    flex-direction: column;
-    gap: var(--spacing-sm);
+  @media (min-width: 768px) {
+    top: var(--spacing-xl);
+    right: var(--spacing-xl);
+    flex-direction: row;
+    gap: var(--spacing-md);
   }
 }
 
 .login__signup-text {
   color: var(--color-gray-600);
-  font-size: var(--font-size-base);
-}
+  font-size: var(--font-size-sm);
+  display: none;
 
-@media (max-width: 768px) {
-  .login__signup-text {
-    font-size: var(--font-size-sm);
+  @media (min-width: 640px) {
+    display: block;
   }
-}
 
-@media (max-width: 480px) {
-  .login__signup-text {
-    display: none;
+  @media (min-width: 768px) {
+    font-size: var(--font-size-base);
   }
 }
 
 .login__signup-btn {
-  padding: var(--spacing-sm) var(--spacing-lg);
+  padding: var(--spacing-xs) var(--spacing-md);
   background-color: var(--color-primary);
   color: var(--color-white);
   border-radius: var(--radius-md);
   font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-sm);
   transition: background-color var(--transition-base);
-}
 
-@media (max-width: 768px) {
-  .login__signup-btn {
-    padding: var(--spacing-xs) var(--spacing-md);
-    font-size: var(--font-size-sm);
+  @media (min-width: 768px) {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-size: var(--font-size-base);
   }
 }
 
@@ -99,40 +92,38 @@
   box-shadow: var(--shadow-card);
   padding: var(--spacing-3xl);
   width: 100%;
-  max-width: 450px;
+  max-width: 350px;
   margin: var(--spacing-xl);
-}
 
-@media (max-width: 768px) {
-  .login__box {
+  @media (min-width: 640px) {
+    max-width: 420px;
+  }
+
+  @media (min-width: 768px) {
+    max-width: 450px;
     padding: var(--spacing-xl);
     margin: var(--spacing-md);
   }
-}
 
-@media (max-width: 480px) {
-  .login__box {
+  @media (min-width: 1025px) {
+    max-width: 500px;
     padding: var(--spacing-lg);
   }
 }
 
 .login__title {
-  font-size: var(--font-size-4xl);
+  font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
   color: var(--color-primary);
   margin-bottom: var(--spacing-sm);
   text-align: center;
-}
 
-@media (max-width: 768px) {
-  .login__title {
+  @media (min-width: 640px) {
     font-size: var(--font-size-3xl);
   }
-}
 
-@media (max-width: 480px) {
-  .login__title {
-    font-size: var(--font-size-2xl);
+  @media (min-width: 768px) {
+    font-size: var(--font-size-4xl);
   }
 }
 
@@ -191,6 +182,7 @@
   height: 20px;
   color: var(--color-gray-400);
   flex-shrink: 0;
+  object-fit: contain;
 }
 
 .login__input {
@@ -213,12 +205,13 @@
   width: 20px;
   height: 20px;
   cursor: pointer;
-  color: var(--color-gray-400);
-  transition: color var(--transition-base);
+  flex-shrink: 0;
+  object-fit: contain;
+  transition: opacity var(--transition-base);
 }
 
 .login__input-toggle:hover {
-  color: var(--color-gray-600);
+  opacity: 0.7;
 }
 
 .login__error {
@@ -231,12 +224,6 @@
 /* Remember Me Checkbox */
 .login__checkbox-group {
   display: flex;
-  @media (max-width: 768px) {
-    .login__btn-group {
-      flex-direction: column;
-    }
-  }
-
   align-items: center;
   gap: var(--spacing-sm);
 }
@@ -260,6 +247,11 @@
   display: flex;
   gap: var(--spacing-md);
   margin-top: var(--spacing-lg);
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
 }
 
 .login__btn {

@@ -1,0 +1,67 @@
+/* ==========================================================================
+   App Layout Block
+   ========================================================================== */
+
+.app-layout {
+  display: grid;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  grid-template-rows: 60px 1fr 64px;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "header"
+    "main"
+    "menu";
+
+  @media (min-width: 768px) {
+    grid-template-rows: 80px 1fr;
+    grid-template-columns: 240px 1fr;
+    grid-template-areas:
+      "menu header"
+      "menu main";
+  }
+}
+
+/* ==========================================================================
+   App Layout Elements
+   ========================================================================== */
+
+.app-layout__header {
+  grid-area: header;
+  overflow: visible;
+  z-index: var(--z-dropdown);
+}
+
+.app-layout__menu {
+  grid-area: menu;
+  overflow: hidden;
+  z-index: calc(var(--z-dropdown) - 1);
+}
+
+.app-layout__main {
+  grid-area: main;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* background-color: var(--color-gray-50); */
+}
+
+/* Content Container */
+.app-layout__content {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-sm);
+
+  @media (min-width: 640px) {
+    padding: var(--spacing-md);
+  }
+
+  @media (min-width: 768px) {
+    padding: var(--spacing-xl);
+  }
+
+  @media (min-width: 1025px) {
+    padding: var(--spacing-2xl);
+  }
+}

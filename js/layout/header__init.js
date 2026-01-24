@@ -46,17 +46,87 @@ function setupEventListeners() {
  * Displays user initials in the header profile button.
  */
 async function displayUserInitials() {
-  const user = getCurrentAuthUser();
-  const initialsElement = document.getElementById("userInitials");
+  try {
+    const user = getCurrentAuthUser();
+    const initialsElement = document.getElementById("userInitials");
+    const profileBtn = document.getElementById("headerProfileBtn");
 
-  if (!initialsElement) return;
+    if (!initialsElement || !profileBtn) return;
 
-  if (user && user.email !== "guest@join.com") {
+    removeBadgeClasses(profileBtn);
+    setUserInitialsAndBadge(user, initialsElement, profileBtn);
+  } catch (error) {
+    console.error("Failed to display user initials:", error);
+  }
+}
+
+/**
+ * Removes all badge color classes from profile button.
+ *
+ * @param {HTMLElement} profileBtn - Profile button element
+ */
+function removeBadgeClasses(profileBtn) {
+  for (let i = 1; i <= 16; i++) {
+    profileBtn.classList.remove(`header__profile-btn--badge-${i}`);
+  }
+}
+
+/**
+ * Sets user initials and assigns badge color.
+ *
+ * @param {Object} user - Current user object
+ * @param {HTMLElement} initialsElement - Initials display element
+ * @param {HTMLElement} profileBtn - Profile button element
+ */
+function setUserInitialsAndBadge(user, initialsElement, profileBtn) {
+  const isGuest = !user || user.email === "guest@join.com";
+
+  if (isGuest) {
+    initialsElement.textContent = "G";
+    assignRandomBadge(profileBtn);
+  } else {
     const initials = getUserInitials(user.displayName || user.email);
     initialsElement.textContent = initials;
-  } else {
-    initialsElement.textContent = "G";
+    assignUserBadge(user, profileBtn);
   }
+}
+
+/**
+ * Assigns consistent badge color based on user ID.
+ *
+ * @param {Object} user - User object
+ * @param {HTMLElement} profileBtn - Profile button element
+ */
+function assignUserBadge(user, profileBtn) {
+  const userId = user.uid || user.email;
+  const badgeNumber = (hashString(userId) % 16) + 1;
+  profileBtn.classList.add(`header__profile-btn--badge-${badgeNumber}`);
+}
+
+/**
+ * Assigns random badge color for guest users.
+ *
+ * @param {HTMLElement} profileBtn - Profile button element
+ */
+function assignRandomBadge(profileBtn) {
+  const randomBadge = Math.floor(Math.random() * 16) + 1;
+  profileBtn.classList.add(`header__profile-btn--badge-${randomBadge}`);
+}
+
+/**
+ * Simple hash function to generate consistent number from string.
+ *
+ * @param {string} str - String to hash
+ * @returns {number} Hash value
+ */
+function hashString(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash;
+  }
+  return Math.abs(hash);
 }
 
 /**

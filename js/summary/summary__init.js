@@ -1,7 +1,8 @@
 /**
- * @fileoverview Initializes summary page functionality, including greeting and task statistics.
- * @description Sets up personalized greeting based on time of day and user name,
- *              and loads task statistics to display in summary cards.
+ * @fileoverview Summary Dashboard Module
+ * @description Displays an overview of all tasks with statistics including task counts by status,
+ *              urgent task deadline tracking, personalized greetings based on time of day,
+ *              and task priority visualization.
  * @module summary/summary__init
  */
 
@@ -11,6 +12,9 @@ import { checkAuthentication, includeHTML } from "../shared/include-html.js";
 import { initHeader } from "../layout/header__init.js";
 import { initMenu } from "../layout/menu__navigation.js";
 
+let showedLoginGreeting = false;
+let earliestUrgentTaskIndex = -1;
+
 /**
  * Initializes summary page.
  */
@@ -19,8 +23,43 @@ async function initSummary() {
   await includeHTML();
   initHeader();
   initMenu();
+  await initGreeting();
   displayGreeting();
   loadTaskStats();
+}
+
+/**
+ * Displays a greeting after login if not already shown (mobile only).
+ */
+async function initGreeting() {
+  showedLoginGreeting =
+    sessionStorage.getItem("showedLoginGreeting") === "true";
+
+  if (!showedLoginGreeting && window.innerWidth <= 720) {
+    await showGreetScreen();
+    showedLoginGreeting = true;
+    sessionStorage.setItem("showedLoginGreeting", "true");
+  }
+
+  const summaryToDos = document.getElementById("summaryToDos");
+  if (summaryToDos) {
+    summaryToDos.style.display = "flex";
+  }
+}
+
+/**
+ * Displays a greeting message for mobile users.
+ */
+async function showGreetScreen() {
+  const greetingsMobile = document.getElementById("greetingsMobile");
+  if (greetingsMobile) {
+    greetingsMobile.classList.remove("hide");
+    greetingsMobile.classList.add("show");
+    setTimeout(() => {
+      greetingsMobile.classList.remove("show");
+      greetingsMobile.classList.add("hide");
+    }, 2500);
+  }
 }
 
 /**
@@ -28,17 +67,17 @@ async function initSummary() {
  */
 function displayGreeting() {
   const user = getCurrentAuthUser();
-  const timeElement = document.getElementById("greetingTime");
-  const nameElement = document.getElementById("greetingName");
-
-  if (!timeElement || !nameElement) return;
+  const timeElement = document.getElementById("greetingsDesktop");
+  const nameElement = document.getElementById("greetingNameDesktop");
+  const mobileElement = document.getElementById("greetingMobile");
 
   const hour = new Date().getHours();
   const greeting = getGreetingByTime(hour);
-  timeElement.textContent = greeting;
-
   const displayName = getDisplayName(user);
-  nameElement.textContent = displayName;
+
+  if (timeElement) timeElement.textContent = greeting + ",";
+  if (nameElement) nameElement.textContent = displayName;
+  if (mobileElement) mobileElement.textContent = greeting + ", " + displayName;
 }
 
 /**
@@ -48,9 +87,9 @@ function displayGreeting() {
  * @returns {string} - Greeting text
  */
 function getGreetingByTime(hour) {
-  if (hour < 12) return "Good morning,";
-  if (hour < 18) return "Good afternoon,";
-  return "Good evening,";
+  if (hour < 12) return "Good morning";
+  if (hour < 18) return "Good afternoon";
+  return "Good evening";
 }
 
 /**
@@ -71,13 +110,30 @@ function getDisplayName(user) {
 async function loadTaskStats() {
   try {
     const user = getCurrentAuthUser();
-    if (!user) return;
+    if (!user) {
+      displayEmptyStats();
+      return;
+    }
 
     const tasks = await getUserTasks(user.uid);
     displayStats(tasks);
   } catch (error) {
     console.error("Failed to load stats:", error);
+    displayEmptyStats();
   }
+}
+
+/**
+ * Displays empty stats when no data available.
+ */
+function displayEmptyStats() {
+  updateElement("summaryTodoTodos", 0);
+  updateElement("summaryDoneTodos", 0);
+  updateElement("summaryUpcomingTasks", 0);
+  updateElement("dataTodos", 0);
+  updateElement("summaryProcessTasks", 0);
+  updateElement("summaryAwaitingTask", 0);
+  updateElement("summaryUrgentDate", "-");
 }
 
 /**
@@ -88,15 +144,17 @@ async function loadTaskStats() {
 function displayStats(tasks) {
   const stats = calculateStats(tasks);
 
-  updateElement("todoCount", stats.todo);
-  updateElement("doneCount", stats.done);
-  updateElement("urgentCount", stats.urgent);
-  updateElement("boardCount", stats.total);
-  updateElement("progressCount", stats.inProgress);
-  updateElement("feedbackCount", stats.feedback);
+  updateElement("summaryTodoTodos", stats.todo);
+  updateElement("summaryDoneTodos", stats.done);
+  updateElement("summaryUpcomingTasks", stats.urgent);
+  updateElement("dataTodos", stats.total);
+  updateElement("summaryProcessTasks", stats.inProgress);
+  updateElement("summaryAwaitingTask", stats.feedback);
 
   if (stats.urgentDeadline) {
     updateUrgentDeadline(stats.urgentDeadline);
+  } else {
+    updateElement("summaryUrgentDate", "-");
   }
 }
 
@@ -107,13 +165,31 @@ function displayStats(tasks) {
  * @returns {Object} - Statistics object
  */
 function calculateStats(tasks) {
+  if (!tasks || tasks.length === 0) {
+    return {
+      total: 0,
+      todo: 0,
+      done: 0,
+      inProgress: 0,
+      feedback: 0,
+      urgent: 0,
+      urgentDeadline: null,
+    };
+  }
+
   return {
     total: tasks.length,
-    todo: tasks.filter((t) => t.status === "todo").length,
+    todo: tasks.filter((t) => t.status === "todo" || t.status === "to-do")
+      .length,
     done: tasks.filter((t) => t.status === "done").length,
-    inProgress: tasks.filter((t) => t.status === "in-progress").length,
-    feedback: tasks.filter((t) => t.status === "awaiting-feedback").length,
-    urgent: tasks.filter((t) => t.priority === "urgent").length,
+    inProgress: tasks.filter(
+      (t) => t.status === "in-progress" || t.status === "progress",
+    ).length,
+    feedback: tasks.filter(
+      (t) => t.status === "awaiting-feedback" || t.status === "await",
+    ).length,
+    urgent: tasks.filter((t) => t.priority === "urgent" || t.prio === "Urgent")
+      .length,
     urgentDeadline: getNextUrgentDeadline(tasks),
   };
 }
@@ -125,12 +201,20 @@ function calculateStats(tasks) {
  * @returns {string|null} - Deadline date or null
  */
 function getNextUrgentDeadline(tasks) {
-  const urgentTasks = tasks.filter((t) => t.priority === "urgent" && t.dueDate);
+  const urgentTasks = tasks.filter(
+    (t) =>
+      (t.priority === "urgent" || t.prio === "Urgent") &&
+      t.dueDate &&
+      t.status !== "done",
+  );
+
   if (urgentTasks.length === 0) return null;
 
   const sortedTasks = urgentTasks.sort(
     (a, b) => new Date(a.dueDate) - new Date(b.dueDate),
   );
+
+  earliestUrgentTaskIndex = tasks.indexOf(sortedTasks[0]);
   return sortedTasks[0].dueDate;
 }
 
@@ -151,7 +235,7 @@ function updateElement(id, value) {
  * @param {string} date - Deadline date
  */
 function updateUrgentDeadline(date) {
-  const deadlineElement = document.querySelector(".summary__deadline-date");
+  const deadlineElement = document.getElementById("summaryUrgentDate");
   if (!deadlineElement) return;
 
   const formatted = new Date(date).toLocaleDateString("en-US", {
@@ -162,7 +246,23 @@ function updateUrgentDeadline(date) {
   deadlineElement.textContent = formatted;
 }
 
-// Initialize on DOMContentLoaded
+/**
+ * Navigates to the board page.
+ */
+window.navigateToBoard = function () {
+  window.location.href = "../pages/board.html";
+};
+
+/**
+ * Navigates to the board and opens the earliest urgent task.
+ */
+window.openUrgentTask = function () {
+  if (earliestUrgentTaskIndex !== -1) {
+    sessionStorage.setItem("openTaskIndex", earliestUrgentTaskIndex);
+  }
+  window.location.href = "../pages/board.html";
+};
+
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initSummary);
 } else {
