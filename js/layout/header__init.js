@@ -16,6 +16,7 @@ import {
   hashString
 } from "../../services/badge.service.js";
 import { navigateToPage } from "../shared/include-html.js";
+import { showSplash } from "../../services/splash.service.js";
 
 /**
  * Initializes header functionality.
@@ -139,10 +140,13 @@ function handleOutsideClick(event) {
  */
 async function handleLogout() {
   try {
+    showSplash();
     await signOutUser();
     localStorage.removeItem("joinUser");
     sessionStorage.removeItem("joinUser");
-    window.location.href = "../index.html";
+    setTimeout(() => {
+      window.location.href = "../index.html";
+    }, 2000);
   } catch (error) {
     console.error("Logout failed:", error);
   }

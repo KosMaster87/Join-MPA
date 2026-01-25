@@ -1,6 +1,41 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <style>
+      #splashScreen {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 1;
+        transition: opacity 0.5s;
+      }
+      #splashScreen.splash--hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .splash__logo {
+        width: 150px;
+        height: 150px;
+        object-fit: contain;
+        display: block;
+      }
+      @media (min-width: 768px) {
+        .splash__logo {
+          width: 200px;
+          height: 200px;
+        }
+      }
+      @media (min-width: 1280px) {
+        .splash__logo {
+          width: 250px;
+          height: 250px;
+        }
+      }
+    </style>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
@@ -10,7 +45,6 @@
 
     <title>Join - Summary</title>
 
-    <!-- Favicon -->
     <link
       rel="icon"
       type="image/svg+xml"
@@ -26,7 +60,6 @@
     <link rel="stylesheet" href="../css/components/menu.css" />
     <link rel="stylesheet" href="../css/pages/summary.css" />
 
-    <!-- Firebase -->
     <script type="importmap">
       {
         "imports": {
@@ -56,6 +89,14 @@
   </head>
 
   <body>
+    <div id="splashScreen" class="splash">
+      <img
+        src="../assets/img/shared/join-logo-blue.svg"
+        alt="Join Logo"
+        class="splash__logo"
+      />
+    </div>
+
     <!-- App Layout Container -->
     <div class="app-layout">
       <!-- Header -->

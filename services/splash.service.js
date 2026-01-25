@@ -4,18 +4,30 @@
  * @module services/splash.service
  */
 
+let splashShownAt = null;
+
 /**
- * Shows the splash screen if present in the DOM.
+ * Hides the splash screen after a minimum delay for smooth animation.
+ * @param {number} minDuration - Mindestdauer in ms, wie lange das Splash mindestens sichtbar bleibt
  */
 export function showSplash() {
   const splash = document.getElementById("splashScreen");
   if (splash) splash.classList.remove("splash--hidden");
+  splashShownAt = Date.now();
 }
 
 /**
- * Hides the splash screen if present in the DOM.
+ *
+ * @param {number} minDuration
+ * @returns
  */
-export function hideSplash() {
+export function hideSplashDelayed(minDuration = 800) {
   const splash = document.getElementById("splashScreen");
-  if (splash) splash.classList.add("splash--hidden");
+  if (!splash) return;
+  const now = Date.now();
+  const elapsed = splashShownAt ? now - splashShownAt : minDuration;
+  const delay = Math.max(minDuration - elapsed, 0);
+  setTimeout(() => {
+    splash.classList.add("splash--hidden");
+  }, delay);
 }

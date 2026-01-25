@@ -12,7 +12,10 @@ import {
 } from "../../services/auth.service.js";
 import { getUserTasks, getItem } from "../../services/data.service.js";
 import { checkAuthentication, includeHTML } from "../shared/include-html.js";
-import { showSplash, hideSplash } from "../../services/splash.service.js";
+import {
+  showSplash,
+  hideSplashDelayed,
+} from "../../services/splash.service.js";
 import { initHeader } from "../layout/header__init.js";
 import { initMenu } from "../layout/menu__navigation.js";
 
@@ -43,9 +46,8 @@ async function initSummary() {
       displayGreeting();
       initHeader(currentUserData);
       loadTaskStats();
+      hideSplashDelayed(800);
 
-      // Hide splash and show greeting/header initials
-      hideSplash();
       if (greetingName) greetingName.classList.remove("hide");
       if (headerInitials) headerInitials.classList.remove("hide");
     } else {
@@ -305,7 +307,8 @@ function updateUrgentDeadline(date) {
  * Navigates to the board page.
  */
 window.navigateToBoard = function () {
-  window.location.href = "../pages/board.html";
+  window.location.href = "../board.html";
+  // window.location.href = "../pages/board.html";
 };
 
 /**
@@ -315,7 +318,8 @@ window.openUrgentTask = function () {
   if (earliestUrgentTaskIndex !== -1) {
     sessionStorage.setItem("openTaskIndex", earliestUrgentTaskIndex);
   }
-  window.location.href = "../pages/board.html";
+  window.location.href = "../board.html";
+  // window.location.href = "../pages/board.html";
 };
 
 if (document.readyState === "loading") {

@@ -127,13 +127,6 @@
   }
 }
 
-.login__subtitle {
-  font-size: var(--font-size-base);
-  color: var(--color-gray-500);
-  margin-bottom: var(--spacing-2xl);
-  text-align: center;
-}
-
 .login__divider {
   width: 100px;
   height: 3px;

@@ -1,6 +1,41 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <style>
+      #splashScreen {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 1;
+        transition: opacity 0.5s;
+      }
+      #splashScreen.splash--hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .splash__logo {
+        width: 150px;
+        height: 150px;
+        object-fit: contain;
+        display: block;
+      }
+      @media (min-width: 768px) {
+        .splash__logo {
+          width: 200px;
+          height: 200px;
+        }
+      }
+      @media (min-width: 1280px) {
+        .splash__logo {
+          width: 250px;
+          height: 250px;
+        }
+      }
+    </style>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
@@ -10,20 +45,17 @@
 
     <title>Join - Login</title>
 
-    <!-- Favicon -->
     <link
       rel="icon"
       type="image/svg+xml"
       href="../assets/img/shared/join-logo-white.svg"
     />
 
-    <!-- CSS -->
     <link rel="stylesheet" href="../css/base/variables.css" />
     <link rel="stylesheet" href="../css/base/reset.css" />
     <link rel="stylesheet" href="../css/base/fonts.css" />
     <link rel="stylesheet" href="../css/pages/login.css" />
 
-    <!-- Firebase -->
     <script type="importmap">
       {
         "imports": {
@@ -50,8 +82,15 @@
   </head>
 
   <body>
+    <div id="splashScreen" class="splash">
+      <img
+        src="../assets/img/shared/join-logo-blue.svg"
+        alt="Join Logo"
+        class="splash__logo"
+      />
+    </div>
+
     <main class="login">
-      <!-- Logo -->
       <a href="../index.html" class="login__logo">
         <img
           src="../assets/img/shared/join-logo-blue.svg"
@@ -64,12 +103,10 @@
       <!-- Sign Up Link -->
       <div class="login__signup">
         <span class="login__signup-text">Not a Join user?</span>
-        <a href="./register.html" class="login__signup-btn">Sign up</a>
+        <button id="signupBtn" type="button" class="login__signup-btn">Sign up</button>
       </div>
 
-      <!-- Login Box -->
       <div class="login__box">
-        <!-- Header -->
         <h1 class="login__title">Log in</h1>
         <div class="login__divider"></div>
 

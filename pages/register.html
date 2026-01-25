@@ -10,20 +10,17 @@
 
     <title>Join - Sign Up</title>
 
-    <!-- Favicon -->
     <link
       rel="icon"
       type="image/svg+xml"
       href="./assets/img/shared/join-logo-white.svg"
     />
 
-    <!-- CSS -->
     <link rel="stylesheet" href="../css/base/variables.css" />
     <link rel="stylesheet" href="../css/base/reset.css" />
     <link rel="stylesheet" href="../css/base/fonts.css" />
     <link rel="stylesheet" href="../css/pages/register.css" />
 
-    <!-- Firebase -->
     <script type="importmap">
       {
         "imports": {
@@ -51,37 +48,30 @@
 
   <body>
     <main class="register">
-      <!-- Logo -->
       <a href="../index.html" class="register__logo">
         <img
-          src="./assets/img/shared/join-logo-blue.svg"
+          src="./../assets/img/shared/join-logo-blue.svg"
           alt="Join Logo"
           width="100"
           height="auto"
         />
       </a>
 
-      <!-- Back Button -->
-      <a href="../index.html" class="register__back" aria-label="Back to login">
-        <svg
-          class="register__back-icon"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path d="M19 12H5M12 19l-7-7 7-7" />
-        </svg>
-      </a>
-
-      <!-- Register Box -->
       <div class="register__box">
-        <!-- Header -->
         <div class="register__header">
-          <h1 class="register__title">Sign up</h1>
-          <p class="register__subtitle">Create your Join account</p>
-          <div class="register__divider"></div>
+          <button
+            id="backToLoginBtn"
+            type="button"
+            class="register__back-btn"
+            aria-label="Back to login"
+          >
+            <img src="../assets/img/shared/arrow-left-default.svg" alt="Back" />
+          </button>
+
+          <div class="register__header-center">
+            <h1 class="register__title">Sign up</h1>
+            <div class="register__divider"></div>
+          </div>
         </div>
 
         <!-- Registration Form -->

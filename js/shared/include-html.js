@@ -53,7 +53,8 @@ function navigateToPage(pageName) {
   const currentUserId = localStorage.getItem("currentUserId");
 
   if (currentUserId) {
-    window.location.href = `./pages/${pageName}.html`;
+    window.location.href = `./${pageName}.html`;
+    // window.location.href = `./pages/${pageName}.html`;
   } else {
     window.location.href = "./index.html";
   }
@@ -68,7 +69,8 @@ function navigateToPage(pageName) {
  * // navigateToPublicPage('help'); // Goes to help.html
  */
 function navigateToPublicPage(pageName) {
-  window.location.href = `./pages/${pageName}.html`;
+  window.location.href = `./${pageName}.html`;
+  // window.location.href = `./pages/${pageName}.html`;
 }
 
 /**
@@ -77,7 +79,8 @@ function navigateToPublicPage(pageName) {
  * Detects if called from pages/ subdirectory or root.
  */
 function redirectToLogin() {
-  const isInPagesFolder = window.location.pathname.includes("/pages/");
+  const isInPagesFolder = window.location.pathname.includes("/");
+  // const isInPagesFolder = window.location.pathname.includes("/pages/");
   window.location.href = isInPagesFolder ? "../index.html" : "./index.html";
 }
 
