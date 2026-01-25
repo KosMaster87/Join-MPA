@@ -9,16 +9,22 @@ import {
   getCurrentAuthUser,
   signOutUser,
 } from "../../services/auth.service.js";
-import { getUserInitials } from "../../services/data.service.js";
+import {
+  getUserInitials,
+  assignUserBadge,
+  assignRandomBadge,
+  hashString
+} from "../../services/badge.service.js";
 import { navigateToPage } from "../shared/include-html.js";
+import { showSplash } from "../../services/splash.service.js";
 
 /**
  * Initializes header functionality.
  * Sets up event listeners and displays user initials.
  */
-function initHeader() {
+function initHeader(userData) {
   setupEventListeners();
-  displayUserInitials();
+  if (userData) displayUserInitials(userData);
 }
 
 /**
@@ -45,19 +51,11 @@ function setupEventListeners() {
 /**
  * Displays user initials in the header profile button.
  */
-async function displayUserInitials() {
-  try {
-    const user = getCurrentAuthUser();
-    const initialsElement = document.getElementById("userInitials");
-    const profileBtn = document.getElementById("headerProfileBtn");
+function displayUserInitials(userData) {
+  const initialsElement = document.getElementById("userInitials");
+  const profileBtn = document.getElementById("headerProfileBtn");
 
-    if (!initialsElement || !profileBtn) return;
-
-    removeBadgeClasses(profileBtn);
-    setUserInitialsAndBadge(user, initialsElement, profileBtn);
-  } catch (error) {
-    console.error("Failed to display user initials:", error);
-  }
+  setUserInitialsAndBadge(userData, initialsElement, profileBtn);
 }
 
 /**
@@ -79,15 +77,20 @@ function removeBadgeClasses(profileBtn) {
  * @param {HTMLElement} profileBtn - Profile button element
  */
 function setUserInitialsAndBadge(user, initialsElement, profileBtn) {
-  const isGuest = !user || user.email === "guest@join.com";
+  removeBadgeClasses(profileBtn);
 
-  if (isGuest) {
+  if (user.isGuest || !user.name) {
     initialsElement.textContent = "G";
     assignRandomBadge(profileBtn);
-  } else {
-    const initials = getUserInitials(user.displayName || user.email);
-    initialsElement.textContent = initials;
+    return;
+  }
+
+  const initials = getUserInitials(user.name);
+  initialsElement.textContent = initials;
+  if (user.id) {
     assignUserBadge(user, profileBtn);
+  } else {
+    assignRandomBadge(profileBtn);
   }
 }
 
@@ -97,37 +100,6 @@ function setUserInitialsAndBadge(user, initialsElement, profileBtn) {
  * @param {Object} user - User object
  * @param {HTMLElement} profileBtn - Profile button element
  */
-function assignUserBadge(user, profileBtn) {
-  const userId = user.uid || user.email;
-  const badgeNumber = (hashString(userId) % 16) + 1;
-  profileBtn.classList.add(`header__profile-btn--badge-${badgeNumber}`);
-}
-
-/**
- * Assigns random badge color for guest users.
- *
- * @param {HTMLElement} profileBtn - Profile button element
- */
-function assignRandomBadge(profileBtn) {
-  const randomBadge = Math.floor(Math.random() * 16) + 1;
-  profileBtn.classList.add(`header__profile-btn--badge-${randomBadge}`);
-}
-
-/**
- * Simple hash function to generate consistent number from string.
- *
- * @param {string} str - String to hash
- * @returns {number} Hash value
- */
-function hashString(str) {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = (hash << 5) - hash + char;
-    hash = hash & hash;
-  }
-  return Math.abs(hash);
-}
 
 /**
  * Toggles the visibility of the user menu dropdown.
@@ -168,10 +140,13 @@ function handleOutsideClick(event) {
  */
 async function handleLogout() {
   try {
+    showSplash();
     await signOutUser();
     localStorage.removeItem("joinUser");
     sessionStorage.removeItem("joinUser");
-    window.location.href = "../index.html";
+    setTimeout(() => {
+      window.location.href = "../index.html";
+    }, 2000);
   } catch (error) {
     console.error("Logout failed:", error);
   }

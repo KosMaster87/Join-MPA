@@ -26,13 +26,40 @@ function setupNavigationListeners() {
   const navContacts = document.getElementById("navContacts");
 
   if (navSummary)
-    navSummary.addEventListener("click", () => navigateToPage("summary"));
+    navSummary.addEventListener("click", () => navigatePrettyUrl("summary"));
   if (navBoard)
-    navBoard.addEventListener("click", () => navigateToPage("board"));
+    navBoard.addEventListener("click", () => navigatePrettyUrl("board"));
   if (navAddTask)
-    navAddTask.addEventListener("click", () => navigateToPage("addTask"));
+    navAddTask.addEventListener("click", () => navigatePrettyUrl("addTask"));
   if (navContacts)
-    navContacts.addEventListener("click", () => navigateToPage("contacts"));
+    navContacts.addEventListener("click", () => navigatePrettyUrl("contacts"));
+}
+
+/**
+ * Navigates to a page using pretty URLs (no /pages/ in address bar).
+ * Intern wird /pages/[page].html geladen, aber die URL als /[page].html angezeigt.
+ *
+ * @param {string} pageName - Name der Zielseite (ohne .html)
+ */
+function navigatePrettyUrl(pageName) {
+  const validPages = [
+    "summary",
+    "board",
+    "addTask",
+    "contacts",
+    "login",
+    "register",
+    "404",
+    "policy",
+    "legal",
+    "about",
+    "contact",
+    "info",
+  ];
+  const safePage = validPages.includes(pageName) ? pageName : "404";
+  const target = `/pages/${safePage}.html`;
+  window.history.pushState({}, "", `/${safePage}.html`);
+  window.location.replace(target);
 }
 
 /**
@@ -74,4 +101,4 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export { initMenu };
+export { initMenu, navigatePrettyUrl };

@@ -88,6 +88,7 @@ async function signOutUser() {
     await signOut(auth);
     localStorage.removeItem("currentUserId");
     localStorage.removeItem("currentUserEmail");
+    localStorage.removeItem("isGuest");
   } catch (error) {
     console.error("Sign out error:", error.code, error.message);
     throw error;

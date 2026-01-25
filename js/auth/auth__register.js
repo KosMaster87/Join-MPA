@@ -6,7 +6,7 @@
  */
 
 import { registerWithAuth } from "../../services/auth.service.js";
-import { createUser, findUserByEmail } from "../../services/data.service.js";
+import { createUser } from "../../services/data.service.js";
 import {
   validateEmail,
   validatePassword,
@@ -25,16 +25,28 @@ import {
  * Initializes the registration page by setting up event listeners.
  */
 function initRegister() {
-  const registerForm = document.getElementById("registerForm");
+  setupRegisterFormListener();
+  setupBackToLoginBtnListener();
+}
 
+function setupRegisterFormListener() {
+  const registerForm = document.getElementById("registerForm");
   if (registerForm) {
     registerForm.addEventListener("submit", handleRegister);
   }
 }
 
+function setupBackToLoginBtnListener() {
+  const backBtn = document.getElementById("backToLoginBtn");
+  if (backBtn) {
+    backBtn.addEventListener("click", () => {
+      window.location.href = "./login.html";
+    });
+  }
+}
+
 /**
  * Handles the registration form submission.
- *
  * @param {Event} event - Form submit event
  */
 async function handleRegister(event) {
@@ -52,7 +64,6 @@ async function handleRegister(event) {
 
 /**
  * Retrieves form data from input fields.
- *
  * @returns {Object} - Form data object
  */
 function getFormData() {
@@ -67,7 +78,6 @@ function getFormData() {
 
 /**
  * Validates the registration form inputs.
- *
  * @param {Object} formData - Form data to validate
  * @returns {boolean} - True if valid, false otherwise
  */
@@ -89,7 +99,6 @@ function validateRegisterForm(formData) {
 
 /**
  * Validates password fields.
- *
  * @param {Object} formData - Form data
  * @returns {boolean} - True if valid, false otherwise
  */
@@ -114,7 +123,6 @@ function validatePasswords(formData) {
 
 /**
  * Validates privacy policy acceptance.
- *
  * @param {boolean} accepted - Privacy checkbox state
  * @returns {boolean} - True if accepted, false otherwise
  */
@@ -129,7 +137,6 @@ function validatePrivacyPolicy(accepted) {
 
 /**
  * Attempts to register a new user.
- *
  * @param {Object} formData - Form data
  * @param {HTMLElement} submitBtn - Submit button element
  * @param {HTMLFormElement} form - Form element
@@ -141,9 +148,13 @@ async function attemptRegistration(formData, submitBtn, form) {
     const user = await registerWithAuth(formData.email, formData.password);
     await createUserInFirestore(user.uid, formData);
 
+    localStorage.setItem("currentUserId", user.uid);
+    localStorage.setItem("currentUserEmail", user.email);
+    localStorage.setItem("isGuest", "false");
+
     showToast("Registration successful!", "success");
     clearForm(form);
-    redirectToLogin();
+    redirectToSummary();
   } catch (error) {
     handleRegistrationError(error);
   } finally {
@@ -153,7 +164,6 @@ async function attemptRegistration(formData, submitBtn, form) {
 
 /**
  * Creates a user document in Firestore.
- *
  * @param {string} userId - Firebase Auth UID
  * @param {Object} formData - Form data
  */
@@ -169,7 +179,6 @@ async function createUserInFirestore(userId, formData) {
 
 /**
  * Handles registration errors and displays appropriate messages.
- *
  * @param {Error} error - Firebase error object
  */
 function handleRegistrationError(error) {
@@ -187,11 +196,12 @@ function handleRegistrationError(error) {
 }
 
 /**
- * Redirects to the login page after successful registration.
+ * Redirects to the summary page after registration.
  */
-function redirectToLogin() {
+function redirectToSummary() {
   setTimeout(() => {
-    window.location.href = "../../index.html";
+    window.location.href = "../../summary.html";
+    // window.location.href = "../../pages/summary.html";
   }, 1500);
 }
 
