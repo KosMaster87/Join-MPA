@@ -109,6 +109,26 @@ async function getUserContacts(userId) {
 }
 
 /**
+ * Creates a new guest document in Firestore (guests collection).
+ *
+ * @param {string} guestId - Firebase Auth UID
+ * @param {Object} guestData - Guest data (name, email, etc.)
+ * @returns {Promise<Object>} - Created guest object
+ */
+async function createGuest(guestId, guestData) {
+  const newGuest = {
+    id: guestId,
+    name: guestData.name || "Guest",
+    email: guestData.email || "guest@join.com",
+    isGuest: true,
+    createdAt: new Date().toISOString(),
+    ...guestData,
+  };
+  await setDocument("guests", guestId, newGuest);
+  return newGuest;
+}
+
+/**
  * Creates a new user document in Firestore.
  *
  * @param {string} userId - Firebase Auth UID
@@ -187,6 +207,7 @@ export {
   getUserTasks,
   getUserContacts,
   createUser,
+  createGuest,
   generateRandomColor,
   getUserInitials,
 };

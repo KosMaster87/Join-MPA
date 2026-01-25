@@ -141,6 +141,11 @@ async function attemptRegistration(formData, submitBtn, form) {
     const user = await registerWithAuth(formData.email, formData.password);
     await createUserInFirestore(user.uid, formData);
 
+    // Set session data in localStorage
+    localStorage.setItem("currentUserId", user.uid);
+    localStorage.setItem("currentUserEmail", user.email);
+    localStorage.setItem("isGuest", "false");
+
     showToast("Registration successful!", "success");
     clearForm(form);
     redirectToLogin();

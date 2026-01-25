@@ -6,14 +6,15 @@
  * @module summary/summary__init
  */
 
-import { getCurrentAuthUser } from "../../services/auth.service.js";
-import { getUserTasks } from "../../services/data.service.js";
+import { getCurrentAuthUser, onAuthChange } from "../../services/auth.service.js";
+import { getUserTasks, getItem } from "../../services/data.service.js";
 import { checkAuthentication, includeHTML } from "../shared/include-html.js";
 import { initHeader } from "../layout/header__init.js";
 import { initMenu } from "../layout/menu__navigation.js";
 
 let showedLoginGreeting = false;
 let earliestUrgentTaskIndex = -1;
+let currentUserData = null;
 
 /**
  * Initializes summary page.
@@ -24,8 +25,37 @@ async function initSummary() {
   initHeader();
   initMenu();
   await initGreeting();
-  displayGreeting();
-  loadTaskStats();
+
+  onAuthChange(async (user) => {
+    if (user) {
+      await loadCurrentUserData();
+      displayGreeting();
+      loadTaskStats();
+    }
+  });
+}
+
+/**
+ * Loads current user data from Firestore and stores in currentUserData.
+ */
+async function loadCurrentUserData() {
+  const user = getCurrentAuthUser();
+  if (!user) {
+    currentUserData = null;
+    return;
+  }
+  try {
+    // Check if guest (from localStorage)
+    const isGuest = localStorage.getItem("isGuest") === "true";
+    const collection = isGuest ? "guests" : "users";
+    console.log("[loadCurrentUserData] collection:", collection, "uid:", user.uid);
+    const userData = await getItem(collection, user.uid);
+    console.log("[loadCurrentUserData] userData result:", userData);
+    currentUserData = userData || null;
+  } catch (e) {
+    console.error("[loadCurrentUserData] Error: ", e);
+    currentUserData = null;
+  }
 }
 
 /**
@@ -66,18 +96,31 @@ async function showGreetScreen() {
  * Displays personalized greeting based on time of day.
  */
 function displayGreeting() {
-  const user = getCurrentAuthUser();
+    console.log("currentUserData", currentUserData);
   const timeElement = document.getElementById("greetingsDesktop");
   const nameElement = document.getElementById("greetingNameDesktop");
   const mobileElement = document.getElementById("greetingMobile");
 
   const hour = new Date().getHours();
   const greeting = getGreetingByTime(hour);
-  const displayName = getDisplayName(user);
+  const displayName = getDisplayNameFromUserData(currentUserData);
 
   if (timeElement) timeElement.textContent = greeting + ",";
   if (nameElement) nameElement.textContent = displayName;
   if (mobileElement) mobileElement.textContent = greeting + ", " + displayName;
+}
+
+/**
+ * Gets display name from Firestore user data.
+ * @param {Object|null} userData - Firestore user data
+ * @returns {string}
+ */
+function getDisplayNameFromUserData(userData) {
+  if (!userData) return "Guest";
+  if (userData.isGuest) return "Guest";
+  if (userData.name && userData.name.trim().length > 0) return userData.name;
+  if (userData.email) return userData.email.split("@")[0];
+  return "User";
 }
 
 /**
@@ -98,11 +141,6 @@ function getGreetingByTime(hour) {
  * @param {Object} user - Firebase user
  * @returns {string} - Display name
  */
-function getDisplayName(user) {
-  if (!user) return "Guest";
-  if (user.email === "guest@join.com") return "Guest";
-  return user.displayName || user.email.split("@")[0];
-}
 
 /**
  * Loads and displays task statistics.
@@ -270,3 +308,4 @@ if (document.readyState === "loading") {
 }
 
 export { initSummary };
+console.log("currentUserData", currentUserData);
