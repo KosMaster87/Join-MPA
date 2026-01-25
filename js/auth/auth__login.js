@@ -5,24 +5,50 @@
  * @module js/auth/auth__login
  */
 
-import { signInWithAuth } from "../../services/auth.service.js";
-import { findUserByEmail } from "../../services/data.service.js";
+import {
+  signInWithAuth,
+  onAuthChange,
+  signInAnonymouslyAsGuest,
+} from "../../services/auth.service.js";
+import { createGuest } from "../../services/data.service.js";
 import { validateEmail, validatePassword } from "../shared/validators.js";
 import { showToast, showLoading, hideLoading } from "../shared/ui-helpers.js";
+import {
+  showSplash,
+  hideSplashDelayed,
+} from "../../services/splash.service.js";
 
 /**
  * Initializes the login page by setting up event listeners.
  */
 function initLogin() {
-  const loginForm = document.getElementById("loginForm");
-  const guestLoginBtn = document.getElementById("guestLoginBtn");
+  showSplash();
+  hideSplashDelayed(800);
+  setupLoginFormListener();
+  setupGuestLoginListener();
+  setupSignupBtnListener();
+}
 
+function setupLoginFormListener() {
+  const loginForm = document.getElementById("loginForm");
   if (loginForm) {
     loginForm.addEventListener("submit", handleLogin);
   }
+}
 
+function setupGuestLoginListener() {
+  const guestLoginBtn = document.getElementById("guestLoginBtn");
   if (guestLoginBtn) {
     guestLoginBtn.addEventListener("click", handleGuestLogin);
+  }
+}
+
+function setupSignupBtnListener() {
+  const signupBtn = document.getElementById("signupBtn");
+  if (signupBtn) {
+    signupBtn.addEventListener("click", () => {
+      window.location.href = "./register.html";
+    });
   }
 }
 
@@ -83,7 +109,7 @@ async function attemptLogin(email, password, submitBtn) {
     await saveUserSession(user.uid, user.email);
 
     showToast("Login successful!", "success");
-    redirectToSummary();
+    await redirectToSummary();
   } catch (error) {
     handleLoginError(error);
   } finally {
@@ -100,6 +126,7 @@ async function attemptLogin(email, password, submitBtn) {
 async function saveUserSession(userId, email) {
   localStorage.setItem("currentUserId", userId);
   localStorage.setItem("currentUserEmail", email);
+  localStorage.setItem("isGuest", "false");
 }
 
 /**
@@ -130,21 +157,18 @@ async function handleGuestLogin() {
   try {
     showLoading(guestBtn);
 
-    // Guest login: Create anonymous guest session without authentication
-    const guestData = {
-      uid: "guest-user",
-      email: "guest@join.com",
-      displayName: "Guest User",
-      isGuest: true,
-    };
-
-    // Save guest session to localStorage
-    localStorage.setItem("userId", guestData.uid);
-    localStorage.setItem("userEmail", guestData.email);
+    const user = await signInAnonymouslyAsGuest();
+    await saveUserSession(user.uid, "guest@join.com");
     localStorage.setItem("isGuest", "true");
 
+    // Ensure guest user document exists in Firestore (guests collection)
+    await createGuest(user.uid, {
+      name: "Guest",
+      email: "guest@join.com",
+    });
+
     showToast("Logged in as guest!", "success");
-    redirectToSummary();
+    await redirectToSummary();
   } catch (error) {
     console.error("Guest login error:", error);
     showToast("Guest login failed. Please try again.", "error");
@@ -156,10 +180,17 @@ async function handleGuestLogin() {
 /**
  * Redirects to the summary page after successful login.
  */
-function redirectToSummary() {
-  setTimeout(() => {
-    window.location.href = "./pages/summary.html";
-  }, 1000);
+async function redirectToSummary() {
+  await new Promise((resolve) => {
+    const unsubscribe = onAuthChange((user) => {
+      if (user) {
+        unsubscribe();
+        resolve();
+      }
+    });
+  });
+  window.location.href = "/summary.html";
+  // window.location.href = "/pages/summary.html";
 }
 
 document.addEventListener("DOMContentLoaded", initLogin);

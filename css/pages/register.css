@@ -1,3 +1,18 @@
+/* Logo */
+.register__logo {
+  position: absolute;
+  top: var(--spacing-lg);
+  left: var(--spacing-lg);
+  width: 60px;
+  height: auto;
+
+  @media (min-width: 768px) {
+    width: 100px;
+    top: var(--spacing-xl);
+    left: var(--spacing-xl);
+  }
+}
+
 /* ==========================================================================
    Register Block
    ========================================================================== */
@@ -15,60 +30,6 @@
   @media (min-width: 640px) {
     padding: var(--spacing-xl) var(--spacing-md);
   }
-}
-
-/* ==========================================================================
-   Register Elements
-   ========================================================================== */
-
-/* Logo */
-.register__logo {
-  position: absolute;
-  top: var(--spacing-lg);
-  left: var(--spacing-lg);
-  width: 60px;
-  height: auto;
-
-  @media (min-width: 768px) {
-    width: 100px;
-    top: var(--spacing-xl);
-    left: var(--spacing-xl);
-  }
-}
-
-/* Back Link */
-.register__back {
-  position: absolute;
-  top: var(--spacing-lg);
-  right: var(--spacing-lg);
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-full);
-  background-color: var(--color-white);
-  box-shadow: var(--shadow-sm);
-  transition: all var(--transition-base);
-
-  @media (min-width: 768px) {
-    top: var(--spacing-xl);
-    right: var(--spacing-xl);
-    width: 40px;
-    height: 40px;
-  }
-}
-
-.register__back:hover {
-  background-color: var(--color-gray-100);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-}
-
-.register__back-icon {
-  width: 20px;
-  height: 20px;
-  color: var(--color-primary);
 }
 
 /* ==========================================================================
@@ -93,8 +54,69 @@
 }
 
 .register__header {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
   margin-bottom: var(--spacing-2xl);
+  position: relative;
+}
+
+/* Back Button */
+.register__back-btn {
+  position: absolute;
+  top: 0.5rem;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s,
+    transform 0.2s;
+  outline: none;
+  z-index: 2;
+
+  @media (min-width: 768px) {
+    top: 0.5rem;
+    left: 0;
+    width: 48px;
+    height: 48px;
+  }
+}
+
+.register__back-btn:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-primary-200, #005dff);
+}
+
+.register__back-btn:hover {
+  background-color: var(--color-gray-100, #f0f0f0);
+}
+
+.register__back-btn img {
+  width: 28px;
+  height: 28px;
+  z-index: 1;
+  position: relative;
+  pointer-events: none;
+
+  @media (min-width: 768px) {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.register__header-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 auto;
 }
 
 .register__title {
@@ -109,16 +131,6 @@
 
   @media (min-width: 768px) {
     font-size: var(--font-size-4xl);
-  }
-}
-
-.register__subtitle {
-  font-size: var(--font-size-sm);
-  color: var(--color-gray-500);
-  margin-bottom: var(--spacing-lg);
-
-  @media (min-width: 640px) {
-    font-size: var(--font-size-base);
   }
 }
 
@@ -371,8 +383,4 @@
   font-weight: var(--font-weight-bold);
   transition: all var(--transition-base);
   font-size: var(--font-size-2xl);
-}
-
-.register__subtitle {
-  font-size: var(--font-size-sm);
 }
