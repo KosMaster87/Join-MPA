@@ -1,3 +1,7 @@
+/* Hide utility for delayed UI rendering */
+.hide {
+  display: none !important;
+}
 /* ==========================================================================
    Splash Screen - Logo Animation
    ========================================================================== */

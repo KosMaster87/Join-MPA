@@ -6,9 +6,13 @@
  * @module summary/summary__init
  */
 
-import { getCurrentAuthUser, onAuthChange } from "../../services/auth.service.js";
+import {
+  getCurrentAuthUser,
+  onAuthChange,
+} from "../../services/auth.service.js";
 import { getUserTasks, getItem } from "../../services/data.service.js";
 import { checkAuthentication, includeHTML } from "../shared/include-html.js";
+import { showSplash, hideSplash } from "../../services/splash.service.js";
 import { initHeader } from "../layout/header__init.js";
 import { initMenu } from "../layout/menu__navigation.js";
 
@@ -20,9 +24,16 @@ let currentUserData = null;
  * Initializes summary page.
  */
 async function initSummary() {
+  showSplash();
   checkAuthentication();
   await includeHTML();
-  initHeader();
+
+  // Hide greeting and header initials until user data is loaded
+  const greetingName = document.getElementById("greetingNameDesktop");
+  const headerInitials = document.getElementById("userInitials");
+  if (greetingName) greetingName.classList.add("hide");
+  if (headerInitials) headerInitials.classList.add("hide");
+
   initMenu();
   await initGreeting();
 
@@ -30,7 +41,15 @@ async function initSummary() {
     if (user) {
       await loadCurrentUserData();
       displayGreeting();
+      initHeader(currentUserData);
       loadTaskStats();
+
+      // Hide splash and show greeting/header initials
+      hideSplash();
+      if (greetingName) greetingName.classList.remove("hide");
+      if (headerInitials) headerInitials.classList.remove("hide");
+    } else {
+      showSplash();
     }
   });
 }
@@ -45,13 +64,11 @@ async function loadCurrentUserData() {
     return;
   }
   try {
-    // Check if guest (from localStorage)
     const isGuest = localStorage.getItem("isGuest") === "true";
     const collection = isGuest ? "guests" : "users";
-    console.log("[loadCurrentUserData] collection:", collection, "uid:", user.uid);
     const userData = await getItem(collection, user.uid);
-    console.log("[loadCurrentUserData] userData result:", userData);
     currentUserData = userData || null;
+    window.currentUserData = currentUserData;
   } catch (e) {
     console.error("[loadCurrentUserData] Error: ", e);
     currentUserData = null;
@@ -96,7 +113,7 @@ async function showGreetScreen() {
  * Displays personalized greeting based on time of day.
  */
 function displayGreeting() {
-    console.log("currentUserData", currentUserData);
+  // console.log("currentUserData", currentUserData);
   const timeElement = document.getElementById("greetingsDesktop");
   const nameElement = document.getElementById("greetingNameDesktop");
   const mobileElement = document.getElementById("greetingMobile");
@@ -308,4 +325,3 @@ if (document.readyState === "loading") {
 }
 
 export { initSummary };
-console.log("currentUserData", currentUserData);

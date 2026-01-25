@@ -19,7 +19,6 @@ const IS_INDEX = /\/index\.html$|\/$/.test(window.location.pathname);
 async function initLanding() {
   if (IS_SUMMARY || IS_LOGIN) return;
 
-  // Splash-Screen und Delay deaktiviert (Test)
   let hasRedirected = false;
   const unsubscribe = onAuthChange((user) => {
     if (hasRedirected) return;
