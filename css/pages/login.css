@@ -3,7 +3,7 @@ body {
   align-items: center;
   justify-content: center;
   width: 100vw;
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .login__content-wrapper {
@@ -93,6 +93,21 @@ body {
 /* ==========================================================================
    Login Box
    ========================================================================== */
+
+.login {
+  position: relative;
+}
+
+.login__box {
+  /* z-index for box when growing to cover the Join logo */
+  z-index: 10;
+  width: 100%;
+  max-width: 25rem;
+  background-color: var(--color-white);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  padding: var(--spacing-md);
+}
 
 .login__title {
   font-size: var(--font-size-2xl);

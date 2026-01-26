@@ -10,6 +10,27 @@
   display: flex;
 }
 
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  min-height: 100dvh;
+  background-color: rgba(78, 131, 85, 0.65);
+}
+
+.summary__content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  max-width: 1920px;
+  height: 100vh;
+  max-height: 1080px;
+}
+
 /* ==========================================================================
    Summary Block
    ========================================================================== */
@@ -34,6 +55,8 @@
   width: 100%;
   padding: var(--spacing-md);
   gap: var(--spacing-md);
+  /* TODO background color dev */
+  background-color: var(--color-gray-50);
 
   @media (min-width: 768px) {
     gap: var(--spacing-lg);
