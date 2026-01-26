@@ -1,14 +1,7 @@
 /* ==========================================================================
-   Summary Block - Mobile First (300px x 568px base)
+   Utility Classes
    ========================================================================== */
 
-/* :root {
-  body {
-    background-color: red;
-  }
-} */
-
-/* Utility Classes */
 .hide {
   display: none;
 }

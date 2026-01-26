@@ -1,5 +1,10 @@
-/* Logo */
+/* ==========================================================================
+   Logo
+   ========================================================================== */
+
 .register__logo {
+  /* z-index for logo when Box growing to cover the Join logo */
+  z-index: 1;
   position: absolute;
   top: var(--spacing-md);
   left: var(--spacing-lg);
@@ -23,16 +28,23 @@
    Register Box
    ========================================================================== */
 
+.register {
+  justify-content: center;
+}
+
 .register__header {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--spacing-md);
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
   position: relative;
 }
 
-/* Back Button */
+/* ==========================================================================
+   Back Button
+   ========================================================================== */
+
 .register__back-btn {
   position: absolute;
   top: 0;
@@ -118,9 +130,9 @@
 .register__form {
   display: flex;
   flex-direction: column;
+  gap: var(--spacing-xs);
 }
 
-/* Input Group */
 .register__input-group {
   display: flex;
   flex-direction: column;
@@ -187,39 +199,42 @@
 .register__error {
   font-size: var(--font-size-sm);
   color: var(--color-error);
-  margin-top: var(--spacing-xs);
-  min-height: 1.25rem;
+  padding: var(--spacing-xs);
+  /* TODO - smooth animation einblenden */
+  /* min-height: 1.8rem; */
 }
 
-/* Privacy Policy Checkbox */
+/* ==========================================================================
+   Privacy Policy Checkbox
+   ========================================================================== */
+
 .register__privacy {
   display: flex;
   align-items: flex-start;
   justify-content: center;
   gap: var(--spacing-sm);
-  margin-top: var(--spacing-xs);
+  padding: var(--spacing-xs);
 }
 
 .register__checkbox {
   width: 18px;
   height: 18px;
-  margin-top: 2px;
   cursor: pointer;
   accent-color: var(--color-accent);
   flex-shrink: 0;
 }
 
 .register__privacy-label {
+  display: flex;
+  gap: var(--spacing-xs);
   font-size: var(--font-size-sm);
   color: var(--color-gray-600);
-  line-height: var(--line-height-normal);
   cursor: pointer;
   user-select: none;
 }
 
 .register__privacy-link {
   color: var(--color-accent);
-  text-decoration: underline;
   transition: color var(--transition-base);
 }
 
@@ -227,7 +242,10 @@
   color: var(--color-accent-dark);
 }
 
-/* Buttons */
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
 .register__btn-group {
   display: flex;
   flex-direction: column;

@@ -1,9 +1,10 @@
 /* ==========================================================================
-   Login Elements
+   Logo
    ========================================================================== */
 
-/* Logo */
 .login__logo {
+  /* z-index for logo when Box growing to cover the Join logo */
+  z-index: 1;
   position: absolute;
   top: var(--spacing-md);
   left: var(--spacing-lg);
@@ -23,13 +24,16 @@
   }
 }
 
-/* Sign Up Link */
+/* ==========================================================================
+    Sign Up Link
+   ========================================================================== */
+
 .login__signup {
   display: flex;
   align-items: center;
   flex-direction: row;
   gap: var(--spacing-md);
-  margin: var(--spacing-lg) 0;
+  margin-top: var(--spacing-md);
 
   @media (min-width: 768px) {
     position: absolute;
@@ -74,12 +78,8 @@
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
   color: var(--color-primary);
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
   text-align: center;
-
-  @media (min-width: 640px) {
-    font-size: var(--font-size-3xl);
-  }
 
   @media (min-width: 768px) {
     font-size: var(--font-size-4xl);
@@ -90,7 +90,7 @@
   width: 100px;
   height: 3px;
   background-color: var(--color-accent);
-  margin: 0 auto var(--spacing-xl);
+  margin: 0 auto var(--spacing-md);
 }
 
 /* ==========================================================================
@@ -100,14 +100,15 @@
 .login__form {
   display: flex;
   flex-direction: column;
-  /* gap: var(--spacing-lg); */
+  align-items: center;
+  gap: var(--spacing-xs);
 }
 
-/* Input Group */
 .login__input-group {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
+  width: 100%;
 }
 
 .login__input-wrapper {
@@ -170,12 +171,20 @@
 .login__error {
   font-size: var(--font-size-sm);
   color: var(--color-error);
-  margin-top: var(--spacing-xs);
-  min-height: 1.25rem;
+  padding: var(--spacing-xs);
+  /* TODO - smooth animation einblenden */
+  /* min-height: 1.8rem; */
 }
 
 /* Remember Me Checkbox */
 .login__checkbox-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.login__checkbox-wrapper {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
@@ -195,13 +204,26 @@
   user-select: none;
 }
 
-/* Buttons */
+.login__checkbox-error {
+  font-size: var(--font-size-sm);
+  color: var(--color-error);
+  padding: var(--spacing-xs);
+  /* TODO - smooth animation einblenden */
+  /* min-height: 1.8rem; */
+  width: 100%;
+}
+
+/* ==========================================================================
+    Buttons
+   ========================================================================== */
+
 .login__btn-group {
   display: flex;
   align-items: center;
   flex-direction: column;
-  gap: var(--spacing-md);
-  margin-top: var(--spacing-lg);
+  gap: var(--spacing-sm);
+  margin: var(--spacing-sm) 0;
+  width: 100%;
 
   @media (min-width: 768px) {
     flex-direction: row;
@@ -212,14 +234,14 @@
 .login__btn {
   flex: 1;
   max-width: fit-content;
-  padding: var(--spacing-sm) var(--spacing-lg);
+  padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--radius-md);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
   transition: all var(--transition-base);
   text-align: center;
-  width: -webkit-fill-available;
-  max-width: 60%;
+  width: 100%;
+  max-width: 50%;
 
   @media (min-width: 768px) {
     max-width: fit-content;
@@ -261,4 +283,35 @@
 
 .login__btn--secondary:active {
   transform: translateY(0);
+}
+
+/* ==========================================================================
+   Mobile Policy & Legal Row
+   ========================================================================== */
+
+.register__legal-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+  width: 100%;
+  max-width: fit-content;
+}
+
+.mobilePolicyLegal {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-md);
+}
+
+.mobilePolicyLegalLink {
+  color: var(--color-primary);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: 6px;
+  transition: color var(--transition-base);
+
+  &:hover {
+    color: var(--color-accent);
+  }
 }

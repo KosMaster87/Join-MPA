@@ -13,6 +13,7 @@ import {
 import { createGuest } from "../../services/data.service.js";
 import { validateEmail, validatePassword } from "../shared/validators.js";
 import { showToast, showLoading, hideLoading } from "../shared/ui-helpers.js";
+import { navigatePrettyUrl } from "../layout/menu__navigation.js";
 import {
   showSplash,
   hideSplashDelayed,
@@ -27,6 +28,7 @@ function initLogin() {
   setupLoginFormListener();
   setupGuestLoginListener();
   setupSignupBtnListener();
+  setupLegalPolicyRouting();
 }
 
 function setupLoginFormListener() {
@@ -50,6 +52,15 @@ function setupSignupBtnListener() {
       window.location.href = "./register.html";
     });
   }
+}
+
+function setupLegalPolicyRouting() {
+  const policyBtn = document.getElementById("policyBtn");
+  const legalBtn = document.getElementById("legalBtn");
+  if (policyBtn)
+    policyBtn.addEventListener("click", () => navigatePrettyUrl("policy"));
+  if (legalBtn)
+    legalBtn.addEventListener("click", () => navigatePrettyUrl("legal"));
 }
 
 /**

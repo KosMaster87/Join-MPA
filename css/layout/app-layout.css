@@ -43,10 +43,12 @@
   grid-area: main;
   overflow-y: auto;
   overflow-x: hidden;
-  /* background-color: var(--color-gray-50); */
 }
 
-/* Content Container */
+/* ==========================================================================
+   Content Container
+   ========================================================================== */
+
 .app-layout__content {
   width: 100%;
   max-width: 1200px;
