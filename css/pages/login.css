@@ -1,62 +1,48 @@
 /* ==========================================================================
-   Login Block
-   ========================================================================== */
-
-.login {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--color-gray-50);
-  position: relative;
-  overflow: hidden;
-}
-
-/* ==========================================================================
    Login Elements
    ========================================================================== */
 
 /* Logo */
 .login__logo {
   position: absolute;
-  top: var(--spacing-lg);
+  top: var(--spacing-md);
   left: var(--spacing-lg);
-  width: 60px;
+
+  @media (min-width: 768px) {
+    top: var(--spacing-2xl);
+    left: var(--spacing-2xl);
+  }
+}
+
+.login__img {
+  width: 35%;
   height: auto;
 
   @media (min-width: 768px) {
-    width: 100px;
-    top: var(--spacing-xl);
-    left: var(--spacing-xl);
+    width: 150%;
   }
 }
 
 /* Sign Up Link */
 .login__signup {
-  position: absolute;
-  top: var(--spacing-lg);
-  right: var(--spacing-lg);
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
-  flex-direction: column;
+  flex-direction: row;
+  gap: var(--spacing-md);
+  margin: var(--spacing-lg) 0;
 
   @media (min-width: 768px) {
-    top: var(--spacing-xl);
-    right: var(--spacing-xl);
-    flex-direction: row;
-    gap: var(--spacing-md);
+    position: absolute;
+    display: flex;
+    top: var(--spacing-2xl);
+    right: var(--spacing-2xl);
+    gap: var(--spacing-lg);
   }
 }
 
 .login__signup-text {
   color: var(--color-gray-600);
-  font-size: var(--font-size-sm);
-  display: none;
-
-  @media (min-width: 640px) {
-    display: block;
-  }
+  font-size: var(--font-size-base);
 
   @media (min-width: 768px) {
     font-size: var(--font-size-base);
@@ -64,18 +50,16 @@
 }
 
 .login__signup-btn {
-  padding: var(--spacing-xs) var(--spacing-md);
   background-color: var(--color-primary);
   color: var(--color-white);
+  max-width: fit-content;
+  padding: var(--spacing-sm) var(--spacing-lg);
   border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-sm);
-  transition: background-color var(--transition-base);
-
-  @media (min-width: 768px) {
-    padding: var(--spacing-sm) var(--spacing-lg);
-    font-size: var(--font-size-base);
-  }
+  transition: all var(--transition-base);
+  text-align: center;
+  width: -webkit-fill-available;
 }
 
 .login__signup-btn:hover {
@@ -85,31 +69,6 @@
 /* ==========================================================================
    Login Box
    ========================================================================== */
-
-.login__box {
-  background-color: var(--color-white);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-card);
-  padding: var(--spacing-3xl);
-  width: 100%;
-  max-width: 350px;
-  margin: var(--spacing-xl);
-
-  @media (min-width: 640px) {
-    max-width: 420px;
-  }
-
-  @media (min-width: 768px) {
-    max-width: 450px;
-    padding: var(--spacing-xl);
-    margin: var(--spacing-md);
-  }
-
-  @media (min-width: 1025px) {
-    max-width: 500px;
-    padding: var(--spacing-lg);
-  }
-}
 
 .login__title {
   font-size: var(--font-size-2xl);
@@ -131,7 +90,7 @@
   width: 100px;
   height: 3px;
   background-color: var(--color-accent);
-  margin: 0 auto var(--spacing-2xl);
+  margin: 0 auto var(--spacing-xl);
 }
 
 /* ==========================================================================
@@ -141,7 +100,7 @@
 .login__form {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
+  /* gap: var(--spacing-lg); */
 }
 
 /* Input Group */
@@ -155,7 +114,7 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  padding: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
   border: 1px solid var(--color-gray-200);
   border-radius: var(--radius-lg);
   background-color: var(--color-white);
@@ -180,6 +139,7 @@
 
 .login__input {
   flex: 1;
+  width: 4rem;
   border: none;
   background: transparent;
   font-size: var(--font-size-base);
@@ -238,23 +198,32 @@
 /* Buttons */
 .login__btn-group {
   display: flex;
+  align-items: center;
+  flex-direction: column;
   gap: var(--spacing-md);
   margin-top: var(--spacing-lg);
-  flex-direction: column;
 
   @media (min-width: 768px) {
     flex-direction: row;
+    justify-content: center;
   }
 }
 
 .login__btn {
   flex: 1;
-  padding: var(--spacing-md);
+  max-width: fit-content;
+  padding: var(--spacing-sm) var(--spacing-lg);
   border-radius: var(--radius-md);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
   transition: all var(--transition-base);
   text-align: center;
+  width: -webkit-fill-available;
+  max-width: 60%;
+
+  @media (min-width: 768px) {
+    max-width: fit-content;
+  }
 }
 
 .login__btn--primary {
@@ -292,64 +261,4 @@
 
 .login__btn--secondary:active {
   transform: translateY(0);
-}
-
-/* ==========================================================================
-   Loading State
-   ========================================================================== */
-
-.login__spinner {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--color-white);
-  border-top-color: transparent;
-  border-radius: 50%;
-  animation: spin 0.6s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* ==========================================================================
-   Animations
-   ========================================================================== */
-
-.login__animation {
-  position: fixed;
-  inset: 0;
-  background-color: var(--color-gray-50);
-  z-index: var(--z-modal);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  animation: fadeOut 0.5s ease-in-out 1.5s forwards;
-}
-
-.login__animation-logo {
-  width: 100px;
-  height: auto;
-  animation: logoZoom 1.5s ease-in-out forwards;
-}
-
-@keyframes fadeOut {
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-
-@keyframes logoZoom {
-  0% {
-    transform: scale(2);
-    padding: var(--spacing-lg);
-  }
-
-  .login__title {
-    font-size: var(--font-size-2xl);
-  }
 }

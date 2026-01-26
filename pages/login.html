@@ -55,6 +55,7 @@
     <link rel="stylesheet" href="../css/base/reset.css" />
     <link rel="stylesheet" href="../css/base/fonts.css" />
     <link rel="stylesheet" href="../css/pages/login.css" />
+    <link rel="stylesheet" href="../css/layout/auth-layout.css" />
 
     <script type="importmap">
       {
@@ -90,21 +91,14 @@
       />
     </div>
 
-    <main class="login">
+    <main class="auth-layout login">
       <a href="../index.html" class="login__logo">
         <img
+          class="login__img"
           src="../assets/img/shared/join-logo-blue.svg"
           alt="Join Logo"
-          width="100"
-          height="auto"
         />
       </a>
-
-      <!-- Sign Up Link -->
-      <div class="login__signup">
-        <span class="login__signup-text">Not a Join user?</span>
-        <button id="signupBtn" type="button" class="login__signup-btn">Sign up</button>
-      </div>
 
       <div class="login__box">
         <h1 class="login__title">Log in</h1>
@@ -189,6 +183,14 @@
             </button>
           </div>
         </form>
+      </div>
+
+      <!-- Sign Up Link -->
+      <div class="login__signup">
+        <span class="login__signup-text">Not a Join user?</span>
+        <button id="signupBtn" type="button" class="login__signup-btn">
+          Sign up
+        </button>
       </div>
     </main>
 

@@ -1,34 +1,21 @@
 /* Logo */
 .register__logo {
   position: absolute;
-  top: var(--spacing-lg);
+  top: var(--spacing-md);
   left: var(--spacing-lg);
-  width: 60px;
-  height: auto;
 
   @media (min-width: 768px) {
-    width: 100px;
-    top: var(--spacing-xl);
-    left: var(--spacing-xl);
+    top: var(--spacing-2xl);
+    left: var(--spacing-2xl);
   }
 }
 
-/* ==========================================================================
-   Register Block
-   ========================================================================== */
+.register__img {
+  width: 35%;
+  height: auto;
 
-.register {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--color-gray-50);
-  position: relative;
-  overflow: hidden;
-  padding: var(--spacing-md);
-
-  @media (min-width: 640px) {
-    padding: var(--spacing-xl) var(--spacing-md);
+  @media (min-width: 768px) {
+    width: 150%;
   }
 }
 
@@ -36,36 +23,19 @@
    Register Box
    ========================================================================== */
 
-.register__box {
-  background-color: var(--color-white);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-card);
-  padding: var(--spacing-lg);
-  width: 100%;
-  max-width: 500px;
-
-  @media (min-width: 640px) {
-    padding: var(--spacing-xl);
-  }
-
-  @media (min-width: 768px) {
-    padding: var(--spacing-3xl);
-  }
-}
-
 .register__header {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--spacing-md);
-  margin-bottom: var(--spacing-2xl);
+  margin-bottom: var(--spacing-lg);
   position: relative;
 }
 
 /* Back Button */
 .register__back-btn {
   position: absolute;
-  top: 0.5rem;
+  top: 0;
   left: 0;
   width: 40px;
   height: 40px;
@@ -125,11 +95,11 @@
   color: var(--color-primary);
   margin-bottom: var(--spacing-sm);
 
-  @media (min-width: 640px) {
+  @media (min-width: 768px) {
     font-size: var(--font-size-3xl);
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 1024px) {
     font-size: var(--font-size-4xl);
   }
 }
@@ -148,7 +118,6 @@
 .register__form {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
 }
 
 /* Input Group */
@@ -158,17 +127,11 @@
   gap: var(--spacing-xs);
 }
 
-.register__label {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-gray-700);
-}
-
 .register__input-wrapper {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  padding: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
   border: 1px solid var(--color-gray-200);
   border-radius: var(--radius-lg);
   background-color: var(--color-white);
@@ -193,6 +156,7 @@
 
 .register__input {
   flex: 1;
+  width: 4rem;
   border: none;
   background: transparent;
   font-size: var(--font-size-base);
@@ -231,8 +195,9 @@
 .register__privacy {
   display: flex;
   align-items: flex-start;
+  justify-content: center;
   gap: var(--spacing-sm);
-  margin-top: var(--spacing-sm);
+  margin-top: var(--spacing-xs);
 }
 
 .register__checkbox {
@@ -265,23 +230,21 @@
 /* Buttons */
 .register__btn-group {
   display: flex;
-  gap: var(--spacing-md);
-  margin-top: var(--spacing-lg);
   flex-direction: column;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-  }
+  align-items: center;
 }
 
 .register__btn {
   flex: 1;
-  padding: var(--spacing-md);
+  max-width: fit-content;
+  padding: var(--spacing-sm) var(--spacing-lg);
   border-radius: var(--radius-md);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
   transition: all var(--transition-base);
   text-align: center;
+  width: -webkit-fill-available;
+  max-width: 60%;
 }
 
 .register__btn--primary {
@@ -322,65 +285,32 @@
 }
 
 /* ==========================================================================
-   Loading State
+   Mobile Policy & Legal Row
    ========================================================================== */
 
-.register__spinner {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--color-white);
-  border-top-color: transparent;
-  border-radius: 50%;
-  animation: spin 0.6s linear infinite;
+.register__legal-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+  width: 100%;
+  max-width: fit-content;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+.mobilePolicyLegal {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-md);
 }
 
-/* ==========================================================================
-   Success Message
-   ========================================================================== */
-
-.register__success {
-  display: none;
-  text-align: center;
-  padding: var(--spacing-xl);
-}
-
-.register__success--visible {
-  display: block;
-}
-
-.register__success-icon {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto var(--spacing-lg);
-  color: var(--color-success);
-}
-
-.register__success-title {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
+.mobilePolicyLegalLink {
   color: var(--color-primary);
-  margin-bottom: var(--spacing-sm);
-}
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: 6px;
+  transition: color var(--transition-base);
 
-.register__success-text {
-  font-size: var(--font-size-base);
-  color: var(--color-gray-600);
-  margin-bottom: var(--spacing-xl);
-}
-
-.register__success-btn {
-  padding: var(--spacing-md) var(--spacing-2xl);
-  background-color: var(--color-primary);
-  color: var(--color-white);
-  border-radius: var(--radius-md);
-  font-weight: var(--font-weight-bold);
-  transition: all var(--transition-base);
-  font-size: var(--font-size-2xl);
+  &:hover {
+    color: var(--color-accent);
+  }
 }

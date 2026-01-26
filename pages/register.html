@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="../css/base/reset.css" />
     <link rel="stylesheet" href="../css/base/fonts.css" />
     <link rel="stylesheet" href="../css/pages/register.css" />
+    <link rel="stylesheet" href="../css/layout/auth-layout.css" />
 
     <script type="importmap">
       {
@@ -47,13 +48,12 @@
   </head>
 
   <body>
-    <main class="register">
+    <main class="auth-layout register">
       <a href="../index.html" class="register__logo">
         <img
+          class="register__img"
           src="./../assets/img/shared/join-logo-blue.svg"
           alt="Join Logo"
-          width="100"
-          height="auto"
         />
       </a>
 
@@ -212,6 +212,14 @@
           </div>
         </form>
       </div>
+
+      <!-- Mobile Policy & Legal Row -->
+      <div class="register__legal-row">
+        <div class="mobilePolicyLegal" id="mobilePolicyLegal">
+          <button type="button" class="mobilePolicyLegalLink" id="policyBtn">Privacy Policy</button>
+          <button type="button" class="mobilePolicyLegalLink" id="legalBtn">Legal notice</button>
+        </div>
+      </div>
     </main>
 
     <!-- Toast Container (for notifications) -->
@@ -219,5 +227,6 @@
 
     <!-- Loading Overlay -->
     <div id="loadingOverlay" style="display: none"></div>
+
   </body>
 </html>
