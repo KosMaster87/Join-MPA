@@ -25,10 +25,15 @@ body {
   align-items: center;
   justify-content: center;
   position: relative;
-  width: 100%;
-  max-width: 1920px;
   height: 100vh;
-  max-height: 1080px;
+  max-height: 100dvh;
+  max-width: 1920px;
+  width: 100%;
+
+  /* @media (min-width: 1080px) {
+    max-width: 1920px;
+    max-height: 1080px;
+  } */
 }
 
 /* ==========================================================================
@@ -37,6 +42,7 @@ body {
 
 .summary {
   display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
   overflow-y: auto;
@@ -53,16 +59,17 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
+  height: 100%;
   padding: var(--spacing-md);
   gap: var(--spacing-md);
   /* TODO background color dev */
   background-color: var(--color-gray-50);
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     gap: var(--spacing-lg);
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1080px) {
     flex-direction: row;
     justify-content: center;
     padding: var(--spacing-xl);
@@ -113,12 +120,12 @@ body {
   width: 100%;
   max-width: 18rem;
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     min-width: 22rem;
     gap: var(--spacing-md);
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1080px) {
     min-width: 26rem;
     gap: var(--spacing-lg);
   }
@@ -152,7 +159,7 @@ body {
   margin: 0;
   line-height: var(--line-height-tight);
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     font-size: 3rem;
   }
 
@@ -170,7 +177,7 @@ body {
   margin: 0;
   margin-top: var(--spacing-xs);
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     font-size: var(--font-size-lg);
   }
 
@@ -190,7 +197,7 @@ body {
   border-radius: var(--radius-sm);
   margin-top: var(--spacing-sm);
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     width: 3.5rem;
   }
 
@@ -254,7 +261,7 @@ body {
   margin: 0;
   line-height: 1;
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     font-size: 2rem;
   }
 
@@ -274,7 +281,7 @@ body {
   text-align: center;
   line-height: var(--line-height-tight);
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     font-size: var(--font-size-sm);
   }
 
@@ -287,7 +294,7 @@ body {
   height: 2rem;
   width: auto;
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     height: 2.2rem;
   }
 
@@ -311,11 +318,11 @@ body {
   width: 100%;
   gap: var(--spacing-md);
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     gap: var(--spacing-md);
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1080px) {
     gap: var(--spacing-lg);
   }
 
@@ -335,12 +342,12 @@ body {
   height: 5rem;
   gap: var(--spacing-sm);
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     height: 5.5rem;
     gap: var(--spacing-sm);
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1080px) {
     padding: var(--spacing-md);
     gap: var(--spacing-md);
   }
@@ -370,12 +377,12 @@ body {
   padding: var(--spacing-md);
   gap: var(--spacing-sm);
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     padding: var(--spacing-md);
     gap: var(--spacing-md);
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1080px) {
     padding: var(--spacing-lg);
     gap: var(--spacing-md);
   }
@@ -399,11 +406,11 @@ body {
   align-items: center;
   gap: var(--spacing-sm);
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     gap: var(--spacing-md);
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1080px) {
     height: 5.5rem;
     gap: var(--spacing-md);
   }
@@ -426,7 +433,7 @@ body {
   justify-content: space-between;
   gap: var(--spacing-sm);
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     gap: var(--spacing-md);
   }
 
@@ -442,7 +449,7 @@ body {
   background-color: var(--color-gray-200);
   border-radius: var(--radius-sm);
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     height: 3.5rem;
   }
 
@@ -465,7 +472,7 @@ body {
   font-weight: var(--font-weight-semibold);
   margin: 0;
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     font-size: var(--font-size-lg);
   }
 
@@ -484,7 +491,7 @@ body {
   margin: 0;
   margin-top: var(--spacing-xs);
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     font-size: var(--font-size-sm);
   }
 
@@ -508,7 +515,7 @@ body {
   justify-content: space-between;
   width: 100%;
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     flex-wrap: nowrap;
     gap: var(--spacing-md);
   }
@@ -527,11 +534,11 @@ body {
   min-width: 5rem;
   height: 5rem;
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     height: 5.5rem;
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1080px) {
     padding: var(--spacing-sm);
   }
 
@@ -556,7 +563,7 @@ body {
 .summary__greeting-desktop {
   display: none;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1080px) {
     display: flex;
     flex-direction: column;
     margin-top: 7rem;

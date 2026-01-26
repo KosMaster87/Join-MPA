@@ -12,7 +12,7 @@
   justify-content: space-between;
   padding: 0 var(--spacing-md);
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     height: 80px;
     padding: 0 var(--spacing-xl);
   }
@@ -26,7 +26,7 @@
 .header__logo-img {
   height: 30px;
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080) {
     display: none;
   }
 }
@@ -38,7 +38,7 @@
   padding: 0 var(--spacing-lg);
   display: none;
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080) {
     display: flex;
     justify-content: flex-start;
   }
@@ -50,7 +50,7 @@
   color: var(--color-primary);
   margin: 0;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1080) {
     font-size: var(--font-size-lg);
   }
 }
@@ -84,7 +84,7 @@
   height: 20px;
   display: block;
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     width: 24px;
     height: 24px;
   }
@@ -104,7 +104,7 @@
   position: relative;
   transition: background-color var(--transition-base);
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     width: 48px;
     height: 48px;
   }
@@ -120,7 +120,7 @@
   text-transform: uppercase;
   color: var(--color-accent);
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     font-size: var(--font-size-xl);
   }
 }
@@ -158,7 +158,7 @@
   padding: var(--spacing-sm) 0;
   z-index: var(--z-dropdown);
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     top: calc(8% + var(--spacing-sm));
     right: 1rem;
   }

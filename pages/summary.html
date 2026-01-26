@@ -58,6 +58,7 @@
     <link rel="stylesheet" href="../css/components/header.css" />
     <link rel="stylesheet" href="../css/components/menu.css" />
     <link rel="stylesheet" href="../css/pages/summary.css" />
+    <link rel="stylesheet" href="../css/components/toast.css" />
 
     <script type="importmap">
       {
@@ -97,21 +98,12 @@
         />
       </div>
 
-      <!-- App Layout Container -->
-      <div class="app-layout">
-        <!-- Header -->
-        <header
-          class="app-layout__header"
-          w3-include-html="../assets/templates/header.html"
-        ></header>
+      <div w3-include-html="../assets/templates/toast.html"></div>
 
-        <!-- Sidebar Menu -->
-        <nav
-          class="app-layout__menu"
-          w3-include-html="../assets/templates/menu.html"
-        ></nav>
+      <main class="app-layout__main">
+        <div class="main-desktop">
+          <header w3-include-html="../assets/templates/header.html"></header>
 
-        <main class="app-layout__main">
           <div class="summary">
             <!-- Mobile Greeting (shows on login) -->
             <div class="summary__greeting-mobile hide" id="greetingsMobile">
@@ -119,9 +111,7 @@
             </div>
 
             <div class="summary__content" id="summaryToDos">
-              <!-- Stats Section -->
               <div class="summary__stats-wrapper">
-                <!-- Header -->
                 <div class="summary__header">
                   <h1 class="summary__headline">Join 360</h1>
                   <p class="summary__subheadline">Key Metrics at a Glance</p>
@@ -243,10 +233,11 @@
               </div>
             </div>
           </div>
-        </main>
-      </div>
+        </div>
 
-      <!-- Loading Overlay -->
+        <nav w3-include-html="../assets/templates/menu.html"></nav>
+      </main>
+
       <div id="loadingOverlay" style="display: none"></div>
     </div>
   </body>
