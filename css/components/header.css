@@ -14,6 +14,7 @@
 
   @media (min-width: 1080px) {
     height: 80px;
+    width: 100%;
     padding: 0 var(--spacing-xl);
   }
 }

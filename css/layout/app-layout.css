@@ -1,33 +1,60 @@
 /* ==========================================================================
+   Layout Elements
+   ========================================================================== */
+
+.screen-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* ==========================================================================
    App Layout Elements
    ========================================================================== */
 
 .app-layout__main {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 1080px;
-  min-height: 100dvh;
   overflow-y: auto;
   overflow-x: hidden;
+  height: 100%;
+  /* TODO TOP */
+  /* min-height: 100dvh; */
+  min-width: 100vw;
 
   @media (min-width: 1080px) {
     display: flex;
     flex-direction: row;
-    width: 100%;
     height: 100%;
     min-height: 100dvh;
   }
 }
 
-.main-desktop {
-  height: calc(100% - 60px);
+/* ==========================================================================
+   Desktop Layout Elements
+   ========================================================================== */
 
+.desktop-layout__main {
   @media (min-width: 1080px) {
     display: flex;
-    flex-direction: column;
-    flex: 1;
-    order: 2;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    /* TODO TOP */
+    /* height: 100%; */
     height: 100vh;
+  }
+}
+
+.main-right {
+  @media (min-width: 1080px) {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    /* flex: 1 1 0; */
+    /* flex: 1; */
+    order: 2;
+    width: 100%;
+    height: 100%;
   }
 }

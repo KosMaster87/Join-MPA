@@ -2,51 +2,57 @@
    Utility Classes
    ========================================================================== */
 
-.hide {
-  display: none;
-}
-
-.show {
-  display: flex;
-}
-
 body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100vw;
-  min-height: 100dvh;
-  background-color: rgba(78, 131, 85, 0.65);
-}
-
-.summary__content-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  height: 100vh;
-  max-height: 100dvh;
-  max-width: 1920px;
-  width: 100%;
-
-  /* @media (min-width: 1080px) {
-    max-width: 1920px;
-    max-height: 1080px;
-  } */
 }
 
 /* ==========================================================================
    Summary Block
    ========================================================================== */
 
-.summary {
+.summary__content-wrapper {
   display: flex;
-  flex-direction: column;
+  height: 100vh;
+
+  @media (min-width: 1081px) {
+    height: 720px;
+  }
+
+  @media (min-width: 1281px) {
+    height: 1080px;
+  }
+}
+
+.summary__main-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (min-width: 1080px) {
+    /* TODO TOP */
+    /* height: 100vh; */
+    max-width: 1920px;
+    max-height: 1080px;
+  }
+
+  @media (min-width: 1920px) {
+    max-width: 1920px;
+    max-height: 1080px;
+  }
+}
+
+.summary-content-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
+  height: 100vh;
+
+  @media (min-width: 1081px) {
+    height: 100%;
+  }
 }
 
 /* ==========================================================================
@@ -62,7 +68,6 @@ body {
   height: 100%;
   padding: var(--spacing-md);
   gap: var(--spacing-md);
-  /* TODO background color dev */
   background-color: var(--color-gray-50);
 
   @media (min-width: 1080px) {

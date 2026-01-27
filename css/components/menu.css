@@ -2,6 +2,16 @@
    Menu Block
    ========================================================================== */
 
+.menu-container {
+  @media (min-width: 1080px) {
+    height: 100%;
+  }
+
+  @media (min-width: 1280px) {
+    height: 100%;
+  }
+}
+
 .menu {
   display: flex;
   flex-direction: row;
@@ -21,6 +31,10 @@
     justify-content: flex-start;
     padding: var(--spacing-2xl) 0;
     box-shadow: none;
+  }
+
+  @media (min-width: 1280px) {
+    height: 100%;
   }
 }
 
