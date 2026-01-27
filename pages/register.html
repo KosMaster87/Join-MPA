@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="../css/base/reset.css" />
     <link rel="stylesheet" href="../css/base/fonts.css" />
     <link rel="stylesheet" href="../css/pages/register.css" />
+    <link rel="stylesheet" href="../css/layout/auth-layout.css" />
+    <link rel="stylesheet" href="../css/components/toast.css" />
 
     <script type="importmap">
       {
@@ -47,177 +49,187 @@
   </head>
 
   <body>
-    <main class="register">
+    <div class="register__content-wrapper">
+      <div w3-include-html="../assets/templates/toast.html"></div>
+
       <a href="../index.html" class="register__logo">
         <img
+          class="register__img"
           src="./../assets/img/shared/join-logo-blue.svg"
           alt="Join Logo"
-          width="100"
-          height="auto"
         />
       </a>
 
-      <div class="register__box">
-        <div class="register__header">
-          <button
-            id="backToLoginBtn"
-            type="button"
-            class="register__back-btn"
-            aria-label="Back to login"
-          >
-            <img src="../assets/img/shared/arrow-left-default.svg" alt="Back" />
-          </button>
-
-          <div class="register__header-center">
-            <h1 class="register__title">Sign up</h1>
-            <div class="register__divider"></div>
-          </div>
-        </div>
-
-        <!-- Registration Form -->
-        <form id="registerForm" class="register__form">
-          <!-- Name Input -->
-          <div class="register__input-group">
-            <div class="register__input-wrapper" id="nameWrapper">
-              <img
-                class="register__input-icon"
-                src="../assets/img/auth/person-default.svg"
-                alt=""
-              />
-              <input
-                type="text"
-                id="registerName"
-                name="name"
-                class="register__input"
-                placeholder="Full Name"
-                autocomplete="name"
-                required
-              />
-            </div>
-            <span id="nameError" class="register__error"></span>
-          </div>
-
-          <!-- Email Input -->
-          <div class="register__input-group">
-            <div class="register__input-wrapper" id="emailWrapper">
-              <img
-                class="register__input-icon"
-                src="../assets/img/auth/mail-default.svg"
-                alt=""
-              />
-              <input
-                type="email"
-                id="registerEmail"
-                name="email"
-                class="register__input"
-                placeholder="Email"
-                autocomplete="email"
-                required
-              />
-            </div>
-            <span id="emailError" class="register__error"></span>
-          </div>
-
-          <!-- Password Input -->
-          <div class="register__input-group">
-            <div class="register__input-wrapper" id="passwordWrapper">
-              <svg
-                class="register__input-icon"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-              </svg>
-              <input
-                type="password"
-                id="registerPassword"
-                name="password"
-                class="register__input"
-                placeholder="Password"
-                autocomplete="new-password"
-                required
-              />
-              <img
-                id="passwordToggle"
-                class="register__input-toggle"
-                src="../assets/img/auth/visibility-off-default.svg"
-                alt=""
-              />
-            </div>
-            <span id="passwordError" class="register__error"></span>
-          </div>
-
-          <!-- Confirm Password Input -->
-          <div class="register__input-group">
-            <div class="register__input-wrapper" id="confirmPasswordWrapper">
-              <img
-                class="register__input-icon"
-                src="../assets/img/auth/lock-default.svg"
-                alt=""
-              />
-              <input
-                type="password"
-                id="registerConfirmPassword"
-                name="confirmPassword"
-                class="register__input"
-                placeholder="Confirm Password"
-                autocomplete="new-password"
-                required
-              />
-              <img
-                id="confirmPasswordToggle"
-                class="register__input-toggle"
-                src="../assets/img/auth/visibility-off-default.svg"
-                alt=""
-              />
-            </div>
-            <span id="confirmPasswordError" class="register__error"></span>
-          </div>
-
-          <!-- Privacy Policy Checkbox -->
-          <div class="register__privacy">
-            <input
-              type="checkbox"
-              id="privacyPolicy"
-              name="privacyPolicy"
-              class="register__checkbox"
-              required
-            />
-            <label for="privacyPolicy" class="register__privacy-label">
-              I accept the
-              <a
-                href="./policy.html"
-                target="_blank"
-                class="register__privacy-link"
-              >
-                Privacy Policy
-              </a>
-            </label>
-          </div>
-          <span id="privacyError" class="register__error"></span>
-
-          <!-- Buttons -->
-          <div class="register__btn-group">
+      <main class="auth-layout register">
+        <div class="register__box">
+          <div class="register__header">
             <button
-              type="submit"
-              id="registerBtn"
-              class="register__btn register__btn--primary"
+              id="backToLoginBtn"
+              type="button"
+              class="register__back-btn"
+              aria-label="Back to login"
             >
-              Sign up
+              <img
+                src="../assets/img/shared/arrow-left-default.svg"
+                alt="Back"
+              />
             </button>
+
+            <div class="register__header-center">
+              <h1 class="register__title">Sign up</h1>
+              <div class="register__divider"></div>
+            </div>
           </div>
-        </form>
+
+          <form id="registerForm" class="register__form">
+            <!-- Name Input -->
+            <div class="register__input-group">
+              <div class="register__input-wrapper" id="nameWrapper">
+                <img
+                  class="register__input-icon"
+                  src="../assets/img/auth/person-default.svg"
+                  alt=""
+                />
+                <input
+                  type="text"
+                  id="registerName"
+                  name="name"
+                  class="register__input"
+                  placeholder="Full Name"
+                  autocomplete="name"
+                  required
+                />
+              </div>
+              <span id="nameError" class="register__error"></span>
+            </div>
+
+            <!-- Email Input -->
+            <div class="register__input-group">
+              <div class="register__input-wrapper" id="emailWrapper">
+                <img
+                  class="register__input-icon"
+                  src="../assets/img/auth/mail-default.svg"
+                  alt=""
+                />
+                <input
+                  type="email"
+                  id="registerEmail"
+                  name="email"
+                  class="register__input"
+                  placeholder="Email"
+                  autocomplete="email"
+                  required
+                />
+              </div>
+              <span id="emailError" class="register__error"></span>
+            </div>
+
+            <!-- Password Input -->
+            <div class="register__input-group">
+              <div class="register__input-wrapper" id="passwordWrapper">
+                <img
+                  class="register__input-icon"
+                  src="../assets/img/auth/lock-default.svg"
+                  alt=""
+                />
+                <input
+                  type="password"
+                  id="registerPassword"
+                  name="password"
+                  class="register__input"
+                  placeholder="Password"
+                  autocomplete="new-password"
+                  required
+                />
+                <img
+                  id="passwordToggle"
+                  class="register__input-toggle"
+                  src="../assets/img/auth/visibility-off-default.svg"
+                  alt=""
+                />
+              </div>
+              <span id="passwordError" class="register__error"></span>
+            </div>
+
+            <!-- Confirm Password Input -->
+            <div class="register__input-group">
+              <div class="register__input-wrapper" id="confirmPasswordWrapper">
+                <img
+                  class="register__input-icon"
+                  src="../assets/img/auth/lock-default.svg"
+                  alt=""
+                />
+                <input
+                  type="password"
+                  id="registerConfirmPassword"
+                  name="confirmPassword"
+                  class="register__input"
+                  placeholder="Confirm Password"
+                  autocomplete="new-password"
+                  required
+                />
+                <img
+                  id="confirmPasswordToggle"
+                  class="register__input-toggle"
+                  src="../assets/img/auth/visibility-off-default.svg"
+                  alt=""
+                />
+              </div>
+              <span id="confirmPasswordError" class="register__error"></span>
+            </div>
+
+            <!-- Privacy Policy Checkbox -->
+            <div class="register__privacy">
+              <input
+                type="checkbox"
+                id="privacyPolicy"
+                name="privacyPolicy"
+                class="register__checkbox"
+                required
+              />
+              <label for="privacyPolicy" class="register__privacy-label">
+                I accept the
+                <a
+                  href="./policy.html"
+                  target="_blank"
+                  class="register__privacy-link"
+                >
+                  Privacy Policy
+                </a>
+              </label>
+            </div>
+            <span id="privacyError" class="register__error"></span>
+
+            <!-- Buttons -->
+            <div class="register__btn-group">
+              <button
+                type="submit"
+                id="registerBtn"
+                class="register__btn register__btn--primary"
+              >
+                Sign up
+              </button>
+            </div>
+          </form>
+        </div>
+      </main>
+
+      <div class="register__legal-row">
+        <div class="mobilePolicyLegal" id="mobilePolicyLegal">
+          <button type="button" class="mobilePolicyLegalLink" id="policyBtn">
+            Privacy Policy
+          </button>
+          <button type="button" class="mobilePolicyLegalLink" id="legalBtn">
+            Legal notice
+          </button>
+        </div>
       </div>
-    </main>
 
-    <!-- Toast Container (for notifications) -->
-    <div id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+      <!-- Toast Container (for notifications) -->
+      <div id="toastContainer" aria-live="polite" aria-atomic="true"></div>
 
-    <!-- Loading Overlay -->
-    <div id="loadingOverlay" style="display: none"></div>
+      <!-- Loading Overlay -->
+      <div id="loadingOverlay" style="display: none"></div>
+    </div>
   </body>
 </html>

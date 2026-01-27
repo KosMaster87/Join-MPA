@@ -18,17 +18,16 @@ import {
 } from "../../services/splash.service.js";
 import { initHeader } from "../layout/header__init.js";
 import { initMenu } from "../layout/menu__navigation.js";
+import { getSummaryContentHTML } from "../../assets/templates/summary-content.js";
 
 let showedLoginGreeting = false;
 let earliestUrgentTaskIndex = -1;
 let currentUserData = null;
 
-/**
- * Initializes summary page.
- */
 async function initSummary() {
   showSplash();
   checkAuthentication();
+  await renderSummaryLayout();
   await includeHTML();
 
   // Hide greeting and header initials until user data is loaded
@@ -40,10 +39,10 @@ async function initSummary() {
   initMenu();
   await initGreeting();
 
-  onAuthChange(async (user) => {
+  onAuthChange(async function (user) {
     if (user) {
       await loadCurrentUserData();
-      displayGreeting();
+      await displayGreeting();
       initHeader(currentUserData);
       loadTaskStats();
       hideSplashDelayed(800);
@@ -54,6 +53,59 @@ async function initSummary() {
       showSplash();
     }
   });
+
+  // TODO - Die Elemente selber smooth einblenden statt splash screen
+  let resizeTimeout;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(async () => {
+      // showSplash();
+      await renderSummaryLayout();
+      // hideSplashDelayed(500);
+    }, 500);
+  });
+}
+
+/**
+ * Schaltet das Summary-Layout je nach Fensterbreite um.
+ */
+async function renderSummaryLayout() {
+  const container = document.getElementById("summaryMainContainer");
+  if (!container) return;
+  let html = "";
+  if (window.innerWidth < 1080) {
+    html = `
+      <main class="app-layout__main">
+        <header w3-include-html="../assets/templates/header.html"></header>
+        <div class="summary__content-wrapper" id="summaryContentContainer">${getSummaryContentHTML()}</div>
+        <nav class="menu-container" w3-include-html="../assets/templates/menu.html"></nav>
+      </main>
+    `;
+  } else {
+    html = `
+      <main class="desktop-layout__main">
+        <div class="main-right">
+          <header w3-include-html="../assets/templates/header.html"></header>
+          <div class="summary__content-wrapper" id="summaryContentContainer">${getSummaryContentHTML()}</div>
+        </div>
+        <nav class="menu-container" w3-include-html="../assets/templates/menu.html"></nav>
+      </main>
+    `;
+  }
+  container.innerHTML = html;
+  await includeHTML();
+
+  // Nach dem Rendern: User-Daten erneut anzeigen
+  if (currentUserData) {
+    initHeader(currentUserData);
+    await displayGreeting();
+
+    // Elemente wieder sichtbar machen
+    const greetingName = document.getElementById("greetingNameDesktop");
+    const headerInitials = document.getElementById("userInitials");
+    if (greetingName) greetingName.classList.remove("hide");
+    if (headerInitials) headerInitials.classList.remove("hide");
+  }
 }
 
 /**
@@ -114,15 +166,14 @@ async function showGreetScreen() {
 /**
  * Displays personalized greeting based on time of day.
  */
-function displayGreeting() {
-  // console.log("currentUserData", currentUserData);
+async function displayGreeting() {
   const timeElement = document.getElementById("greetingsDesktop");
   const nameElement = document.getElementById("greetingNameDesktop");
   const mobileElement = document.getElementById("greetingMobile");
 
   const hour = new Date().getHours();
   const greeting = getGreetingByTime(hour);
-  const displayName = getDisplayNameFromUserData(currentUserData);
+  const displayName = await getDisplayNameFromUserData(currentUserData);
 
   if (timeElement) timeElement.textContent = greeting + ",";
   if (nameElement) nameElement.textContent = displayName;
@@ -138,7 +189,6 @@ function getDisplayNameFromUserData(userData) {
   if (!userData) return "Guest";
   if (userData.isGuest) return "Guest";
   if (userData.name && userData.name.trim().length > 0) return userData.name;
-  if (userData.email) return userData.email.split("@")[0];
   return "User";
 }
 

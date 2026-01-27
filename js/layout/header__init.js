@@ -17,6 +17,7 @@ import {
 } from "../../services/badge.service.js";
 import { navigateToPage } from "../shared/include-html.js";
 import { showSplash } from "../../services/splash.service.js";
+import { THEMES, THEME_ICONS, getNextTheme, applyTheme, setTheme, initTheme } from "../shared/theme-service.js";
 
 /**
  * Initializes header functionality.
@@ -31,6 +32,17 @@ function initHeader(userData) {
  * Sets up all header event listeners.
  */
 function setupEventListeners() {
+  // Theme toggle button
+  const themeBtn = document.getElementById("headerThemeBtn");
+  if (themeBtn) themeBtn.addEventListener("click", () => {
+    const current = localStorage.getItem("joinTheme") || "device";
+    const next = getNextTheme(current);
+    setTheme(next);
+  });
+
+  // Init theme on load (only once)
+  document.addEventListener("DOMContentLoaded", initTheme);
+
   const profileBtn = document.getElementById("headerProfileBtn");
   const helpBtn = document.querySelector(".header__help-btn");
   const legalityBtn = document.getElementById("headerLegalityBtn");
