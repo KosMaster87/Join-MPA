@@ -90,19 +90,51 @@ const startServer = async () => {
   try {
     const port = await findAvailablePort(DEFAULT_PORT);
 
-    app.listen(port, () => {
-      console.log(`🚀 Join MPA is running at http://localhost:${port}`);
-      if (port !== DEFAULT_PORT) {
-        console.log(`⚠️  Port ${DEFAULT_PORT} was busy, using port ${port}`);
-      }
-      console.log(`📝 Open Chrome and navigate to these URLs:`);
-      console.log(`   - http://localhost:${port}/`);
-      console.log(`✨ F5/Reload works on all pages!`);
+    // app.listen(port, () => {
+    //   console.log(`🚀 Join MPA is running at http://localhost:${port}`);
+    //   if (port !== DEFAULT_PORT) {
+    //     console.log(`⚠️  Port ${DEFAULT_PORT} was busy, using port ${port}`);
+    //   }
+    //   console.log(`📝 Open Chrome and navigate to these URLs:`);
+    //   console.log(`   - http://localhost:${port}/`);
+    //   console.log(`✨ F5/Reload works on all pages!`);
 
-      if (process.env.NODE_ENV !== "production") {
-        console.log(`🔄 LiveReload running on port 35729`);
-        console.log(`💡 Browser will auto-reload on file changes!`);
-      }
+    //   if (process.env.NODE_ENV !== "production") {
+    //     console.log(`🔄 LiveReload running on port 35729`);
+    //     console.log(`💡 Browser will auto-reload on file changes!`);
+    //   }
+
+    const host = "0.0.0.0";
+    app.listen(port, host, () => {
+      (async () => {
+        const os = await import("os");
+        const interfaces = os.networkInterfaces();
+        let localIp = "localhost";
+
+        for (const name of Object.keys(interfaces)) {
+          for (const iface of interfaces[name]) {
+            if (iface.family === "IPv4" && !iface.internal) {
+              localIp = iface.address;
+              break;
+            }
+          }
+        }
+
+        console.log(`🚀 Join MPA is running at:`);
+        console.log(`   - http://localhost:${port}/`);
+        console.log(`   - http://${localIp}:${port}/ (on the local network)`);
+
+        if (port !== DEFAULT_PORT) {
+          console.log(`⚠️  Port ${DEFAULT_PORT} was busy, using port ${port}`);
+        }
+
+        console.log(`✨ F5/Reload works on all pages!`);
+
+        if (process.env.NODE_ENV !== "production") {
+          console.log(`🔄 LiveReload runs on port 35729`);
+          console.log(`💡 Browser will auto-reload on file changes!`);
+        }
+      })();
     });
   } catch (error) {
     console.error("❌ Error starting server:", error.message);

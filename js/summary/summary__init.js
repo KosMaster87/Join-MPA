@@ -54,13 +54,14 @@ async function initSummary() {
     }
   });
 
+  // TODO - Die Elemente selber smooth einblenden statt splash screen
   let resizeTimeout;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimeout);
-    showSplash();
     resizeTimeout = setTimeout(async () => {
+      // showSplash();
       await renderSummaryLayout();
-      hideSplashDelayed(500); // Splash erst nach dem Rendern ausblenden
+      // hideSplashDelayed(500);
     }, 500);
   });
 }
@@ -76,7 +77,7 @@ async function renderSummaryLayout() {
     html = `
       <main class="app-layout__main">
         <header w3-include-html="../assets/templates/header.html"></header>
-        <div class="summary-content-container" id="summaryContentContainer">${getSummaryContentHTML()}</div>
+        <div class="summary__content-wrapper" id="summaryContentContainer">${getSummaryContentHTML()}</div>
         <nav class="menu-container" w3-include-html="../assets/templates/menu.html"></nav>
       </main>
     `;
@@ -85,7 +86,7 @@ async function renderSummaryLayout() {
       <main class="desktop-layout__main">
         <div class="main-right">
           <header w3-include-html="../assets/templates/header.html"></header>
-          <div class="summary-content-container" id="summaryContentContainer">${getSummaryContentHTML()}</div>
+          <div class="summary__content-wrapper" id="summaryContentContainer">${getSummaryContentHTML()}</div>
         </div>
         <nav class="menu-container" w3-include-html="../assets/templates/menu.html"></nav>
       </main>

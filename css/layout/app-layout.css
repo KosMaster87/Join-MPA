@@ -1,11 +1,57 @@
 /* ==========================================================================
+   Utility Classes - For each page
+   ========================================================================== */
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: chocolate;
+}
+
+/* ==========================================================================
    Layout Elements
    ========================================================================== */
 
-.screen-wrapper {
+.page__screen-wrapper {
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+.page__main-wrapper {
+  display: flex;
+  height: 100vh;
+
+  @media (min-width: 1081px) {
+    height: 720px;
+    min-height: unset
+  }
+
+  @media (min-width: 1281px) {
+    height: 1080px;
+    min-height: unset
+  }
+}
+
+.page__main-insert {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (min-width: 1080px) {
+    /* ------------------------ */
+    /* TODO TEST */
+    /* height: 100vh; */
+    /* ------------------------ */
+    max-width: 1920px;
+    max-height: 1080px;
+  }
+
+  @media (min-width: 1920px) {
+    max-width: 1920px;
+    max-height: 1080px;
+  }
 }
 
 /* ==========================================================================
@@ -17,10 +63,11 @@
   flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
-  height: 100%;
-  /* TODO TOP */
-  /* min-height: 100dvh; */
   min-width: 100vw;
+  /* ------------------------ */
+  height: 100%;
+  /* min-height: 100dvh; */
+  /* ------------------------ */
 
   @media (min-width: 1080px) {
     display: flex;
@@ -40,21 +87,9 @@
     align-items: center;
     justify-content: center;
     width: 100vw;
-    /* TODO TOP */
-    /* height: 100%; */
-    height: 100vh;
-  }
-}
-
-.main-right {
-  @media (min-width: 1080px) {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    /* flex: 1 1 0; */
-    /* flex: 1; */
-    order: 2;
-    width: 100%;
+    /* ------------------------ */
     height: 100%;
+    /* height: 100vh; */
+    /* ------------------------ */
   }
 }
