@@ -27,9 +27,12 @@ export function getSummaryContentHTML() {
             onclick="navigateToBoard()"
           >
             <img
-              src="../assets/img/summary/pancil-default.svg"
+              src="../assets/img/summary/pencil-blue.svg"
               alt="Edit"
               class="summary__card-icon summary__card-icon--pencil"
+              data-icon="pencil"
+              data-theme-light="../assets/img/summary/pencil-blue.svg"
+              data-theme-dark="../assets/img/summary/pencil-white.svg"
             />
             <div class="summary__card-content">
               <p class="summary__card-number" id="summaryTodoTodos">0</p>
@@ -42,9 +45,12 @@ export function getSummaryContentHTML() {
             onclick="navigateToBoard()"
           >
             <img
-              src="../assets/img/summary/check-default.svg"
+              src="../assets/img/summary/check-blue.svg"
               alt="Check"
               class="summary__card-icon summary__card-icon--check"
+              data-icon="check"
+              data-theme-light="../assets/img/summary/check-blue.svg"
+              data-theme-dark="../assets/img/summary/check-white.svg"
             />
             <div class="summary__card-content">
               <p class="summary__card-number" id="summaryDoneTodos">0</p>

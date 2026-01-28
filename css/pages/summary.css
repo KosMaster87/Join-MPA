@@ -43,7 +43,6 @@
   height: 100%;
   padding: var(--spacing-md);
   gap: var(--spacing-md);
-  background-color: var(--color-gray-50);
 
   @media (min-width: 1080px) {
     gap: var(--spacing-lg);
@@ -57,7 +56,7 @@
   }
 
   @media (min-width: 1280px) {
-    padding: var(--spacing-2xl);
+    padding: var(--spacing-xl);
     gap: var(--spacing-2xl);
   }
 
@@ -73,7 +72,8 @@
 .summary__greeting-mobile {
   display: none;
   flex-direction: column;
-  background-color: var(--color-gray-50);
+  background-color: red;
+  /* background-color: var(--color-gray-50); */
   align-items: center;
   justify-content: center;
   z-index: 10;
@@ -174,19 +174,23 @@
   width: 3rem;
   height: 1px;
   background-color: var(--color-accent);
-  border-radius: var(--radius-sm);
+  /* Border Radius muss dann bei über 1920px width setezt werden. */
+  /* border-radius: var(--radius-sm); */
   margin-top: var(--spacing-sm);
 
   @media (min-width: 1080px) {
     width: 3.5rem;
+    height: 2px;
   }
 
   @media (min-width: 1280px) {
     width: 4rem;
+    height: 2px;
   }
 
   @media (min-width: 1920px) {
     width: 5rem;
+    height: 2px;
   }
 }
 
@@ -198,8 +202,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-white);
+  background-color: var(--bg-summary-card);
   border-radius: var(--radius-lg);
+  border: 1px solid var(--border-dust);
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition:
@@ -208,7 +213,7 @@
 }
 
 .summary__card:hover {
-  background-color: var(--color-primary);
+  background-color: var(--bg-summary-card-hover);
   transform: scale(1.05);
 }
 
@@ -216,11 +221,11 @@
 .summary__card:hover .summary__card-label,
 .summary__card:hover .summary__deadline-date,
 .summary__card:hover .summary__deadline-label {
-  color: var(--color-white);
+  color: var(--text-white);
 }
 
-.summary__card--todo:hover .summary__card-icon--pencil,
-.summary__card--done:hover .summary__card-icon--check {
+[data-theme="light"] .summary__card--todo:hover .summary__card-icon--pencil,
+[data-theme="light"] .summary__card--done:hover .summary__card-icon--check {
   filter: invert(1) brightness(2);
 }
 

@@ -1,48 +1,91 @@
 /**
  * CSS Variables - Design Tokens
  * Global color, spacing, and typography definitions
+ * Supports light/dark theme with light-dark() CSS function and data-theme attribute
  */
 
 :root {
-  /* Colors - Primary */
-  --color-primary: #2a3647;
-  --color-primary-light: #2a3d59;
-  --color-primary-dark: #091931;
+  /* CRITICAL: Enable light-dark() CSS function support */
+  color-scheme: light dark;
 
-  /* Colors - Accent */
-  --color-accent: #29abe2;
-  --color-accent-light: #4fc3f7;
-  --color-accent-dark: #005dff;
+  /* ========================================================================
+     Theme Colors - Light/Dark with light-dark() function
+     ======================================================================== */
 
-  /* Colors - Feedback */
-  --color-success: #7ae229;
-  --color-error: #ff3d00;
-  --color-warning: #ffa800;
-  --color-info: #29abe2;
+  /* Background Colors */
+  --bg-primary: light-dark(#dfdfdf, #161b22);
+  --bg-secondary: light-dark(#f6f7f8, #161b22);
+  --bg-tertiary: light-dark(#eeeeee, #21262d);
 
-  /* Colors - Neutral */
+  /* Header Colors */
+  --bg-header: light-dark(#ffffff, #dfdfdf);
+  --bg-header-hover: light-dark(#f6f7f8, #ffffff);
+
+  /* Sidebar Colors */
+  --bg-sidebar: light-dark(#ffffff, #21262d);
+  --bg-sidebar-hover: light-dark(#f6f7f8, #30363d);
+
+  /* Pages Colors */
+  --bg-page: light-dark(#f6f7f8, #21262d);
+  --bg-page-hover: light-dark(#1e252d, #30363d);
+
+  /* Summary Colors */
+  --bg-summary-card: light-dark(#f6f7f8, #30363d);
+  --bg-summary-card-hover: light-dark(#2a3647, #1f6feb);
+
+  /* Text Colors */
+  --text-primary: light-dark(#2a3647, #c9d1d9);
+  --text-secondary: light-dark(#7a7a7a, #8b949e);
+  --text-tertiary: light-dark(#a8a8a8, #6e7681);
+  --text-white: light-dark(#ffffff, #ffffff);
+  --text-user-menu: light-dark(#cdcdcd, #ffffff);
+  --text-user-menu-hover: light-dark(#29abe2, #58a6ff);
+
+  /* Primary Brand Colors */
+  --color-primary: light-dark(#2a3647, #58a6ff);
+  --color-primary-light: light-dark(#2a3d59, #79c0ff);
+  --color-primary-dark: light-dark(#091931, #0d47a1);
+
+  /* Accent Colors */
+  --color-accent: light-dark(#29abe2, #58a6ff);
+  --color-accent-light: light-dark(#4fc3f7, #79c0ff);
+  --color-accent-dark: light-dark(#005dff, #1f6feb);
+
+  /* Feedback Colors */
+  --color-success: light-dark(#7ae229, #3fb950);
+  --color-error: light-dark(#ff3d00, #f85149);
+  --color-error-hover: light-dark(#ffa800, #d29922);
+  --color-warning: light-dark(#ffa800, #d29922);
+  --color-info: light-dark(#29abe2, #58a6ff);
+
+  /* Neutral Colors - Static (same in light/dark) */
   --color-white: #ffffff;
   --color-black: #000000;
-  --color-gray-50: #f6f7f8;
-  --color-gray-100: #eeeeee;
-  --color-gray-200: #cdcdcd;
-  --color-gray-300: #a8a8a8;
-  --color-gray-400: #7a7a7a;
-  --color-gray-500: #5c5c5c;
-  --color-gray-600: #424242;
-  --color-gray-700: #2e2e2e;
-  --color-gray-800: #1a1a1a;
+  --color-gray-50: light-dark(#f6f7f8, #2a3647);
+  --color-gray-100: light-dark(#eeeeee, #161b22);
+  --color-gray-200: light-dark(#cdcdcd, #30363d);
+  --color-gray-300: light-dark(#a8a8a8, #6e7681);
+  --color-gray-400: light-dark(#7a7a7a, #8b949e);
+  --color-gray-500: light-dark(#5c5c5c, #c9d1d9);
+  --color-gray-600: light-dark(#424242, #d0d7de);
+  --color-gray-700: light-dark(#2e2e2e, #e6edf3);
+  --color-gray-800: light-dark(#1a1a1a, #f0f6fc);
 
-  /* Colors - Task Categories */
-  --color-user-story: #0038ff;
-  --color-technical-task: #1fd7c1;
+  /* Border Colors */
+  --border-color: light-dark(#cdcdcd, #30363d);
+  --border-light: light-dark(#eeeeee, #21262d);
+  --border-dust: light-dark(#cdcdcd, #5c5c5c);
 
-  /* Colors - Priority */
-  --color-urgent-high: #ff3d00;
-  --color-urgent-medium: #ffa800;
-  --color-urgent-low: #7ae229;
+  /* Task Categories */
+  --color-user-story: light-dark(#0038ff, #58a6ff);
+  --color-technical-task: light-dark(#1fd7c1, #3fb950);
 
-  /* Colors - Profile Badges */
+  /* Priority Colors */
+  --color-urgent-high: light-dark(#ff3d00, #f85149);
+  --color-urgent-medium: light-dark(#ffa800, #d29922);
+  --color-urgent-low: light-dark(#7ae229, #3fb950);
+
+  /* Profile Badges - Static (colorful in both themes) */
   --color-badge-1: #ff7a00;
   --color-badge-2: #9327ff;
   --color-badge-3: #6e52ff;
@@ -60,11 +103,15 @@
   --color-badge-15: #ffa35e;
   --color-badge-16: #ff5eb3;
 
-  /* Typography - Font Family */
+  /* ========================================================================
+     Typography
+     ======================================================================== */
+
+  /* Font Family */
   --font-primary:
     "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  /* Typography - Font Size */
+  /* Font Size */
   --font-size-xs: 0.75rem; /* 12px */
   --font-size-sm: 0.875rem; /* 14px */
   --font-size-base: 1rem; /* 16px */
@@ -74,16 +121,20 @@
   --font-size-3xl: 1.875rem; /* 30px */
   --font-size-4xl: 2.25rem; /* 36px */
 
-  /* Typography - Font Weight */
+  /* Font Weight */
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
-  /* Typography - Line Height */
+  /* Line Height */
   --line-height-tight: 1.2;
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.75;
+
+  /* ========================================================================
+     Layout & Spacing
+     ======================================================================== */
 
   /* Spacing */
   --spacing-xs: 0.25rem; /* 4px */
@@ -101,16 +152,35 @@
   --radius-xl: 1rem; /* 16px */
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  --shadow-md:
-    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg:
-    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-xl:
-    0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  --shadow-card: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
+  /* ========================================================================
+     Effects & Shadows
+     ======================================================================== */
+
+  /* Shadows - Adaptive */
+  --shadow-xs: light-dark(
+    0 1px 2px 0 rgba(0, 0, 0, 0.05),
+    0 1px 2px 0 rgba(255, 255, 255, 0.05)
+  );
+  --shadow-sm: light-dark(
+    0 1px 3px 0 rgba(0, 0, 0, 0.1) 0 1px 2px 0 rgba(0, 0, 0, 0.06),
+    0 1px 3px 0 rgba(0, 0, 0, 0.3) 0 1px 2px 0 rgba(0, 0, 0, 0.15)
+  );
+  --shadow-md: light-dark(
+    0 4px 6px -1px rgba(0, 0, 0, 0.1) 0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    0 4px 6px -1px rgba(0, 0, 0, 0.3) 0 2px 4px -1px rgba(0, 0, 0, 0.15)
+  );
+  --shadow-lg: light-dark(
+    0 10px 15px -3px rgba(0, 0, 0, 0.1) 0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    0 10px 15px -3px rgba(0, 0, 0, 0.3) 0 4px 6px -2px rgba(0, 0, 0, 0.1)
+  );
+  --shadow-xl: light-dark(
+    0 20px 25px -5px rgba(0, 0, 0, 0.1) 0 10px 10px -5px rgba(0, 0, 0, 0.04),
+    0 20px 25px -5px rgba(0, 0, 0, 0.3) 0 10px 10px -5px rgba(0, 0, 0, 0.1)
+  );
+  --shadow-card: light-dark(
+    0px 0px 14px 3px rgba(0, 0, 0, 0.04),
+    0px 0px 14px 3px rgba(0, 0, 0, 0.2)
+  );
 
   /* Transitions */
   --transition-fast: 150ms ease-in-out;
@@ -128,4 +198,14 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
+}
+
+/* Override color-scheme for explicit light mode */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+/* Override color-scheme for explicit dark mode */
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }

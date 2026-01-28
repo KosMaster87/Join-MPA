@@ -6,7 +6,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background-color: chocolate; */
 }
 
 /* ==========================================================================
@@ -23,18 +22,18 @@ body {
   display: flex;
   height: 100vh;
 
-  @media (min-width: 1081px) {
-    height: 720px;
-    min-height: unset
+  @media (min-width: 1080px) {
+    align-items: center;
   }
 
-  @media (min-width: 1281px) {
+  @media (min-width: 1920px) {
     height: 1080px;
-    min-height: unset
   }
 }
 
 .page__main-insert {
+  background: var(--bg-page);
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,15 +41,20 @@ body {
   @media (min-width: 1080px) {
     /* ------------------------ */
     /* TODO TEST */
-    /* height: 100vh; */
+    height: 100vh;
+    max-height: 1080px;
     /* ------------------------ */
     max-width: 1920px;
-    max-height: 1080px;
+    /* max-height: 1080px; */
   }
 
   @media (min-width: 1920px) {
     max-width: 1920px;
     max-height: 1080px;
+  }
+
+  @media (min-width: 1921px) {
+    border-radius: var(--radius-lg);
   }
 }
 
