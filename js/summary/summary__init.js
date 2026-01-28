@@ -6,354 +6,162 @@
  * @module summary/summary__init
  */
 
+import { onAuthChange } from "../../services/auth.service.js";
+import { loadCurrentUserData } from "../../services/user-data.service.js";
+import { checkAuthentication } from "../shared/include-html.js";
+import { initHeader } from "../header/header__init.js";
+import { initMenu } from "../layout/menu__navigation.js";
+import { fadeTransition } from "../shared/fade-service.js";
+import { loadTaskStats } from "./summary-tasks.js";
+import { setupResizeListenerOnWidthChange } from "../shared/ui-helpers.js";
 import {
-  getCurrentAuthUser,
-  onAuthChange,
-} from "../../services/auth.service.js";
-import { getUserTasks, getItem } from "../../services/data.service.js";
-import { checkAuthentication, includeHTML } from "../shared/include-html.js";
+  buildSummaryLayoutHTML,
+  updateSummaryLayoutContent,
+  showLayoutElements,
+  updateThemeIcons,
+} from "./summary-layout.js";
+import {
+  displayGreeting,
+  initGreeting,
+  hideGreetingElements,
+  showGreetingElements,
+} from "./summary-greeting.js";
 import {
   showSplash,
   hideSplashDelayed,
 } from "../../services/splash.service.js";
-import { initHeader } from "../layout/header__init.js";
-import { initMenu } from "../layout/menu__navigation.js";
-import { getSummaryContentHTML } from "../../assets/templates/summary-content.js";
 
-let showedLoginGreeting = false;
 let earliestUrgentTaskIndex = -1;
 let currentUserData = null;
 
+/**
+ * Initializes the Summary Dashboard module.
+ * Orchestrates layout setup, authentication, and event listeners.
+ * Prepares the user greeting, depending on the device.
+ */
 async function initSummary() {
-  showSplash();
-  checkAuthentication();
+  try {
+    showSplash();
+    checkAuthentication();
+    await setupInitialLayout();
+    const greetingElements = hideGreetingElements();
+
+    initMenu();
+    await initGreeting();
+    setupAuthChangeHandler(greetingElements);
+    setupResizeListener();
+  } catch (error) {
+    console.error("[initSummary] Error:", error);
+  }
+}
+
+/**
+ * Sets up the initial dashboard layout.
+ * Renders the layout based on screen size and includes HTML templates.
+ */
+async function setupInitialLayout() {
   await renderSummaryLayout();
-  await includeHTML();
+  await updateThemeIcons();
+}
 
-  // Hide greeting and header initials until user data is loaded
-  const greetingName = document.getElementById("greetingNameDesktop");
-  const headerInitials = document.getElementById("userInitials");
-  if (greetingName) greetingName.classList.add("hide");
-  if (headerInitials) headerInitials.classList.add("hide");
-
-  initMenu();
-  await initGreeting();
-
-  onAuthChange(async function (user) {
-    if (user) {
-      await loadCurrentUserData();
-      await displayGreeting();
-      initHeader(currentUserData);
-      loadTaskStats();
-      hideSplashDelayed(800);
-
-      if (greetingName) greetingName.classList.remove("hide");
-      if (headerInitials) headerInitials.classList.remove("hide");
-    } else {
-      showSplash();
+/**
+ * Handles user authentication state changes.
+ * Loads user data and updates UI on login/logout.
+ *
+ * @param {Object} greetingElements - Element references for greeting display
+ */
+function setupAuthChangeHandler(greetingElements) {
+  onAuthChange(async (user) => {
+    try {
+      if (user) {
+        await handleAuthUserChange(greetingElements);
+      } else {
+        showSplash();
+      }
+    } catch (error) {
+      console.error("[setupAuthChangeHandler] Error:", error);
     }
-  });
-
-  // TODO - Die Elemente selber smooth einblenden statt splash screen
-  let resizeTimeout;
-  window.addEventListener("resize", () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(async () => {
-      // showSplash();
-      await renderSummaryLayout();
-      // hideSplashDelayed(500);
-    }, 500);
   });
 }
 
 /**
- * Schaltet das Summary-Layout je nach Fensterbreite um.
+ * Processes authenticated user changes.
+ * Loads and displays user data, updates header, and loads task stats.
+ *
+ * @param {Object} greetingElements - Element references for greeting display
+ */
+async function handleAuthUserChange(greetingElements) {
+  await updateCurrentUserData();
+  await displayGreeting(currentUserData);
+  initHeader(currentUserData);
+  await loadTaskStats();
+  showGreetingElements(greetingElements);
+  hideSplashDelayed(800);
+}
+
+/**
+ * Updates current user data and window reference.
+ * Fetches from imported loadCurrentUserData service.
+ */
+async function updateCurrentUserData() {
+  try {
+    const userData = await loadCurrentUserData();
+    currentUserData = userData;
+  } catch (error) {
+    console.error("[updateCurrentUserData] Error:", error);
+    currentUserData = null;
+  }
+}
+
+/**
+ * Sets up window resize listener for responsive layout.
+ * Re-renders layout when window width changes (ignores height).
+ */
+function setupResizeListener() {
+  const onWidthChange = async () => {
+    await renderSummaryLayout();
+    await updateThemeIcons();
+  };
+
+  setupResizeListenerOnWidthChange(onWidthChange, 500);
+}
+
+/**
+ * Renders summary layout with smooth fade transition.
+ * Adjusts layout based on window width (mobile vs desktop).
  */
 async function renderSummaryLayout() {
-  const container = document.getElementById("summaryMainContainer");
-  if (!container) return;
-  let html = "";
-  if (window.innerWidth < 1080) {
-    html = `
-      <main class="app-layout__main">
-        <header w3-include-html="../assets/templates/header.html"></header>
-        <div class="summary__content-wrapper" id="summaryContentContainer">${getSummaryContentHTML()}</div>
-        <nav class="menu-container" w3-include-html="../assets/templates/menu.html"></nav>
-      </main>
-    `;
-  } else {
-    html = `
-      <main class="desktop-layout__main">
-        <div class="main-right">
-          <header w3-include-html="../assets/templates/header.html"></header>
-          <div class="summary__content-wrapper" id="summaryContentContainer">${getSummaryContentHTML()}</div>
-        </div>
-        <nav class="menu-container" w3-include-html="../assets/templates/menu.html"></nav>
-      </main>
-    `;
-  }
-  container.innerHTML = html;
-  await includeHTML();
-
-  // Set summary icons for current theme after HTML is in DOM
-  const theme = localStorage.getItem("joinTheme") || "device";
-
-  // Nach dem Rendern: User-Daten erneut anzeigen
-  if (currentUserData) {
-    initHeader(currentUserData);
-    await displayGreeting();
-
-    // Elemente wieder sichtbar machen
-    const greetingName = document.getElementById("greetingNameDesktop");
-    const headerInitials = document.getElementById("userInitials");
-    if (greetingName) greetingName.classList.remove("hide");
-    if (headerInitials) headerInitials.classList.remove("hide");
-  }
-}
-
-/**
- * Loads current user data from Firestore and stores in currentUserData.
- */
-async function loadCurrentUserData() {
-  const user = getCurrentAuthUser();
-  if (!user) {
-    currentUserData = null;
-    return;
-  }
   try {
-    const isGuest = localStorage.getItem("isGuest") === "true";
-    const collection = isGuest ? "guests" : "users";
-    const userData = await getItem(collection, user.uid);
-    currentUserData = userData || null;
-    window.currentUserData = currentUserData;
-  } catch (e) {
-    console.error("[loadCurrentUserData] Error: ", e);
-    currentUserData = null;
-  }
-}
+    const container = document.getElementById("summaryMainContainer");
+    if (!container) return;
 
-/**
- * Displays a greeting after login if not already shown (mobile only).
- */
-async function initGreeting() {
-  showedLoginGreeting =
-    sessionStorage.getItem("showedLoginGreeting") === "true";
+    const updateCallback = createLayoutUpdateCallback(container);
 
-  if (!showedLoginGreeting && window.innerWidth <= 720) {
-    await showGreetScreen();
-    showedLoginGreeting = true;
-    sessionStorage.setItem("showedLoginGreeting", "true");
-  }
-
-  const summaryToDos = document.getElementById("summaryToDos");
-  if (summaryToDos) {
-    summaryToDos.style.display = "flex";
-  }
-}
-
-/**
- * Displays a greeting message for mobile users.
- */
-async function showGreetScreen() {
-  const greetingsMobile = document.getElementById("greetingsMobile");
-  if (greetingsMobile) {
-    greetingsMobile.classList.remove("hide");
-    greetingsMobile.classList.add("show");
-    setTimeout(() => {
-      greetingsMobile.classList.remove("show");
-      greetingsMobile.classList.add("hide");
-    }, 2500);
-  }
-}
-
-/**
- * Displays personalized greeting based on time of day.
- */
-async function displayGreeting() {
-  const timeElement = document.getElementById("greetingsDesktop");
-  const nameElement = document.getElementById("greetingNameDesktop");
-  const mobileElement = document.getElementById("greetingMobile");
-
-  const hour = new Date().getHours();
-  const greeting = getGreetingByTime(hour);
-  const displayName = await getDisplayNameFromUserData(currentUserData);
-
-  if (timeElement) timeElement.textContent = greeting + ",";
-  if (nameElement) nameElement.textContent = displayName;
-  if (mobileElement) mobileElement.textContent = greeting + ", " + displayName;
-}
-
-/**
- * Gets display name from Firestore user data.
- * @param {Object|null} userData - Firestore user data
- * @returns {string}
- */
-function getDisplayNameFromUserData(userData) {
-  if (!userData) return "Guest";
-  if (userData.isGuest) return "Guest";
-  if (userData.name && userData.name.trim().length > 0) return userData.name;
-  return "User";
-}
-
-/**
- * Gets greeting text based on hour.
- *
- * @param {number} hour - Hour of day (0-23)
- * @returns {string} - Greeting text
- */
-function getGreetingByTime(hour) {
-  if (hour < 12) return "Good morning";
-  if (hour < 18) return "Good afternoon";
-  return "Good evening";
-}
-
-/**
- * Gets display name from user object.
- *
- * @param {Object} user - Firebase user
- * @returns {string} - Display name
- */
-
-/**
- * Loads and displays task statistics.
- */
-async function loadTaskStats() {
-  try {
-    const user = getCurrentAuthUser();
-    if (!user) {
-      displayEmptyStats();
-      return;
-    }
-
-    const tasks = await getUserTasks(user.uid);
-    displayStats(tasks);
+    await fadeTransition(container, updateCallback, 200);
   } catch (error) {
-    console.error("Failed to load stats:", error);
-    displayEmptyStats();
+    console.error("[renderSummaryLayout] Error:", error);
   }
 }
 
 /**
- * Displays empty stats when no data available.
- */
-function displayEmptyStats() {
-  updateElement("summaryTodoTodos", 0);
-  updateElement("summaryDoneTodos", 0);
-  updateElement("summaryUpcomingTasks", 0);
-  updateElement("dataTodos", 0);
-  updateElement("summaryProcessTasks", 0);
-  updateElement("summaryAwaitingTask", 0);
-  updateElement("summaryUrgentDate", "-");
-}
-
-/**
- * Displays task statistics in cards.
+ * Creates update callback for layout rendering.
+ * Builds HTML, updates DOM, and initializes header/greeting.
  *
- * @param {Array} tasks - User tasks
+ * @param {HTMLElement} container - Container element to update
+ * @returns {Function} - Async callback function
  */
-function displayStats(tasks) {
-  const stats = calculateStats(tasks);
+function createLayoutUpdateCallback(container) {
+  return async () => {
+    const html = buildSummaryLayoutHTML();
 
-  updateElement("summaryTodoTodos", stats.todo);
-  updateElement("summaryDoneTodos", stats.done);
-  updateElement("summaryUpcomingTasks", stats.urgent);
-  updateElement("dataTodos", stats.total);
-  updateElement("summaryProcessTasks", stats.inProgress);
-  updateElement("summaryAwaitingTask", stats.feedback);
+    await updateSummaryLayoutContent(container, html);
 
-  if (stats.urgentDeadline) {
-    updateUrgentDeadline(stats.urgentDeadline);
-  } else {
-    updateElement("summaryUrgentDate", "-");
-  }
-}
-
-/**
- * Calculates task statistics.
- *
- * @param {Array} tasks - User tasks
- * @returns {Object} - Statistics object
- */
-function calculateStats(tasks) {
-  if (!tasks || tasks.length === 0) {
-    return {
-      total: 0,
-      todo: 0,
-      done: 0,
-      inProgress: 0,
-      feedback: 0,
-      urgent: 0,
-      urgentDeadline: null,
-    };
-  }
-
-  return {
-    total: tasks.length,
-    todo: tasks.filter((t) => t.status === "todo" || t.status === "to-do")
-      .length,
-    done: tasks.filter((t) => t.status === "done").length,
-    inProgress: tasks.filter(
-      (t) => t.status === "in-progress" || t.status === "progress",
-    ).length,
-    feedback: tasks.filter(
-      (t) => t.status === "awaiting-feedback" || t.status === "await",
-    ).length,
-    urgent: tasks.filter((t) => t.priority === "urgent" || t.prio === "Urgent")
-      .length,
-    urgentDeadline: getNextUrgentDeadline(tasks),
+    if (currentUserData) {
+      initHeader(currentUserData);
+      await displayGreeting(currentUserData);
+      showLayoutElements();
+    }
   };
-}
-
-/**
- * Gets next urgent task deadline.
- *
- * @param {Array} tasks - User tasks
- * @returns {string|null} - Deadline date or null
- */
-function getNextUrgentDeadline(tasks) {
-  const urgentTasks = tasks.filter(
-    (t) =>
-      (t.priority === "urgent" || t.prio === "Urgent") &&
-      t.dueDate &&
-      t.status !== "done",
-  );
-
-  if (urgentTasks.length === 0) return null;
-
-  const sortedTasks = urgentTasks.sort(
-    (a, b) => new Date(a.dueDate) - new Date(b.dueDate),
-  );
-
-  earliestUrgentTaskIndex = tasks.indexOf(sortedTasks[0]);
-  return sortedTasks[0].dueDate;
-}
-
-/**
- * Updates element text content.
- *
- * @param {string} id - Element ID
- * @param {string|number} value - New value
- */
-function updateElement(id, value) {
-  const element = document.getElementById(id);
-  if (element) element.textContent = value;
-}
-
-/**
- * Updates urgent deadline display.
- *
- * @param {string} date - Deadline date
- */
-function updateUrgentDeadline(date) {
-  const deadlineElement = document.getElementById("summaryUrgentDate");
-  if (!deadlineElement) return;
-
-  const formatted = new Date(date).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-  deadlineElement.textContent = formatted;
 }
 
 /**
@@ -361,20 +169,22 @@ function updateUrgentDeadline(date) {
  */
 window.navigateToBoard = function () {
   window.location.href = "../board.html";
-  // window.location.href = "../pages/board.html";
 };
 
 /**
  * Navigates to the board and opens the earliest urgent task.
+ * Stores task index in session for board page to use.
  */
 window.openUrgentTask = function () {
   if (earliestUrgentTaskIndex !== -1) {
     sessionStorage.setItem("openTaskIndex", earliestUrgentTaskIndex);
   }
   window.location.href = "../board.html";
-  // window.location.href = "../pages/board.html";
 };
 
+/**
+ * Initializes the Summary Dashboard on page load.
+ */
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initSummary);
 } else {

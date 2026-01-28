@@ -25,6 +25,8 @@ async function initLanding() {
   let hasRedirected = false;
   const splash = document.getElementById("splashScreen");
   const unsubscribe = onAuthChange((user) => {
+    console.log(unsubscribe);
+
     if (hasRedirected) return;
     hasRedirected = true;
     unsubscribe();
@@ -58,6 +60,10 @@ function redirectTo(url, splashScreen) {
   }, REDIRECT_DELAY);
 }
 
+/**
+ * Initialize landing page if on index.html
+ * If user is logged in, redirect to summary.html, else to login.html
+ */
 if (IS_INDEX) {
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initLanding);

@@ -41,15 +41,33 @@ function getSystemTheme() {
  *
  * @param {string} theme - Theme to apply ("device", "light", or "dark")
  */
-function applyTheme(theme) {
+async function applyTheme(theme) {
   const realTheme = theme === "device" ? getSystemTheme() : theme;
+  console.log("Applying theme:", theme, "Real theme:", realTheme);
 
   document.documentElement.setAttribute("data-theme", realTheme);
 
   updateManifestAndFavicon(realTheme);
   updateThemeIcon(theme);
-  updateSummaryIconsForTheme(realTheme);
 
+  // Only update summary icons if they exist in DOM
+  await updateSummaryIconsForTheme(realTheme);
+
+  localStorage.setItem("joinTheme", theme);
+}
+
+/**
+ * Applies theme to document without updating icons.
+ * Used during initial service setup when icons may not be in DOM yet.
+ *
+ * @param {string} theme - Theme to apply ("device", "light", or "dark")
+ */
+function applyThemeWithoutIcons(theme) {
+  const realTheme = theme === "device" ? getSystemTheme() : theme;
+
+  document.documentElement.setAttribute("data-theme", realTheme);
+
+  updateManifestAndFavicon(realTheme);
   localStorage.setItem("joinTheme", theme);
 }
 
@@ -117,29 +135,80 @@ function initTheme() {
  * Updates summary card icons to use theme-specific SVGs.
  * Looks for images with data-theme-light and data-theme-dark attributes
  * and swaps their src based on the current theme.
+ * Returns a Promise that resolves when icons are updated.
  *
  * @param {string} theme - Theme ("light" or "dark")
+ * @returns {Promise<void>}
  */
-function updateSummaryIconsForTheme(theme) {
-  const themeIcons = document.querySelectorAll(
-    "[data-theme-light][data-theme-dark]",
-  );
-  const isDark = theme === "dark";
+// function updateSummaryIconsForTheme(theme) {
+//   return new Promise((resolve) => {
+//     requestAnimationFrame(() => {
+//       const themeIcons = document.querySelectorAll(
+//         "[data-theme-light][data-theme-dark]",
+//       );
+//       const isDark = theme === "dark";
 
-  themeIcons.forEach((img) => {
-    img.src = isDark ? img.dataset.themeDark : img.dataset.themeLight;
+//       themeIcons.forEach((img) => {
+//         img.src = isDark ? img.dataset.themeDark : img.dataset.themeLight;
+//       });
+
+//       resolve();
+//     });
+//   });
+// }
+// Fallback mit Timer - TODO: Entfernen, wenn nicht mehr benötigt
+function updateSummaryIconsForTheme(theme) {
+  return new Promise((resolve) => {
+    // Use small timeout to ensure DOM is fully rendered, especially on fast connections
+    setTimeout(() => {
+      requestAnimationFrame(() => {
+        const themeIcons = document.querySelectorAll(
+          "[data-theme-light][data-theme-dark]",
+        );
+        const isDark = theme === "dark";
+
+        themeIcons.forEach((img) => {
+          img.src = isDark ? img.dataset.themeDark : img.dataset.themeLight;
+        });
+
+        resolve();
+      });
+    }, 100);
   });
 }
 
 /**
- * Sets up theme toggle button and initializes theme on page load.
+ * Sets up theme toggle button listener and initializes theme on page load.
+ * Called whenever header is loaded/reloaded.
  */
 function setupThemeToggle() {
+  const theme = localStorage.getItem("joinTheme") || "device";
+  
+  // Update header icon to match current theme
+  updateThemeIcon(theme);
+  
   const themeBtn = document.getElementById("headerThemeBtn");
   if (themeBtn) {
     themeBtn.addEventListener("click", handleThemeToggle);
   }
-  document.addEventListener("DOMContentLoaded", initTheme);
+}
+
+/**
+ * Initializes the theme service on module load.
+ * Sets data-theme attribute without updating icons (they don't exist yet).
+ * Called automatically when this module is imported.
+ */
+function initializeThemeService() {
+  const theme = localStorage.getItem("joinTheme") || "device";
+  // Use applyThemeWithoutIcons to avoid updating icons that don't exist yet
+  applyThemeWithoutIcons(theme);
+
+  // Set up theme toggle listener when DOM is ready
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupThemeToggle);
+  } else {
+    setupThemeToggle();
+  }
 }
 
 /**
@@ -157,8 +226,12 @@ export {
   getNextTheme,
   getSystemTheme,
   applyTheme,
+  // applyThemeWithoutIcons,
   setTheme,
   initTheme,
   setupThemeToggle,
   handleThemeToggle,
+  updateSummaryIconsForTheme,
 };
+
+initializeThemeService();
