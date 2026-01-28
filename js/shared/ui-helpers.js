@@ -196,6 +196,58 @@ async function copyToClipboard(text) {
   }
 }
 
+/**
+ * Tracks the last window width for resize detection.
+ * @type {number}
+ */
+let lastWindowWidth = window.innerWidth;
+
+/**
+ * Sets up a resize listener that only triggers on width changes.
+ * Ignores height-only changes (e.g., mobile keyboard).
+ *
+ * @param {Function} onWidthChange - Async callback to execute on width change
+ * @param {number} debounceMs - Debounce delay in milliseconds (default: 500)
+ */
+function setupResizeListenerOnWidthChange(onWidthChange, debounceMs = 500) {
+  let resizeTimeout;
+  
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      handleWindowResize(onWidthChange);
+    }, debounceMs);
+  });
+}
+
+/**
+ * Handles window resize and executes callback if width changed.
+ *
+ * @param {Function} onWidthChange - Async callback on width change
+ */
+async function handleWindowResize(onWidthChange) {
+  try {
+    const currentWidth = window.innerWidth;
+    if (currentWidth !== lastWindowWidth) {
+      lastWindowWidth = currentWidth;
+      await onWidthChange(currentWidth);
+    }
+  } catch (error) {
+    console.error("[handleWindowResize] Error:", error);
+  }
+}
+
+/**
+ * Updates the tracked last window width.
+ * Useful for manual width synchronization.
+ *
+ * @returns {number} Current window width
+ */
+function updateLastWindowWidth() {
+  lastWindowWidth = window.innerWidth;
+  return lastWindowWidth;
+}
+
 export {
   showToast,
   showLoading,
@@ -210,4 +262,6 @@ export {
   debounce,
   scrollToElement,
   copyToClipboard,
+  setupResizeListenerOnWidthChange,
+  updateLastWindowWidth,
 };
