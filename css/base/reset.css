@@ -36,8 +36,9 @@ body {
   line-height: var(--line-height-normal);
   font-family: var(--font-primary);
   font-size: var(--font-size-base);
-  color: var(--color-primary);
-  background-color: var(--color-gray-50);
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  transition: background-color var(--transition-base), color var(--transition-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -89,4 +90,12 @@ button {
   background: none;
   border: none;
   cursor: pointer;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: flex;
 }

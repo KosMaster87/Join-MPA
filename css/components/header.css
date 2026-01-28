@@ -5,16 +5,25 @@
 .header {
   width: 100%;
   height: 60px;
-  background-color: var(--color-white);
+  background-color: var(--bg-header);
+  color: var(--text-primary);
   box-shadow: var(--shadow-sm);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--spacing-md);
+  transition:
+    background-color var(--transition-base),
+    color var(--transition-base);
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     height: 80px;
+    width: 100%;
     padding: 0 var(--spacing-xl);
+  }
+
+  @media (min-width: 1921px) {
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
   }
 }
 
@@ -22,23 +31,21 @@
    Header Elements
    ========================================================================== */
 
-/* Logo */
 .header__logo-img {
   height: 30px;
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080) {
     display: none;
   }
 }
 
-/* Title */
 .header__title {
   flex: 1;
   text-align: center;
   padding: 0 var(--spacing-lg);
   display: none;
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080) {
     display: flex;
     justify-content: flex-start;
   }
@@ -50,12 +57,15 @@
   color: var(--color-primary);
   margin: 0;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1080) {
     font-size: var(--font-size-lg);
   }
 }
 
-/* Actions */
+/* ==========================================================================
+   Header Actions (Help & Profile)
+   ========================================================================== */
+
 .header__actions {
   display: flex;
   align-items: center;
@@ -63,7 +73,6 @@
   margin-left: auto;
 }
 
-/* Help Button */
 .header__help-btn {
   background: none;
   border: none;
@@ -84,17 +93,20 @@
   height: 20px;
   display: block;
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     width: 24px;
     height: 24px;
   }
 }
 
-/* Profile Button */
+/* ==========================================================================
+   Profile Button
+   ========================================================================== */
+
 .header__profile-btn {
   width: 40px;
   height: 40px;
-  background-color: var(--color-white);
+  background-color: var(--bg-header);
   border: 3px solid var(--color-primary);
   border-radius: var(--radius-full);
   cursor: pointer;
@@ -104,14 +116,19 @@
   position: relative;
   transition: background-color var(--transition-base);
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     width: 48px;
     height: 48px;
   }
 }
 
 .header__profile-btn:hover {
-  background-color: var(--color-gray-100);
+  background-color: var(--bg-header-hover);
+}
+
+.header__profile-btn.is-active {
+  border-color: var(--color-accent);
+  background-color: var(--bg-header-hover);
 }
 
 .header__user-initials {
@@ -120,28 +137,59 @@
   text-transform: uppercase;
   color: var(--color-accent);
 
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     font-size: var(--font-size-xl);
   }
 }
 
-/* Profile Button Badge Colors */
-.header__profile-btn--badge-1 .header__user-initials { color: var(--color-badge-1); }
-.header__profile-btn--badge-2 .header__user-initials { color: var(--color-badge-2); }
-.header__profile-btn--badge-3 .header__user-initials { color: var(--color-badge-3); }
-.header__profile-btn--badge-4 .header__user-initials { color: var(--color-badge-4); }
-.header__profile-btn--badge-5 .header__user-initials { color: var(--color-badge-5); }
-.header__profile-btn--badge-6 .header__user-initials { color: var(--color-badge-6); }
-.header__profile-btn--badge-7 .header__user-initials { color: var(--color-badge-7); }
-.header__profile-btn--badge-8 .header__user-initials { color: var(--color-badge-8); }
-.header__profile-btn--badge-9 .header__user-initials { color: var(--color-badge-9); }
-.header__profile-btn--badge-10 .header__user-initials { color: var(--color-badge-10); }
-.header__profile-btn--badge-11 .header__user-initials { color: var(--color-badge-11); }
-.header__profile-btn--badge-12 .header__user-initials { color: var(--color-badge-12); }
-.header__profile-btn--badge-13 .header__user-initials { color: var(--color-badge-13); }
-.header__profile-btn--badge-14 .header__user-initials { color: var(--color-badge-14); }
-.header__profile-btn--badge-15 .header__user-initials { color: var(--color-badge-15); }
-.header__profile-btn--badge-16 .header__user-initials { color: var(--color-badge-16); }
+.header__profile-btn--badge-1 .header__user-initials {
+  color: var(--color-badge-1);
+}
+.header__profile-btn--badge-2 .header__user-initials {
+  color: var(--color-badge-2);
+}
+.header__profile-btn--badge-3 .header__user-initials {
+  color: var(--color-badge-3);
+}
+.header__profile-btn--badge-4 .header__user-initials {
+  color: var(--color-badge-4);
+}
+.header__profile-btn--badge-5 .header__user-initials {
+  color: var(--color-badge-5);
+}
+.header__profile-btn--badge-6 .header__user-initials {
+  color: var(--color-badge-6);
+}
+.header__profile-btn--badge-7 .header__user-initials {
+  color: var(--color-badge-7);
+}
+.header__profile-btn--badge-8 .header__user-initials {
+  color: var(--color-badge-8);
+}
+.header__profile-btn--badge-9 .header__user-initials {
+  color: var(--color-badge-9);
+}
+.header__profile-btn--badge-10 .header__user-initials {
+  color: var(--color-badge-10);
+}
+.header__profile-btn--badge-11 .header__user-initials {
+  color: var(--color-badge-11);
+}
+.header__profile-btn--badge-12 .header__user-initials {
+  color: var(--color-badge-12);
+}
+.header__profile-btn--badge-13 .header__user-initials {
+  color: var(--color-badge-13);
+}
+.header__profile-btn--badge-14 .header__user-initials {
+  color: var(--color-badge-14);
+}
+.header__profile-btn--badge-15 .header__user-initials {
+  color: var(--color-badge-15);
+}
+.header__profile-btn--badge-16 .header__user-initials {
+  color: var(--color-badge-16);
+}
 
 /* ==========================================================================
    User Menu Dropdown
@@ -149,17 +197,20 @@
 
 .header__user-menu {
   position: absolute;
-  top: calc(5% + var(--spacing-sm));
+  top: calc(8% + var(--spacing-sm));
   right: 1rem;
-  background-color: var(--color-white);
+  background-color: var(--color-primary);
   border-radius: var(--radius-lg) 0 var(--radius-lg) var(--radius-lg);
   box-shadow: var(--shadow-lg);
   min-width: 180px;
   padding: var(--spacing-sm) 0;
   z-index: var(--z-dropdown);
+  transition:
+    background-color var(--transition-base),
+    color var(--transition-base);
 
-  @media (min-width: 768px) {
-    top: calc(8% + var(--spacing-sm));
+  @media (min-width: 1080px) {
+    top: calc(18% + var(--spacing-sm));
     right: 1rem;
   }
 }
@@ -186,17 +237,46 @@
   border: none;
   cursor: pointer;
   font-size: var(--font-size-base);
-  color: var(--color-primary);
-  transition: background-color var(--transition-base);
+  color: var(--text-user-menu);
+  transition:
+    background-color var(--transition-base),
+    color var(--transition-base);
 }
 
 .header__menu-link:hover {
-  background-color: var(--color-gray-100);
+  color: var(--text-user-menu-hover);
+}
+
+.header__menu-link.is-active,
+.header__menu-link.is-active:hover {
+  color: var(--text-user-menu-hover);
 }
 
 .header__menu-link--logout {
   color: var(--color-error);
-  border-top: 1px solid var(--color-gray-200);
+  position: relative;
   margin-top: var(--spacing-xs);
   padding-top: var(--spacing-md);
+}
+
+.header__menu-link--logout::before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 1%;
+  right: 1%;
+  top: 0;
+  height: 0.4px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    var(--border-light) 40%,
+    var(--border-light) 60%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.header__menu-link--logout:hover {
+  color: var(--color-error-hover);
 }

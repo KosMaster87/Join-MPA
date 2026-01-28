@@ -1,0 +1,19 @@
+/*
+  Auth Layout (Mobile First)
+  Applies to login and register pages
+  Target: 320px x 568px (iPhone SE)
+*/
+
+.auth-layout {
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm) var(--spacing-sm);
+
+  @media (min-width: 768px) {
+    justify-content: center;
+    margin: 0 auto;
+  }
+}

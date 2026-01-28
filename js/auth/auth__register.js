@@ -7,6 +7,7 @@
 
 import { registerWithAuth } from "../../services/auth.service.js";
 import { createUser } from "../../services/data.service.js";
+import { navigatePrettyUrl } from "../layout/menu__navigation.js";
 import {
   validateEmail,
   validatePassword,
@@ -27,6 +28,7 @@ import {
 function initRegister() {
   setupRegisterFormListener();
   setupBackToLoginBtnListener();
+  setupLegalPolicyRouting();
 }
 
 function setupRegisterFormListener() {
@@ -43,6 +45,15 @@ function setupBackToLoginBtnListener() {
       window.location.href = "./login.html";
     });
   }
+}
+
+function setupLegalPolicyRouting() {
+  const policyBtn = document.getElementById("policyBtn");
+  const legalBtn = document.getElementById("legalBtn");
+  if (policyBtn)
+    policyBtn.addEventListener("click", () => navigatePrettyUrl("policy"));
+  if (legalBtn)
+    legalBtn.addEventListener("click", () => navigatePrettyUrl("legal"));
 }
 
 /**

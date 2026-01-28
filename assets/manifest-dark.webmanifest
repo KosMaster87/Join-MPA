@@ -1,0 +1,127 @@
+{
+  "name": "Join - Project Management",
+  "short_name": "Join",
+  "description": "Join – The intuitive Kanban tool for tasks, teams and projects.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#223a2c",
+  "theme_color": "#2a3647",
+  "categories": ["productivity", "project management", "kanban"],
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/assets/theme-dark/icon-32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/theme-dark/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/theme-dark/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/theme-dark/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/theme-dark/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/theme-dark/icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/theme-dark/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/theme-dark/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/theme-dark/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Open Board",
+      "short_name": "Board",
+      "description": "Directly to the Kanban board",
+      "url": "/pages/summary.html",
+      "icons": [
+        {
+          "src": "/assets/theme-dark/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "New Task",
+      "short_name": "Task",
+      "description": "Create a new task",
+      "url": "/pages/tasks.html",
+      "icons": [
+        {
+          "src": "/assets/theme-dark/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Open Contact",
+      "short_name": "Contact",
+      "description": "Open the contacts page",
+      "url": "/pages/contacts.html",
+      "icons": [
+        {
+          "src": "/assets/theme-dark/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/img/screenshots/preview-join.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Join Desktop Preview"
+    },
+    {
+      "src": "/assets/img/screenshots/preview-join-mobile.png",
+      "sizes": "375x812",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Join Mobile Preview"
+    }
+  ]
+}

@@ -1,25 +1,60 @@
 /* ==========================================================================
-   App Layout Block
+   Utility Classes - For each page
    ========================================================================== */
 
-.app-layout {
-  display: grid;
-  width: 100vw;
-  height: 100dvh;
-  overflow: hidden;
-  grid-template-rows: 60px 1fr 64px;
-  grid-template-columns: 1fr;
-  grid-template-areas:
-    "header"
-    "main"
-    "menu";
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  @media (min-width: 768px) {
-    grid-template-rows: 80px 1fr;
-    grid-template-columns: 240px 1fr;
-    grid-template-areas:
-      "menu header"
-      "menu main";
+/* ==========================================================================
+   Layout Elements
+   ========================================================================== */
+
+.page__screen-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.page__main-wrapper {
+  display: flex;
+  height: 100vh;
+
+  @media (min-width: 1080px) {
+    align-items: center;
+  }
+
+  @media (min-width: 1920px) {
+    height: 1080px;
+  }
+}
+
+.page__main-insert {
+  background: var(--bg-page);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (min-width: 1080px) {
+    /* ------------------------ */
+    /* TODO TEST */
+    height: 100vh;
+    max-height: 1080px;
+    /* ------------------------ */
+    max-width: 1920px;
+    /* max-height: 1080px; */
+  }
+
+  @media (min-width: 1920px) {
+    max-width: 1920px;
+    max-height: 1080px;
+  }
+
+  @media (min-width: 1921px) {
+    border-radius: var(--radius-lg);
   }
 }
 
@@ -27,41 +62,38 @@
    App Layout Elements
    ========================================================================== */
 
-.app-layout__header {
-  grid-area: header;
-  overflow: visible;
-  z-index: var(--z-dropdown);
-}
-
-.app-layout__menu {
-  grid-area: menu;
-  overflow: hidden;
-  z-index: calc(var(--z-dropdown) - 1);
-}
-
 .app-layout__main {
-  grid-area: main;
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
-  /* background-color: var(--color-gray-50); */
+  min-width: 100vw;
+  /* ------------------------ */
+  height: 100%;
+  /* min-height: 100dvh; */
+  /* ------------------------ */
+
+  @media (min-width: 1080px) {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    min-height: 100dvh;
+  }
 }
 
-/* Content Container */
-.app-layout__content {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: var(--spacing-sm);
+/* ==========================================================================
+   Desktop Layout Elements
+   ========================================================================== */
 
-  @media (min-width: 640px) {
-    padding: var(--spacing-md);
-  }
-
-  @media (min-width: 768px) {
-    padding: var(--spacing-xl);
-  }
-
-  @media (min-width: 1025px) {
-    padding: var(--spacing-2xl);
+.desktop-layout__main {
+  @media (min-width: 1080px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    /* ------------------------ */
+    height: 100%;
+    /* height: 100vh; */
+    /* ------------------------ */
   }
 }

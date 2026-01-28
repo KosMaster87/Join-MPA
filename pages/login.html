@@ -38,6 +38,7 @@
     </style>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
     <meta
       name="description"
       content="Join - Kanban Project Management Tool. Organize your tasks efficiently with our intuitive board system."
@@ -55,6 +56,8 @@
     <link rel="stylesheet" href="../css/base/reset.css" />
     <link rel="stylesheet" href="../css/base/fonts.css" />
     <link rel="stylesheet" href="../css/pages/login.css" />
+    <link rel="stylesheet" href="../css/layout/auth-layout.css" />
+    <link rel="stylesheet" href="../css/components/toast.css" />
 
     <script type="importmap">
       {
@@ -67,6 +70,8 @@
     </script>
 
     <!-- Services -->
+    <!-- Theme initialization (manifest & favicon switching) -->
+    <script type="module" src="../js/shared/pwa-theme-loader.js"></script>
     <script type="module" src="../config/firebase.config.js"></script>
     <script type="module" src="../services/firestore.service.js"></script>
     <script type="module" src="../services/auth.service.js"></script>
@@ -82,120 +87,137 @@
   </head>
 
   <body>
-    <div id="splashScreen" class="splash">
-      <img
-        src="../assets/img/shared/join-logo-blue.svg"
-        alt="Join Logo"
-        class="splash__logo"
-      />
-    </div>
-
-    <main class="login">
-      <a href="../index.html" class="login__logo">
+    <div class="login__content-wrapper">
+      <div id="splashScreen" class="splash">
         <img
           src="../assets/img/shared/join-logo-blue.svg"
           alt="Join Logo"
-          width="100"
-          height="auto"
+          class="splash__logo"
+        />
+      </div>
+
+      <div w3-include-html="../assets/templates/toast.html"></div>
+
+      <a href="../index.html" class="login__logo">
+        <img
+          class="login__img"
+          src="../assets/img/shared/join-logo-blue.svg"
+          alt="Join Logo"
         />
       </a>
 
-      <!-- Sign Up Link -->
+      <main class="auth-layout login">
+        <div class="login__box">
+          <h1 class="login__title">Log in</h1>
+          <div class="login__divider"></div>
+
+          <form id="loginForm" class="login__form">
+            <!-- Email Input -->
+            <div class="login__input-group">
+              <div class="login__input-wrapper" id="emailWrapper">
+                <img
+                  class="login__input-icon"
+                  src="../assets/img/auth/mail-default.svg"
+                  alt=""
+                />
+                <input
+                  type="email"
+                  id="loginEmail"
+                  name="email"
+                  class="login__input"
+                  placeholder="Email"
+                  autocomplete="email"
+                  required
+                />
+              </div>
+              <span id="emailError" class="login__error"></span>
+            </div>
+
+            <!-- Password Input -->
+            <div class="login__input-group">
+              <div class="login__input-wrapper" id="passwordWrapper">
+                <img
+                  class="login__input-icon"
+                  src="../assets/img/auth/lock-default.svg"
+                  alt=""
+                />
+                <input
+                  type="password"
+                  id="loginPassword"
+                  name="password"
+                  class="login__input"
+                  placeholder="Password"
+                  autocomplete="current-password"
+                  required
+                />
+                <img
+                  id="passwordToggle"
+                  class="login__input-toggle"
+                  src="../assets/img/auth/visibility-off-default.svg"
+                  alt=""
+                />
+              </div>
+              <span id="passwordError" class="login__error"></span>
+            </div>
+
+            <!-- Remember Me -->
+            <div class="login__checkbox-group">
+              <div class="login__checkbox-wrapper">
+                <input
+                  type="checkbox"
+                  id="rememberMe"
+                  name="rememberMe"
+                  class="login__checkbox"
+                />
+                <label for="rememberMe" class="login__checkbox-label">
+                  Remember me
+                </label>
+              </div>
+              <span id="rememberMeError" class="login__checkbox-error"></span>
+            </div>
+
+            <!-- Buttons -->
+            <div class="login__btn-group">
+              <button type="submit" class="login__btn login__btn--primary">
+                Log in
+              </button>
+
+              <!-- Guest Login -->
+              <button
+                type="button"
+                id="guestLoginBtn"
+                class="login__btn login__btn--secondary"
+              >
+                Guest Log in
+              </button>
+            </div>
+          </form>
+        </div>
+      </main>
+
       <div class="login__signup">
         <span class="login__signup-text">Not a Join user?</span>
-        <button id="signupBtn" type="button" class="login__signup-btn">Sign up</button>
+        <button id="signupBtn" type="button" class="login__signup-btn">
+          Sign up
+        </button>
       </div>
 
-      <div class="login__box">
-        <h1 class="login__title">Log in</h1>
-        <div class="login__divider"></div>
-
-        <!-- Login Form -->
-        <form id="loginForm" class="login__form">
-          <!-- Email Input -->
-          <div class="login__input-group">
-            <div class="login__input-wrapper" id="emailWrapper">
-              <img
-                class="login__input-icon"
-                src="../assets/img/auth/mail-default.svg"
-                alt=""
-              />
-              <input
-                type="email"
-                id="loginEmail"
-                name="email"
-                class="login__input"
-                placeholder="Email"
-                autocomplete="email"
-                required
-              />
-            </div>
-            <span id="emailError" class="login__error"></span>
-          </div>
-
-          <!-- Password Input -->
-          <div class="login__input-group">
-            <div class="login__input-wrapper" id="passwordWrapper">
-              <img
-                class="login__input-icon"
-                src="../assets/img/auth/lock-default.svg"
-                alt=""
-              />
-              <input
-                type="password"
-                id="loginPassword"
-                name="password"
-                class="login__input"
-                placeholder="Password"
-                autocomplete="current-password"
-                required
-              />
-              <img
-                id="passwordToggle"
-                class="login__input-toggle"
-                src="../assets/img/auth/visibility-off-default.svg"
-                alt=""
-              />
-            </div>
-            <span id="passwordError" class="login__error"></span>
-          </div>
-
-          <!-- Remember Me -->
-          <div class="login__checkbox-group">
-            <input
-              type="checkbox"
-              id="rememberMe"
-              name="rememberMe"
-              class="login__checkbox"
-            />
-            <label for="rememberMe" class="login__checkbox-label">
-              Remember me
-            </label>
-          </div>
-
-          <!-- Buttons -->
-          <div class="login__btn-group">
-            <button type="submit" class="login__btn login__btn--primary">
-              Log in
-            </button>
-
-            <!-- Guest Login -->
-            <button
-              type="button"
-              id="guestLoginBtn"
-              class="login__btn login__btn--secondary"
-            >
-              Guest Log in
-            </button>
-          </div>
-        </form>
+      <div class="login__legal-row">
+        <div class="mobilePolicyLegal" id="mobilePolicyLegal">
+          <button type="button" class="mobilePolicyLegalLink" id="policyBtn">
+            Privacy Policy
+          </button>
+          <button type="button" class="mobilePolicyLegalLink" id="legalBtn">
+            Legal notice
+          </button>
+        </div>
       </div>
-    </main>
 
-    <!-- Toast Container (for notifications) -->
-    <div id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+      <!-- Toast Container (for notifications) -->
+      <div id="toastContainer" aria-live="polite" aria-atomic="true"></div>
 
-    <!-- Loading Overlay -->
-    <div id="loadingOverlay" style="display: none"></div>
+      <!-- Loading Overlay -->
+      <div id="loadingOverlay" style="display: none"></div>
+    </div>
   </body>
 </html>

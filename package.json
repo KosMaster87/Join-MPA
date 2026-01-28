@@ -1,0 +1,29 @@
+{
+  "name": "join-mpa",
+  "version": "1.0.0",
+  "description": "Join MPA Development Server",
+  "main": "dev-server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n SERVER,RELOAD \"nodemon dev-server.js\" \"npm run livereload\"",
+    "livereload": "livereload . --wait 500 --debug --extraExts js,css,html",
+    "start": "node dev-server.js",
+    "watch": "nodemon dev-server.js --watch js --watch css",
+    "docs": "jsdoc -c jsdoc.json",
+    "docs:serve": "npx http-server docs -p 8080 -o",
+    "generate-docs": "jsdoc --configure jsdoc.json --verbose"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/connect-livereload": "^0.6.3",
+    "@types/livereload": "^0.9.5",
+    "clean-jsdoc-theme": "^4.3.0",
+    "concurrently": "^9.1.2",
+    "connect-livereload": "^0.6.1",
+    "jsdoc": "^4.0.4",
+    "livereload": "^0.9.3",
+    "nodemon": "^3.1.10"
+  }
+}
