@@ -3,6 +3,11 @@
  * @description Provides the HTML structure for the Summary Dashboard, including sections for task statistics,
  *              urgent task deadlines, and personalized greetings.
  * @module templates/summary-content
+ */
+
+/**
+ * Generates the HTML content for the Summary Dashboard.
+ *
  * @returns {string} HTML string representing the Summary Dashboard layout.
  */
 export function getSummaryContentHTML() {
