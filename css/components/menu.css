@@ -36,6 +36,10 @@
   @media (min-width: 1280px) {
     height: 100%;
   }
+
+  @media (min-width: 1921px) {
+    border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  }
 }
 
 .menu--open {

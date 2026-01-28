@@ -95,6 +95,9 @@ async function renderSummaryLayout() {
   container.innerHTML = html;
   await includeHTML();
 
+  // Set summary icons for current theme after HTML is in DOM
+  const theme = localStorage.getItem("joinTheme") || "device";
+
   // Nach dem Rendern: User-Daten erneut anzeigen
   if (currentUserData) {
     initHeader(currentUserData);

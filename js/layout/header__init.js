@@ -5,19 +5,15 @@
  * @module layout/header__init
  */
 
-import {
-  getCurrentAuthUser,
-  signOutUser,
-} from "../../services/auth.service.js";
+import { signOutUser } from "../../services/auth.service.js";
 import {
   getUserInitials,
   assignUserBadge,
   assignRandomBadge,
-  hashString
 } from "../../services/badge.service.js";
 import { navigateToPage } from "../shared/include-html.js";
 import { showSplash } from "../../services/splash.service.js";
-import { THEMES, THEME_ICONS, getNextTheme, applyTheme, setTheme, initTheme } from "../shared/theme-service.js";
+import { setupThemeToggle } from "../shared/theme-service.js";
 
 /**
  * Initializes header functionality.
@@ -32,32 +28,36 @@ function initHeader(userData) {
  * Sets up all header event listeners.
  */
 function setupEventListeners() {
-  // Theme toggle button
-  const themeBtn = document.getElementById("headerThemeBtn");
-  if (themeBtn) themeBtn.addEventListener("click", () => {
-    const current = localStorage.getItem("joinTheme") || "device";
-    const next = getNextTheme(current);
-    setTheme(next);
+  setupThemeToggle();
+  setupPageNavigationListeners();
+  setupUserMenuListeners();
+  setupOutsideClickListener();
+}
+
+/**
+ * Sets up navigation button listeners (help, legality, policy).
+ */
+function setupPageNavigationListeners() {
+  const navigationBtns = {
+    help: document.querySelector(".header__help-btn"),
+    legality: document.getElementById("headerLegalityBtn"),
+    policy: document.getElementById("headerPolicyBtn"),
+  };
+
+  Object.entries(navigationBtns).forEach(([page, btn]) => {
+    if (btn) btn.addEventListener("click", () => navigateToPage(page));
   });
+}
 
-  // Init theme on load (only once)
-  document.addEventListener("DOMContentLoaded", initTheme);
-
+/**
+ * Sets up user menu and logout listeners.
+ */
+function setupUserMenuListeners() {
   const profileBtn = document.getElementById("headerProfileBtn");
-  const helpBtn = document.querySelector(".header__help-btn");
-  const legalityBtn = document.getElementById("headerLegalityBtn");
-  const policyBtn = document.getElementById("headerPolicyBtn");
   const logoutBtn = document.getElementById("headerLogoutBtn");
 
   if (profileBtn) profileBtn.addEventListener("click", toggleUserMenu);
-  if (helpBtn) helpBtn.addEventListener("click", () => navigateToPage("help"));
-  if (legalityBtn)
-    legalityBtn.addEventListener("click", () => navigateToPage("legality"));
-  if (policyBtn)
-    policyBtn.addEventListener("click", () => navigateToPage("policy"));
   if (logoutBtn) logoutBtn.addEventListener("click", handleLogout);
-
-  document.addEventListener("click", handleOutsideClick);
 }
 
 /**
@@ -107,42 +107,21 @@ function setUserInitialsAndBadge(user, initialsElement, profileBtn) {
 }
 
 /**
- * Assigns consistent badge color based on user ID.
- *
- * @param {Object} user - User object
- * @param {HTMLElement} profileBtn - Profile button element
- */
-
-/**
  * Toggles the visibility of the user menu dropdown.
  */
 function toggleUserMenu() {
   const menu = document.getElementById("headerUserMenu");
-  if (!menu) return;
-
-  const isHidden = menu.hasAttribute("hidden");
-  if (isHidden) {
-    menu.removeAttribute("hidden");
-  } else {
-    menu.setAttribute("hidden", "");
-  }
-}
-
-/**
- * Closes user menu when clicking outside.
- *
- * @param {MouseEvent} event - Click event
- */
-function handleOutsideClick(event) {
-  const menu = document.getElementById("headerUserMenu");
   const profileBtn = document.getElementById("headerProfileBtn");
-
   if (!menu || !profileBtn) return;
 
-  const isClickInside =
-    menu.contains(event.target) || profileBtn.contains(event.target);
-  if (!isClickInside && !menu.hasAttribute("hidden")) {
+  const isHidden = menu.hasAttribute("hidden");
+
+  if (isHidden) {
+    menu.removeAttribute("hidden");
+    profileBtn.classList.add("is-active");
+  } else {
     menu.setAttribute("hidden", "");
+    profileBtn.classList.remove("is-active");
   }
 }
 
@@ -161,6 +140,31 @@ async function handleLogout() {
     }, 2000);
   } catch (error) {
     console.error("Logout failed:", error);
+  }
+}
+
+/**
+ * Sets up outside click handler for closing user menu.
+ */
+function setupOutsideClickListener() {
+  document.addEventListener("click", handleOutsideClick);
+}
+
+/**
+ * Closes user menu when clicking outside.
+ * @param {MouseEvent} event - Click event
+ */
+function handleOutsideClick(event) {
+  const menu = document.getElementById("headerUserMenu");
+  const profileBtn = document.getElementById("headerProfileBtn");
+
+  if (!menu || !profileBtn) return;
+
+  const isClickInside =
+    menu.contains(event.target) || profileBtn.contains(event.target);
+  if (!isClickInside && !menu.hasAttribute("hidden")) {
+    menu.setAttribute("hidden", "");
+    profileBtn.classList.remove("is-active");
   }
 }
 
