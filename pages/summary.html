@@ -71,8 +71,22 @@
       }
     </script>
 
+    <!-- Prevent automatic install prompt ASAP (must be first) -->
+    <script>
+      console.log("[Debug] Summary page loading...");
+      window.addEventListener("beforeinstallprompt", (event) => {
+        console.log("[Install Prompt] Preventing automatic browser prompt");
+        event.preventDefault();
+      });
+      window.addEventListener("error", (event) => {
+        console.error("[Debug] Global error:", event.error);
+      });
+    </script>
+
     <!-- Services -->
     <script type="module" src="../js/shared/theme-service.js"></script>
+    <script type="module" src="../js/shared/install-prompt.js"></script>
+    <script type="module" src="../js/shared/sw-update.js"></script>
     <script type="module" src="../config/firebase.config.js"></script>
     <script type="module" src="../services/firestore.service.js"></script>
     <script type="module" src="../services/auth.service.js"></script>
@@ -83,7 +97,7 @@
     <script type="module" src="../js/shared/ui-helpers.js"></script>
 
     <!-- Layout modules -->
-    <script type="module" src="../js/layout/header__init.js"></script>
+    <script type="module" src="../js/header/header__init.js"></script>
     <script type="module" src="../js/layout/menu__navigation.js"></script>
 
     <!-- Page module -->

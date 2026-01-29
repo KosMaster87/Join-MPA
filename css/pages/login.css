@@ -104,6 +104,7 @@ body {
   width: 100%;
   max-width: 25rem;
   background-color: var(--color-white);
+  /* background-color: #d44bd4; */
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-card);
   padding: var(--spacing-md);
