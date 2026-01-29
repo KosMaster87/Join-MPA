@@ -33,9 +33,9 @@ function buildSummaryLayoutHTML() {
 function buildMobileLayout(contentHtml) {
   return `
     <main class="app-layout__main">
-      <header w3-include-html="../assets/templates/header.html"></header>
+      <div w3-include-html="../assets/templates/header.html"></div>
       <div class="summary__content-wrapper" id="summaryContentContainer">${contentHtml}</div>
-      <nav class="menu-container" w3-include-html="../assets/templates/menu.html"></nav>
+      <div class="menu-container" w3-include-html="../assets/templates/menu.html"></div>
     </main>
   `;
 }
@@ -50,10 +50,10 @@ function buildDesktopLayout(contentHtml) {
   return `
     <main class="desktop-layout__main">
       <div class="main-right">
-        <header w3-include-html="../assets/templates/header.html"></header>
+        <div w3-include-html="../assets/templates/header.html"></div>
         <div class="summary__content-wrapper" id="summaryContentContainer">${contentHtml}</div>
       </div>
-      <nav class="menu-container" w3-include-html="../assets/templates/menu.html"></nav>
+      <div class="menu-container" w3-include-html="../assets/templates/menu.html"></div>
     </main>
   `;
 }

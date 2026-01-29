@@ -3,6 +3,7 @@
  * @description Provides functions to switch between light, dark, and device themes.
  *              Implements hybrid approach using CSS light-dark() function with manual control.
  *              Integrates with PWA manifest and favicon switching.
+ *              Cache busting handled automatically by Workbox.
  * @module shared/theme-service
  */
 
@@ -38,6 +39,7 @@ function getSystemTheme() {
 /**
  * Applies the selected theme to the document with hybrid approach.
  * Sets data-theme attribute and updates manifest + favicon.
+ * Syncs settings with Service Worker for PWA persistence.
  *
  * @param {string} theme - Theme to apply ("device", "light", or "dark")
  */
@@ -54,6 +56,9 @@ async function applyTheme(theme) {
   await updateSummaryIconsForTheme(realTheme);
 
   localStorage.setItem("joinTheme", theme);
+
+  // Sync settings with Service Worker for PWA
+  syncSettingsWithServiceWorker();
 }
 
 /**
@@ -86,6 +91,7 @@ function updateManifestAndFavicon(theme) {
   const manifest = document.createElement("link");
 
   manifest.rel = "manifest";
+  // Workbox handles cache busting automatically via StaleWhileRevalidate strategy
   manifest.href =
     theme === "dark"
       ? "./assets/manifest-dark.webmanifest"
@@ -183,10 +189,10 @@ function updateSummaryIconsForTheme(theme) {
  */
 function setupThemeToggle() {
   const theme = localStorage.getItem("joinTheme") || "device";
-  
+
   // Update header icon to match current theme
   updateThemeIcon(theme);
-  
+
   const themeBtn = document.getElementById("headerThemeBtn");
   if (themeBtn) {
     themeBtn.addEventListener("click", handleThemeToggle);
@@ -220,6 +226,24 @@ function handleThemeToggle() {
   setTheme(next);
 }
 
+/**
+ * Syncs application settings with the Service Worker.
+ * Sends current settings from localStorage to the SW for persistence.
+ * This ensures settings are maintained across page reloads in PWA mode.
+ */
+function syncSettingsWithServiceWorker() {
+  if ("serviceWorker" in navigator) {
+    const settings = {
+      joinTheme: localStorage.getItem("joinTheme") || "device",
+    };
+
+    navigator.serviceWorker.controller?.postMessage({
+      type: "SYNC_SETTINGS",
+      payload: settings,
+    });
+  }
+}
+
 export {
   THEMES,
   THEME_ICONS,
@@ -232,6 +256,7 @@ export {
   setupThemeToggle,
   handleThemeToggle,
   updateSummaryIconsForTheme,
+  syncSettingsWithServiceWorker,
 };
 
 initializeThemeService();
