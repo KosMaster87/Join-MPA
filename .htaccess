@@ -49,10 +49,12 @@ RewriteRule ^([a-zA-Z0-9_-]+)\.html$ /pages/404.html [L]
     Header set Service-Worker-Allowed "/"
   </FilesMatch>
 
-  # Manifests - kurz cachen für Performance
+  # Manifests - IMMER neu laden (Client entscheidet, ob Cache genutzt wird)
   <FilesMatch "\.webmanifest$">
     Header set Content-Type "application/manifest+json; charset=utf-8"
-    Header set Cache-Control "public, max-age=3600, must-revalidate"
+    Header set Cache-Control "no-cache, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
   </FilesMatch>
 </IfModule>
 

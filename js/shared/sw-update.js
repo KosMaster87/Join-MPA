@@ -1,15 +1,19 @@
 /**
  * @fileoverview Service Worker Update Service
- * @description Registers the Service Worker and checks for app updates by monitoring SW updates.
- *              Automatically checks periodically and on page load.
+ * @description Registers and monitors Service Worker updates, handles app versioning
  * @module shared/sw-update
  */
+
+// Load SW configuration
+import { SW_CONFIG } from "/config/sw-constants.js";
 
 let currentVersion = localStorage.getItem("app-version") || "0";
 let updateCheckInterval = null;
 
 /**
  * Register the Service Worker
+ * @async
+ * @returns {Promise<ServiceWorkerRegistration|null>} Registration object or null
  */
 async function registerServiceWorker() {
   if (!("serviceWorker" in navigator)) {
@@ -18,9 +22,8 @@ async function registerServiceWorker() {
   }
 
   try {
-    const registration = await navigator.serviceWorker.register(
-      "/service-worker.js",
-    );
+    const registration =
+      await navigator.serviceWorker.register("/service-worker.js");
     console.log("[SW Register] Service Worker registered!", registration);
     return registration;
   } catch (error) {
@@ -29,63 +32,166 @@ async function registerServiceWorker() {
   }
 }
 
+// ============================================
+// Update Checking
+// ============================================
+
 /**
- * Initialize the SW update checker
- * Registers the SW and checks for updates on page load and periodically
+ * Setup update checking on page load
+ * @async
  */
-export function initSwUpdateChecker() {
+async function setupUpdateListeners() {
+  const registration = await registerServiceWorker();
+  if (!registration) return;
+
+  registration.addEventListener("updatefound", handleUpdateFound);
+  await performInitialUpdateCheck();
+  startPeriodicUpdateChecks();
+}
+
+/**
+ * Handle update found event
+ * @param {Event} event - Update found event
+ */
+function handleUpdateFound(event) {
+  const registration = event.target;
+  const newWorker = registration.installing;
+
+  if (newWorker) {
+    newWorker.addEventListener("statechange", () => {
+      if (
+        newWorker.state === "installed" &&
+        navigator.serviceWorker.controller
+      ) {
+        console.log("[SW Update] New version ready to install");
+        storeVersionAndNotifyClients();
+      }
+    });
+  }
+}
+
+/**
+ * Perform initial update check with delay
+ * @async
+ */
+async function performInitialUpdateCheck() {
+  return new Promise((resolve) => {
+    setTimeout(async () => {
+      try {
+        await updateServiceWorker();
+      } catch (error) {
+        console.debug("[SW Update] Initial check failed:", error);
+      }
+      resolve();
+    }, 1000);
+  });
+}
+
+/**
+ * Start periodic update checks using configured interval
+ */
+function startPeriodicUpdateChecks() {
+  updateCheckInterval = setInterval(async () => {
+    try {
+      if (!("serviceWorker" in navigator)) return;
+      await updateServiceWorker();
+    } catch (error) {
+      console.debug("[SW Update] Periodic check failed:", error);
+    }
+  }, SW_CONFIG.UPDATE_CHECK_INTERVAL);
+}
+
+/**
+ * Update Service Worker with error handling
+ * @async
+ * @private
+ */
+async function updateServiceWorker() {
   if (!("serviceWorker" in navigator)) {
-    console.log("[Update Check] Service Worker not supported");
+    console.log("[SW Update] Service Worker context unavailable");
     return;
   }
 
-  // Store initial version
-  localStorage.setItem("app-version", currentVersion);
-
-  // Register SW and set up update checking
-  window.addEventListener("load", async () => {
-    const registration = await registerServiceWorker();
-
+  try {
+    const registration = await navigator.serviceWorker.ready;
     if (registration) {
-      // Check for updates immediately
-      registration.update();
-
-      // Check for updates every 30 minutes
-      updateCheckInterval = setInterval(() => {
-        registration.update();
-      }, 30 * 60 * 1000);
+      await registration.update();
     }
-  });
+  } catch (error) {
+    const errorMsg = error.toString();
+    const shouldIgnore =
+      errorMsg.includes("uninstalled") ||
+      errorMsg.includes("not, or is no longer");
 
-  // Listen for SW update messages
-  navigator.serviceWorker.addEventListener("message", handleSwMessage);
-}
-
-/**
- * Handle messages from Service Worker
- */
-function handleSwMessage(event) {
-  if (event.data && event.data.type === "SW_UPDATE_AVAILABLE") {
-    const newVersion = event.data.version;
-    console.log(`[SW Message] Update available: version ${newVersion}`);
-
-    const oldVersion = localStorage.getItem("app-version") || "0";
-    if (newVersion !== oldVersion) {
-      notifyUpdateAvailable(newVersion);
-      localStorage.setItem("app-version", newVersion);
-      currentVersion = newVersion;
+    if (!shouldIgnore) {
+      throw error;
     }
   }
 }
 
+// ============================================
+// Message Handling
+// ============================================
+
 /**
- * Notify user that an update is available
- * Shows a notification and dispatches event
+ * Handle messages from Service Worker
+ * @param {MessageEvent} event - Message from SW
+ */
+function handleSwMessage(event) {
+  const { data } = event;
+  if (!data) return;
+
+  if (data.type === "SW_UPDATE_AVAILABLE") {
+    handleUpdateAvailable(data.version);
+  } else if (data.type === "SW_ACTIVATED") {
+    handleSwActivated(data.version);
+  }
+}
+
+/**
+ * Handle SW_UPDATE_AVAILABLE message
+ * @param {string} newVersion - New version from SW
+ */
+function handleUpdateAvailable(newVersion) {
+  console.log(`[SW Message] Update available: version ${newVersion}`);
+
+  const oldVersion = localStorage.getItem("app-version") || "0";
+  if (newVersion !== oldVersion) {
+    notifyUpdateAvailable(newVersion);
+    localStorage.setItem("app-version", newVersion);
+    currentVersion = newVersion;
+  }
+}
+
+/**
+ * Handle SW_ACTIVATED message - triggers page reload
+ * @param {string} activatedVersion - Activated SW version
+ */
+function handleSwActivated(activatedVersion) {
+  console.log(
+    `[SW Message] Service Worker activated: version ${activatedVersion}`,
+  );
+
+  const storedVersion = localStorage.getItem("app-version");
+  if (storedVersion && storedVersion !== activatedVersion) {
+    console.log("[SW Message] New version detected, reloading page...");
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+  }
+}
+
+// ============================================
+// Notifications
+// ============================================
+
+/**
+ * Notify user about available update
+ * @param {string} newVersion - New version string
  */
 function notifyUpdateAvailable(newVersion) {
-  console.log(`[Update Notification] New version ${newVersion} is available`);
+  console.log(`[Update Notification] New version ${newVersion} available`);
 
-  // Create and show browser notification
   if ("Notification" in window && Notification.permission === "granted") {
     new Notification("Join Update Available", {
       body: "A new version of Join is available. Reload to update.",
@@ -94,29 +200,69 @@ function notifyUpdateAvailable(newVersion) {
     });
   }
 
-  // Dispatch custom event for app to handle (show toast, modal, etc.)
   window.dispatchEvent(
-    new CustomEvent("swUpdateAvailable", {
-      detail: { version: newVersion },
-    }),
+    new CustomEvent("swUpdateAvailable", { detail: { version: newVersion } }),
   );
 }
 
+// ============================================
+// Storage
+// ============================================
+
 /**
- * Trigger update check manually
+ * Store version and notify clients
+ * @async
  */
-export function checkForUpdatesNow() {
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.ready.then((registration) => {
-      registration.update();
-    });
+async function storeVersionAndNotifyClients() {
+  try {
+    const registration = await navigator.serviceWorker.ready;
+    if (registration.installing) {
+      notifyUpdateAvailable(currentVersion);
+    }
+  } catch (error) {
+    console.error("[SW Update] Failed to store version:", error);
+  }
+}
+
+// ============================================
+// Public API
+// ============================================
+
+/**
+ * Initialize Service Worker update checker
+ * @async
+ */
+async function initSwUpdateChecker() {
+  if (!("serviceWorker" in navigator)) {
+    console.log("[Update Check] Service Worker not supported");
+    return;
+  }
+
+  localStorage.setItem("app-version", currentVersion);
+
+  window.addEventListener("load", setupUpdateListeners);
+  navigator.serviceWorker.addEventListener("message", handleSwMessage);
+}
+
+/**
+ * Manually trigger update check
+ * @async
+ */
+async function checkForUpdatesNow() {
+  if (!("serviceWorker" in navigator)) return;
+
+  try {
+    const registration = await navigator.serviceWorker.ready;
+    await registration.update();
+  } catch (error) {
+    console.error("[SW Update] Manual check failed:", error);
   }
 }
 
 /**
- * Stop checking for updates
+ * Stop update checker and cleanup listeners
  */
-export function stopUpdateChecker() {
+function stopUpdateChecker() {
   if (updateCheckInterval) {
     clearInterval(updateCheckInterval);
     updateCheckInterval = null;
@@ -125,25 +271,31 @@ export function stopUpdateChecker() {
 }
 
 /**
- * Force reload the page with cache busting
+ * Force reload app with cache bypass
  */
-export function forceReloadApp() {
-  // Tell Service Worker to check for updates
+function forceReloadApp() {
   if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
-    navigator.serviceWorker.controller.postMessage({
-      type: "CHECK_UPDATE",
-    });
+    navigator.serviceWorker.controller.postMessage({ type: "CHECK_UPDATE" });
   }
 
-  // Hard reload after a short delay
   setTimeout(() => {
-    window.location.reload(true); // true = bypass cache
+    window.location.reload(true);
   }, 500);
 }
 
-// Initialize on module load
+// ============================================
+// Initialization
+// ============================================
+
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initSwUpdateChecker);
 } else {
   initSwUpdateChecker();
 }
+
+export {
+  initSwUpdateChecker,
+  checkForUpdatesNow,
+  stopUpdateChecker,
+  forceReloadApp,
+};
