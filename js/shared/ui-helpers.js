@@ -197,40 +197,50 @@ async function copyToClipboard(text) {
 }
 
 /**
- * Tracks the last window width for resize detection.
+ * Mobile/Desktop breakpoint in pixels (matches CSS --breakpoint-md).
  * @type {number}
  */
-let lastWindowWidth = window.innerWidth;
+const BREAKPOINT_MOBILE_DESKTOP = 1080;
 
 /**
- * Sets up a resize listener that only triggers on width changes.
- * Ignores height-only changes (e.g., mobile keyboard).
+ * Tracks whether the viewport is currently in mobile mode.
+ * @type {boolean}
+ */
+let isMobileView = window.innerWidth < BREAKPOINT_MOBILE_DESKTOP;
+
+/**
+ * Sets up a resize listener that triggers only on viewport mode changes.
+ * Only fires callback when switching between mobile (<1080px) and desktop (≥1080px).
  *
- * @param {Function} onWidthChange - Async callback to execute on width change
+ * @param {Function} onViewportModeChange - Async callback to execute on mode change
  * @param {number} debounceMs - Debounce delay in milliseconds (default: 500)
  */
-function setupResizeListenerOnWidthChange(onWidthChange, debounceMs = 500) {
+function setupResizeListenerOnWidthChange(onViewportModeChange, debounceMs = 500) {
   let resizeTimeout;
-  
+
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-      handleWindowResize(onWidthChange);
+      handleWindowResize(onViewportModeChange);
     }, debounceMs);
   });
 }
 
 /**
- * Handles window resize and executes callback if width changed.
+ * Handles window resize and executes callback only on viewport mode change.
+ * Checks if viewport switched between mobile (<1080px) and desktop (≥1080px).
  *
- * @param {Function} onWidthChange - Async callback on width change
+ * @param {Function} onViewportModeChange - Async callback on mode change
  */
-async function handleWindowResize(onWidthChange) {
+async function handleWindowResize(onViewportModeChange) {
   try {
     const currentWidth = window.innerWidth;
-    if (currentWidth !== lastWindowWidth) {
-      lastWindowWidth = currentWidth;
-      await onWidthChange(currentWidth);
+    const isCurrentlyMobile = currentWidth < BREAKPOINT_MOBILE_DESKTOP;
+
+    // Only trigger if mode actually changed (mobile ↔ desktop)
+    if (isCurrentlyMobile !== isMobileView) {
+      isMobileView = isCurrentlyMobile;
+      await onViewportModeChange(currentWidth, isMobileView);
     }
   } catch (error) {
     console.error("[handleWindowResize] Error:", error);
@@ -238,14 +248,14 @@ async function handleWindowResize(onWidthChange) {
 }
 
 /**
- * Updates the tracked last window width.
- * Useful for manual width synchronization.
+ * Updates the tracked viewport mode.
+ * Useful for manual synchronization after programmatic changes.
  *
- * @returns {number} Current window width
+ * @returns {boolean} Current mobile view state
  */
 function updateLastWindowWidth() {
-  lastWindowWidth = window.innerWidth;
-  return lastWindowWidth;
+  isMobileView = window.innerWidth < BREAKPOINT_MOBILE_DESKTOP;
+  return isMobileView;
 }
 
 export {

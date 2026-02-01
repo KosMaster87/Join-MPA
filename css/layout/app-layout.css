@@ -80,7 +80,7 @@ body {
    ========================================================================== */
 
 .desktop-layout__main {
-  @media (min-width: 1080px) {
+  @media (min-width: 1081px) {
     display: flex;
     align-items: center;
     justify-content: center;

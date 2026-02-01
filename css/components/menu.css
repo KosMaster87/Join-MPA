@@ -5,6 +5,7 @@
 .menu-container {
   @media (min-width: 1080px) {
     height: 100%;
+    order: 1;
   }
 
   @media (min-width: 1280px) {
@@ -147,10 +148,12 @@
   background-color: rgba(41, 171, 226, 0.15);
   border-bottom-color: var(--color-accent);
   font-weight: var(--font-weight-semibold);
+  border-radius: 0.5rem;
 
   @media (min-width: 1080px) {
     border-bottom-color: transparent;
     border-left-color: var(--color-accent);
+    border-radius: 0.5rem 0 0 0.5rem;
   }
 }
 
