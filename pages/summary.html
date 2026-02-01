@@ -6,29 +6,33 @@
         position: fixed;
         inset: 0;
         z-index: 9999;
-        background: #fff;
+        background: #dfdfdf;
         display: flex;
         align-items: center;
         justify-content: center;
         opacity: 1;
         transition: opacity 0.5s;
       }
+
       #splashScreen.splash--hidden {
         opacity: 0;
         pointer-events: none;
       }
+
       .splash__logo {
         width: 150px;
         height: 150px;
         object-fit: contain;
         display: block;
       }
+
       @media (min-width: 768px) {
         .splash__logo {
           width: 200px;
           height: 200px;
         }
       }
+
       @media (min-width: 1280px) {
         .splash__logo {
           width: 250px;
@@ -37,8 +41,13 @@
       }
     </style>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <meta name="color-scheme" content="light dark" />
+    <!-- Dynamic theme color - updated by theme-service.js -->
+    <meta name="theme-color" content="#dfdfdf" />
     <meta
       name="description"
       content="Join - Dashboard overview of your tasks and projects."

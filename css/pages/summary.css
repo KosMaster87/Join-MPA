@@ -22,11 +22,12 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  /* height: 100vh; */
   height: 100%;
+  overflow-y: auto;
 
   @media (min-width: 1081px) {
     height: 100%;
+    overflow-y: auto;
   }
 }
 
@@ -39,16 +40,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
   padding: var(--spacing-md);
   gap: var(--spacing-md);
+  width: 100%;
 
-  @media (min-width: 1080px) {
-    gap: var(--spacing-lg);
-  }
-
-  @media (min-width: 1080px) {
+  @media (min-width: 1081px) {
     flex-direction: row;
     justify-content: center;
     padding: var(--spacing-xl);
@@ -72,8 +68,7 @@
 .summary__greeting-mobile {
   display: none;
   flex-direction: column;
-  background-color: red;
-  /* background-color: var(--color-gray-50); */
+  background-color: var(--color-gray-50);
   align-items: center;
   justify-content: center;
   z-index: 10;
@@ -224,6 +219,10 @@
   color: var(--text-white);
 }
 
+.summary__card--urgent:hover .summary__urgent-divider {
+  background-color: var(--border-color);
+}
+
 [data-theme="light"] .summary__card--todo:hover .summary__card-icon--pencil,
 [data-theme="light"] .summary__card--done:hover .summary__card-icon--check {
   filter: invert(1) brightness(2);
@@ -367,11 +366,6 @@
     gap: var(--spacing-md);
   }
 
-  @media (min-width: 1080px) {
-    padding: var(--spacing-lg);
-    gap: var(--spacing-md);
-  }
-
   @media (min-width: 1280px) {
     padding: var(--spacing-lg);
     gap: var(--spacing-lg);
@@ -416,23 +410,15 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: var(--spacing-sm);
-
-  @media (min-width: 1080px) {
-    gap: var(--spacing-md);
-  }
-
-  @media (min-width: 1280px) {
-    gap: var(--spacing-lg);
-  }
 }
 
 .summary__urgent-divider {
   display: block;
-  width: 1px;
+  width: 2px;
   height: 3rem;
-  background-color: var(--color-gray-200);
+  background-color: var(--border-dust);
   border-radius: var(--radius-sm);
+  transition: background-color 0.3s ease;
 
   @media (min-width: 1080px) {
     height: 3.5rem;

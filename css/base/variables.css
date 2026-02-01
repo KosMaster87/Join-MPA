@@ -1,89 +1,88 @@
 /**
  * CSS Variables - Design Tokens
  * Global color, spacing, and typography definitions
- * Supports light/dark theme with light-dark() CSS function and data-theme attribute
+ * Light theme as default, dark theme via data-theme selector
  */
 
 :root {
-  /* CRITICAL: Enable light-dark() CSS function support */
   color-scheme: light dark;
 
   /* ========================================================================
-     Theme Colors - Light/Dark with light-dark() function
+     Theme Colors - LIGHT (DEFAULT)
      ======================================================================== */
 
   /* Background Colors */
-  --bg-primary: light-dark(#dfdfdf, #161b22);
-  --bg-secondary: light-dark(#f6f7f8, #161b22);
-  --bg-tertiary: light-dark(#eeeeee, #21262d);
+  --bg-primary: #dfdfdf;
+  --bg-secondary: #f6f7f8;
+  --bg-tertiary: #eeeeee;
 
   /* Header Colors */
-  --bg-header: light-dark(#ffffff, #dfdfdf);
-  --bg-header-hover: light-dark(#f6f7f8, #ffffff);
+  --bg-header: #ffffff;
+  --bg-header-hover: #f6f7f8;
 
   /* Sidebar Colors */
-  --bg-sidebar: light-dark(#ffffff, #21262d);
-  --bg-sidebar-hover: light-dark(#f6f7f8, #30363d);
+  --bg-sidebar: #2a3647;
+  --bg-sidebar-hover: #f6f7f8;
 
   /* Pages Colors */
-  --bg-page: light-dark(#f6f7f8, #21262d);
-  --bg-page-hover: light-dark(#1e252d, #30363d);
+  --bg-page: #f6f7f8;
+  --bg-page-hover: #1e252d;
 
   /* Summary Colors */
-  --bg-summary-card: light-dark(#f6f7f8, #30363d);
-  --bg-summary-card-hover: light-dark(#2a3647, #1f6feb);
+  --bg-summary-card: #f6f7f8;
+  --bg-summary-card-hover: #2a3647;
 
   /* Text Colors */
-  --text-primary: light-dark(#2a3647, #c9d1d9);
-  --text-secondary: light-dark(#7a7a7a, #8b949e);
-  --text-tertiary: light-dark(#a8a8a8, #6e7681);
-  --text-white: light-dark(#ffffff, #ffffff);
-  --text-user-menu: light-dark(#cdcdcd, #ffffff);
-  --text-user-menu-hover: light-dark(#29abe2, #58a6ff);
+  --text-primary: #2a3647;
+  --text-secondary: #7a7a7a;
+  --text-tertiary: #a8a8a8;
+  --text-white: #ffffff;
+  --text-user-menu: #cdcdcd;
+  --text-user-menu-hover: #29abe2;
 
   /* Primary Brand Colors */
-  --color-primary: light-dark(#2a3647, #58a6ff);
-  --color-primary-light: light-dark(#2a3d59, #79c0ff);
-  --color-primary-dark: light-dark(#091931, #0d47a1);
+  --color-primary: #2a3647;
+  --color-primary-light: #2a3d59;
+  --color-primary-dark: #091931;
 
   /* Accent Colors */
-  --color-accent: light-dark(#29abe2, #58a6ff);
-  --color-accent-light: light-dark(#4fc3f7, #79c0ff);
-  --color-accent-dark: light-dark(#005dff, #1f6feb);
+  --color-accent: #29abe2;
+  --color-accent-light: #4fc3f7;
+  --color-accent-dark: #005dff;
 
   /* Feedback Colors */
-  --color-success: light-dark(#7ae229, #3fb950);
-  --color-error: light-dark(#ff3d00, #f85149);
-  --color-error-hover: light-dark(#ffa800, #d29922);
-  --color-warning: light-dark(#ffa800, #d29922);
-  --color-info: light-dark(#29abe2, #58a6ff);
+  --color-success: #7ae229;
+  --color-error: #ff3d00;
+  --color-error-hover: #ffa800;
+  --color-warning: #ffa800;
+  --color-info: #29abe2;
 
-  /* Neutral Colors - Static (same in light/dark) */
+  /* Neutral Colors */
   --color-white: #ffffff;
   --color-black: #000000;
-  --color-gray-50: light-dark(#f6f7f8, #2a3647);
-  --color-gray-100: light-dark(#eeeeee, #161b22);
-  --color-gray-200: light-dark(#cdcdcd, #30363d);
-  --color-gray-300: light-dark(#a8a8a8, #6e7681);
-  --color-gray-400: light-dark(#7a7a7a, #8b949e);
-  --color-gray-500: light-dark(#5c5c5c, #c9d1d9);
-  --color-gray-600: light-dark(#424242, #d0d7de);
-  --color-gray-700: light-dark(#2e2e2e, #e6edf3);
-  --color-gray-800: light-dark(#1a1a1a, #f0f6fc);
+  --color-gray-50: #f6f7f8;
+  --color-gray-100: #eeeeee;
+  --color-gray-200: #cdcdcd;
+  --color-gray-300: #a8a8a8;
+  --color-gray-400: #7a7a7a;
+  --color-gray-500: #5c5c5c;
+  --color-gray-600: #424242;
+  --color-gray-700: #2e2e2e;
+  --color-gray-800: #1a1a1a;
 
   /* Border Colors */
-  --border-color: light-dark(#cdcdcd, #30363d);
-  --border-light: light-dark(#eeeeee, #21262d);
-  --border-dust: light-dark(#cdcdcd, #5c5c5c);
+  --border-color: #cdcdcd;
+  --border-light: #eeeeee;
+  --border-dust: #cdcdcd;
 
   /* Task Categories */
-  --color-user-story: light-dark(#0038ff, #58a6ff);
-  --color-technical-task: light-dark(#1fd7c1, #3fb950);
+  --color-user-story: #0038ff;
+  --color-technical-task: #1fd7c1;
 
   /* Priority Colors */
-  --color-urgent-high: light-dark(#ff3d00, #f85149);
-  --color-urgent-medium: light-dark(#ffa800, #d29922);
-  --color-urgent-low: light-dark(#7ae229, #3fb950);
+  --color-urgent-high: #ff3d00;
+  --color-urgent-medium: #ffa800;
+  --color-urgent-low: #7ae229;
 
   /* Profile Badges - Static (colorful in both themes) */
   --color-badge-1: #ff7a00;
@@ -112,14 +111,14 @@
     "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* Font Size */
-  --font-size-xs: 0.75rem; /* 12px */
-  --font-size-sm: 0.875rem; /* 14px */
-  --font-size-base: 1rem; /* 16px */
-  --font-size-lg: 1.125rem; /* 18px */
-  --font-size-xl: 1.25rem; /* 20px */
-  --font-size-2xl: 1.5rem; /* 24px */
-  --font-size-3xl: 1.875rem; /* 30px */
-  --font-size-4xl: 2.25rem; /* 36px */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
 
   /* Font Weight */
   --font-weight-normal: 400;
@@ -137,50 +136,35 @@
      ======================================================================== */
 
   /* Spacing */
-  --spacing-xs: 0.25rem; /* 4px */
-  --spacing-sm: 0.5rem; /* 8px */
-  --spacing-md: 1rem; /* 16px */
-  --spacing-lg: 1.5rem; /* 24px */
-  --spacing-xl: 2rem; /* 32px */
-  --spacing-2xl: 3rem; /* 48px */
-  --spacing-3xl: 4rem; /* 64px */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --spacing-3xl: 4rem;
 
   /* Border Radius */
-  --radius-sm: 0.25rem; /* 4px */
-  --radius-md: 0.5rem; /* 8px */
-  --radius-lg: 0.75rem; /* 12px */
-  --radius-xl: 1rem; /* 16px */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
   --radius-full: 9999px;
 
   /* ========================================================================
      Effects & Shadows
      ======================================================================== */
 
-  /* Shadows - Adaptive */
-  --shadow-xs: light-dark(
-    0 1px 2px 0 rgba(0, 0, 0, 0.05),
-    0 1px 2px 0 rgba(255, 255, 255, 0.05)
-  );
-  --shadow-sm: light-dark(
-    0 1px 3px 0 rgba(0, 0, 0, 0.1) 0 1px 2px 0 rgba(0, 0, 0, 0.06),
-    0 1px 3px 0 rgba(0, 0, 0, 0.3) 0 1px 2px 0 rgba(0, 0, 0, 0.15)
-  );
-  --shadow-md: light-dark(
-    0 4px 6px -1px rgba(0, 0, 0, 0.1) 0 2px 4px -1px rgba(0, 0, 0, 0.06),
-    0 4px 6px -1px rgba(0, 0, 0, 0.3) 0 2px 4px -1px rgba(0, 0, 0, 0.15)
-  );
-  --shadow-lg: light-dark(
-    0 10px 15px -3px rgba(0, 0, 0, 0.1) 0 4px 6px -2px rgba(0, 0, 0, 0.05),
-    0 10px 15px -3px rgba(0, 0, 0, 0.3) 0 4px 6px -2px rgba(0, 0, 0, 0.1)
-  );
-  --shadow-xl: light-dark(
-    0 20px 25px -5px rgba(0, 0, 0, 0.1) 0 10px 10px -5px rgba(0, 0, 0, 0.04),
-    0 20px 25px -5px rgba(0, 0, 0, 0.3) 0 10px 10px -5px rgba(0, 0, 0, 0.1)
-  );
-  --shadow-card: light-dark(
-    0px 0px 14px 3px rgba(0, 0, 0, 0.04),
-    0px 0px 14px 3px rgba(0, 0, 0, 0.2)
-  );
+  /* Shadows */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
 
   /* Transitions */
   --transition-fast: 150ms ease-in-out;
@@ -193,19 +177,140 @@
   --z-toast: 3000;
   --z-tooltip: 4000;
 
-  /* Breakpoints (for reference in media queries) */
+  /* Breakpoints */
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
 }
 
-/* Override color-scheme for explicit light mode */
-:root[data-theme="light"] {
-  color-scheme: light;
+/* ========================================================================
+   DARK THEME OVERRIDES
+   ======================================================================== */
+:root[data-theme="dark"] {
+  /* Background Colors */
+  --bg-primary: #161b22;
+  --bg-secondary: #161b22;
+  --bg-tertiary: #21262d;
+
+  /* Header Colors */
+  --bg-header: #dfdfdf;
+  --bg-header-hover: #ffffff;
+
+  /* Sidebar Colors */
+  --bg-sidebar: #0d47a1;
+  --bg-sidebar-hover: #30363d;
+
+  /* Pages Colors */
+  --bg-page: #21262d;
+  --bg-page-hover: #30363d;
+
+  /* Summary Colors */
+  --bg-summary-card: #30363d;
+  --bg-summary-card-hover: #1f6feb;
+
+  /* Text Colors */
+  --text-primary: #c9d1d9;
+  --text-secondary: #8b949e;
+  --text-tertiary: #6e7681;
+  --text-white: #ffffff;
+  --text-user-menu: #ffffff;
+  --text-user-menu-hover: #58a6ff;
+
+  /* Primary Brand Colors */
+  --color-primary: #58a6ff;
+  --color-primary-light: #79c0ff;
+  --color-primary-dark: #0d47a1;
+
+  /* Accent Colors */
+  --color-accent: #58a6ff;
+  --color-accent-light: #79c0ff;
+  --color-accent-dark: #1f6feb;
+
+  /* Feedback Colors */
+  --color-success: #3fb950;
+  --color-error: #f85149;
+  --color-error-hover: #d29922;
+  --color-warning: #d29922;
+  --color-info: #58a6ff;
+
+  /* Neutral Colors */
+  --color-gray-50: #2a3647;
+  --color-gray-100: #161b22;
+  --color-gray-200: #30363d;
+  --color-gray-300: #6e7681;
+  --color-gray-400: #8b949e;
+  --color-gray-500: #c9d1d9;
+  --color-gray-600: #d0d7de;
+  --color-gray-700: #e6edf3;
+  --color-gray-800: #f0f6fc;
+
+  /* Border Colors */
+  --border-color: #cdcdcd;
+  --border-light: #21262d;
+  --border-dust: #5c5c5c;
+
+  /* Task Categories */
+  --color-user-story: #58a6ff;
+  --color-technical-task: #3fb950;
+
+  /* Priority Colors */
+  --color-urgent-high: #f85149;
+  --color-urgent-medium: #d29922;
+  --color-urgent-low: #3fb950;
+
+  /* Shadows - Dark variant */
+  --shadow-xs: 0 1px 2px 0 rgba(255, 255, 255, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.15);
+  --shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.15);
+  --shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+  --shadow-xl:
+    0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+  --shadow-card: 0px 0px 14px 3px rgba(0, 0, 0, 0.2);
 }
 
-/* Override color-scheme for explicit dark mode */
-:root[data-theme="dark"] {
-  color-scheme: dark;
+/* ============================================================
+   Progress Bar Styling
+   ============================================================ */
+progress {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: var(--bg-secondary);
+  border: none;
+  border-radius: 0;
+}
+
+progress::-webkit-progress-bar {
+  background-color: var(--bg-secondary);
+  border-radius: 0;
+}
+
+progress::-webkit-progress-value {
+  background-color: var(--color-primary);
+  border-radius: 0;
+}
+
+progress::-moz-progress-bar {
+  background-color: var(--color-primary);
+  border-radius: 0;
+}
+
+/* Dark theme progress bar */
+:root[data-theme="dark"] progress {
+  background-color: var(--bg-secondary);
+}
+
+:root[data-theme="dark"] progress::-webkit-progress-bar {
+  background-color: var(--bg-secondary);
+}
+
+:root[data-theme="dark"] progress::-webkit-progress-value {
+  background-color: var(--color-primary);
+}
+
+:root[data-theme="dark"] progress::-moz-progress-bar {
+  background-color: var(--color-primary);
 }

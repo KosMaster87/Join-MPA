@@ -10,8 +10,6 @@ module.exports = {
 
   // Patterns to precache
   globPatterns: [
-    'index.html',
-    'pages/**/*.html',
     'css/**/*.css',
     'js/**/*.js',
     'assets/img/**/*.{png,jpg,jpeg,svg,webp}',
@@ -49,7 +47,7 @@ module.exports = {
   manifestTransforms: [
     (manifestEntries) => {
       const manifest = manifestEntries.filter(entry => {
-        return !entry.url.includes('manifest') && 
+        return !entry.url.includes('manifest') &&
                !entry.url.endsWith('.webmanifest') &&
                entry.size < 2 * 1024 * 1024;
       });
