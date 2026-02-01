@@ -31,10 +31,19 @@
    Header Elements
    ========================================================================== */
 
+.header__logo {
+  display: flex;
+  align-items: center;
+
+  @media (min-width: 1080px) {
+    display: none;
+  }
+}
+
 .header__logo-img {
   height: 30px;
 
-  @media (min-width: 1080) {
+  @media (min-width: 1080px) {
     display: none;
   }
 }

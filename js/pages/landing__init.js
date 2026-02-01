@@ -1,73 +1,107 @@
 /**
  * @fileoverview Landing Page Module
- * @description Displays splash screen and redirects users based on authentication status.
+ * @description Displays splash screen and redirects users based on authentication status
  * @module js/pages/landing__init
- * DEPRECATED: Use index.html as landing page instead.
+ * DEPRECATED: Use index.html as landing page instead
  */
 
 import { onAuthChange } from "../../services/auth.service.js";
 
-const SPLASH_DURATION = 1000; // Duration to show splash screen in ms
-const REDIRECT_DELAY = 500; // Additional delay after splash
+const SPLASH_DURATION = 1000;
+const REDIRECT_DELAY = 500;
 const CURRENT_PATH = window.location.pathname;
-const IS_SUMMARY = CURRENT_PATH.endsWith("/summary.html");
-// const IS_SUMMARY = CURRENT_PATH.endsWith('/pages/summary.html');
-const IS_LOGIN = CURRENT_PATH.endsWith("/login.html");
-// const IS_LOGIN = CURRENT_PATH.endsWith('/pages/login.html');
-const IS_INDEX = /\/index\.html$|\/$/.test(window.location.pathname);
+
+const PAGE_CONFIG = {
+  isSummary: CURRENT_PATH.endsWith("/summary.html"),
+  isLogin: CURRENT_PATH.endsWith("/login.html"),
+  isIndex: /\/index\.html$|\/$/.test(CURRENT_PATH),
+};
 
 /**
  * Initialize landing page
+ * Redirects based on authentication status with splash screen
+ * @async
+ * @returns {Promise<void>}
  */
 async function initLanding() {
-  if (IS_SUMMARY || IS_LOGIN) return;
+  if (!PAGE_CONFIG.isIndex) return;
+  if (PAGE_CONFIG.isSummary || PAGE_CONFIG.isLogin) return;
 
   let hasRedirected = false;
-  const splash = document.getElementById("splashScreen");
+  const splashScreen = document.getElementById("splashScreen");
   const unsubscribe = onAuthChange((user) => {
-    console.log(unsubscribe);
-
     if (hasRedirected) return;
+
     hasRedirected = true;
-    unsubscribe();
-    setTimeout(() => {
-      if (user) {
-        if (splash) splash.classList.add("splash--hidden");
-        setTimeout(() => {
-          window.location.href = "./summary.html";
-          // window.location.href = "./pages/summary.html";
-        }, REDIRECT_DELAY);
-      } else {
-        if (splash) splash.classList.add("splash--hidden");
-        setTimeout(() => {
-          window.location.href = "./login.html";
-          // window.location.href = "./pages/login.html";
-        }, REDIRECT_DELAY);
-      }
-    }, SPLASH_DURATION);
+    handleAuthChange(user, splashScreen, unsubscribe);
   });
 }
 
 /**
- * Redirect to target page
- * @param {string} url - Target URL
- * @param {HTMLElement} splashScreen - Splash element
+ * Handle user authentication change
+ * @async
+ * @param {Object} user - User object or null
+ * @param {HTMLElement|null} splashScreen - Splash element
+ * @param {Function} unsubscribe - Unsubscribe function
  */
-function redirectTo(url, splashScreen) {
-  if (splashScreen) splashScreen.classList.add("splash--hidden");
+async function handleAuthChange(user, splashScreen, unsubscribe) {
+  unsubscribe();
+
+  await new Promise((resolve) => {
+    setTimeout(resolve, SPLASH_DURATION);
+  });
+
+  if (user) {
+    redirectToSummary(splashScreen);
+  } else {
+    redirectToLogin(splashScreen);
+  }
+}
+
+/**
+ * Redirect to summary page
+ * @param {HTMLElement|null} splashScreen - Splash element
+ */
+function redirectToSummary(splashScreen) {
+  hideSplashScreen(splashScreen);
   setTimeout(() => {
-    window.location.href = url;
+    performRedirect("./summary.html");
   }, REDIRECT_DELAY);
 }
 
 /**
- * Initialize landing page if on index.html
- * If user is logged in, redirect to summary.html, else to login.html
+ * Redirect to login page
+ * @param {HTMLElement|null} splashScreen - Splash element
  */
-if (IS_INDEX) {
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initLanding);
-  } else {
-    initLanding();
+function redirectToLogin(splashScreen) {
+  hideSplashScreen(splashScreen);
+  setTimeout(() => {
+    performRedirect("./login.html");
+  }, REDIRECT_DELAY);
+}
+
+/**
+ * Hide splash screen with animation
+ * @param {HTMLElement|null} splashScreen - Splash element
+ */
+function hideSplashScreen(splashScreen) {
+  if (splashScreen) {
+    splashScreen.classList.add("splash--hidden");
   }
 }
+
+/**
+ * Perform redirect to target URL
+ * @param {string} url - Target URL
+ */
+function performRedirect(url) {
+  window.location.href = url;
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initLanding);
+} else {
+  initLanding();
+}
+
+export { initLanding };

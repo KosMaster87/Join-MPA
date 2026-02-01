@@ -80,8 +80,8 @@ export function getSummaryContentHTML() {
               <p class="summary__card-label">Urgent</p>
             </div>
           </div>
+          <div class="summary__urgent-divider"></div>
           <div class="summary__urgent-right">
-            <div class="summary__urgent-divider"></div>
             <div class="summary__deadline">
               <p class="summary__deadline-date" id="summaryUrgentDate">-</p>
               <p class="summary__deadline-label">Upcoming Deadline</p>
