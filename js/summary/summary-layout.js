@@ -13,13 +13,13 @@ import {
 
 /**
  * Builds layout HTML based on current window width.
- * Returns mobile layout for width < 1080px, desktop layout otherwise.
+ * Returns mobile layout for width ≤ 1080px, desktop layout otherwise.
  *
  * @returns {string} - HTML template string
  */
 function buildSummaryLayoutHTML() {
   const contentHtml = getSummaryContentHTML();
-  return window.innerWidth < 1080
+  return window.innerWidth <= 1080
     ? buildMobileLayout(contentHtml)
     : buildDesktopLayout(contentHtml);
 }

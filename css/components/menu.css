@@ -3,7 +3,7 @@
    ========================================================================== */
 
 .menu-container {
-  @media (min-width: 1080px) {
+  @media (min-width: 1081px) {
     height: 100%;
     order: 1;
   }
@@ -25,7 +25,7 @@
   color: var(--color-white);
   padding: 0 var(--spacing-sm);
 
-  @media (min-width: 1080px) {
+  @media (min-width: 1081px) {
     width: 240px;
     height: 100%;
     flex-direction: column;
@@ -55,7 +55,7 @@
 .menu__logo {
   display: none;
 
-  @media (min-width: 1080px) {
+  @media (min-width: 1081px) {
     display: block;
     padding: 0 var(--spacing-lg);
     margin-bottom: var(--spacing-3xl);
@@ -73,7 +73,7 @@
   width: 100%;
   overflow-x: auto;
 
-  @media (min-width: 1080px) {
+  @media (min-width: 1081px) {
     width: 100%;
     flex: 1;
     overflow-y: auto;
@@ -90,7 +90,7 @@
   justify-content: space-around;
   width: 100%;
 
-  @media (min-width: 1080px) {
+  @media (min-width: 1081px) {
     flex-direction: column;
     width: auto;
   }
@@ -100,7 +100,7 @@
   margin: 0;
   flex: 1;
 
-  @media (min-width: 1080px) {
+  @media (min-width: 1081px) {
     flex: 0;
   }
 }
@@ -122,7 +122,7 @@
   text-align: center;
   transition: all var(--transition-base);
 
-  @media (min-width: 1080px) {
+  @media (min-width: 1081px) {
     flex-direction: row;
     justify-content: flex-start;
     gap: var(--spacing-md);
@@ -138,7 +138,7 @@
   background-color: rgba(255, 255, 255, 0.1);
   border-bottom-color: var(--color-accent);
 
-  @media (min-width: 1080px) {
+  @media (min-width: 1081px) {
     border-bottom-color: transparent;
     border-left-color: var(--color-accent);
   }
@@ -150,7 +150,7 @@
   font-weight: var(--font-weight-semibold);
   border-radius: 0.5rem;
 
-  @media (min-width: 1080px) {
+  @media (min-width: 1081px) {
     border-bottom-color: transparent;
     border-left-color: var(--color-accent);
     border-radius: 0.5rem 0 0 0.5rem;
@@ -162,7 +162,7 @@
   height: 24px;
   flex-shrink: 0;
 
-  @media (min-width: 1080px) {
+  @media (min-width: 1081px) {
     width: 24px;
     height: 24px;
   }
@@ -176,7 +176,7 @@
 .menu__footer {
   display: none;
 
-  @media (min-width: 1080px) {
+  @media (min-width: 1081px) {
     display: block;
     padding: var(--spacing-lg);
     margin-top: auto;
@@ -228,7 +228,7 @@
   z-index: var(--z-modal);
   transition: transform var(--transition-base);
 
-  @media (min-width: 1080px) {
+  @media (min-width: 1081px) {
     display: none;
   }
 }
@@ -250,7 +250,7 @@
   background-color: rgba(0, 0, 0, 0.5);
   z-index: calc(var(--z-dropdown) - 2);
 
-  @media (min-width: 1080px) {
+  @media (min-width: 1081px) {
     display: none !important;
   }
 }
