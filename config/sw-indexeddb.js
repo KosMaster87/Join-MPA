@@ -16,8 +16,8 @@ function openSettingsDatabase(dbName) {
     request.onsuccess = () => resolve(request.result);
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
-      if (!db.objectStoreNames.contains("settings")) {
-        db.createObjectStore("settings", { keyPath: "key" });
+      if (!db.objectStoreNames.contains('settings')) {
+        db.createObjectStore('settings', { keyPath: 'key' });
       }
     };
   });
@@ -31,21 +31,21 @@ function openSettingsDatabase(dbName) {
 async function storeVersionAndNotifyClients(cacheVersion, settingsDb) {
   try {
     const db = await openSettingsDatabase(settingsDb);
-    const tx = db.transaction(["settings"], "readwrite");
-    const store = tx.objectStore("settings");
-    await store.put({ key: "sw-version", value: cacheVersion });
+    const tx = db.transaction(['settings'], 'readwrite');
+    const store = tx.objectStore('settings');
+    await store.put({ key: 'sw-version', value: cacheVersion });
 
     const clients = await self.clients.matchAll();
     clients.forEach((client) => {
       client.postMessage({
-        type: "SW_UPDATE_AVAILABLE",
+        type: 'SW_UPDATE_AVAILABLE',
         version: cacheVersion,
       });
     });
 
     console.log(`[SW] Version ${cacheVersion} stored and clients notified`);
   } catch (error) {
-    console.error("[SW] Failed to store version:", error);
+    console.error('[SW] Failed to store version:', error);
   }
 }
 
@@ -57,22 +57,22 @@ async function storeVersionAndNotifyClients(cacheVersion, settingsDb) {
 async function syncSettingsToWorker(settings, settingsDb) {
   try {
     const db = await openSettingsDatabase(settingsDb);
-    const tx = db.transaction(["settings"], "readwrite");
-    const store = tx.objectStore("settings");
+    const tx = db.transaction(['settings'], 'readwrite');
+    const store = tx.objectStore('settings');
     await store.clear();
 
     for (const [key, value] of Object.entries(settings)) {
       await store.put({ key, value });
     }
 
-    console.log("[SW] Settings synced:", settings);
+    console.log('[SW] Settings synced:', settings);
   } catch (error) {
-    console.error("[SW] Failed to sync settings:", error);
+    console.error('[SW] Failed to sync settings:', error);
   }
 }
 
 // Support both ES6 modules and importScripts contexts
-if (typeof module !== "undefined" && module.exports) {
+if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     openSettingsDatabase,
     storeVersionAndNotifyClients,

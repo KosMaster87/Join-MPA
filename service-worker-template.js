@@ -14,6 +14,14 @@ importScripts(
   "https://storage.googleapis.com/workbox-cdn/releases/7.0.0/workbox-sw.js",
 );
 
+// Disable Workbox debug logging BEFORE loading config modules
+if (workbox) {
+  workbox.setConfig({ debug: false });
+  if (workbox.logger) {
+    workbox.logger.setLogLevel(0);
+  }
+}
+
 // Load configuration modules
 importScripts("/config/cache-config.js");
 importScripts("/config/sw-constants.js");

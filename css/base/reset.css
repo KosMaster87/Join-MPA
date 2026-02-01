@@ -29,6 +29,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Prevent scrolling when splash screen is visible */
+html:has(.splash:not(.splash--hidden)) {
+  overflow: hidden;
+}
+
 /* Set core body defaults */
 body {
   min-height: 100vh;
@@ -38,10 +43,17 @@ body {
   font-size: var(--font-size-base);
   color: var(--text-primary);
   background-color: var(--bg-primary);
-  transition: background-color var(--transition-base), color var(--transition-base);
+  transition:
+    background-color var(--transition-base),
+    color var(--transition-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+/* Prevent scrolling when splash screen is visible */
+body:has(.splash:not(.splash--hidden)) {
+  overflow: hidden;
 }
 
 /* Remove list styles on ul, ol elements with a list role */

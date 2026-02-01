@@ -15,12 +15,12 @@ body {
 .page__screen-wrapper {
   display: flex;
   flex-direction: column;
-  height: 100%;
 }
 
 .page__main-wrapper {
   display: flex;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 
   @media (min-width: 1080px) {
     align-items: center;
@@ -33,19 +33,17 @@ body {
 
 .page__main-insert {
   background: var(--bg-page);
+  width: 100%;
+  height: 100%;
+  height: 100vh;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   @media (min-width: 1080px) {
-    /* ------------------------ */
-    /* TODO TEST */
-    height: 100vh;
-    max-height: 1080px;
-    /* ------------------------ */
     max-width: 1920px;
-    /* max-height: 1080px; */
+    max-height: 1080px;
   }
 
   @media (min-width: 1920px) {
@@ -65,19 +63,15 @@ body {
 .app-layout__main {
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  overflow-x: hidden;
-  min-width: 100vw;
-  /* ------------------------ */
+  width: 100%;
   height: 100%;
-  /* min-height: 100dvh; */
-  /* ------------------------ */
+  min-width: 100vw;
+  overflow: hidden;
 
   @media (min-width: 1080px) {
-    display: flex;
     flex-direction: row;
     height: 100%;
-    min-height: 100dvh;
+    overflow-y: auto;
   }
 }
 
@@ -91,9 +85,6 @@ body {
     align-items: center;
     justify-content: center;
     width: 100vw;
-    /* ------------------------ */
     height: 100%;
-    /* height: 100vh; */
-    /* ------------------------ */
   }
 }

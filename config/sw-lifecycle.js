@@ -13,7 +13,7 @@ function setupLifecycle(CACHE_NAMES, SW_CONFIG) {
   // ============================================
   // Install Event
   // ============================================
-  self.addEventListener("install", (event) => {
+  self.addEventListener('install', (event) => {
     console.log(`[SW] Installing version ${SW_CONFIG.CACHE_VERSION}`);
     self.skipWaiting(); // Sofort aktivieren
   });
@@ -21,7 +21,7 @@ function setupLifecycle(CACHE_NAMES, SW_CONFIG) {
   // ============================================
   // Activate Event
   // ============================================
-  self.addEventListener("activate", (event) => {
+  self.addEventListener('activate', (event) => {
     console.log(`[SW] Activating version ${SW_CONFIG.CACHE_VERSION}`);
     event.waitUntil(
       // Cleanup alte Caches
@@ -34,9 +34,9 @@ function setupLifecycle(CACHE_NAMES, SW_CONFIG) {
               console.log(`[SW] Clearing cache: ${cacheName}`);
               return caches.delete(cacheName);
             }
-          }),
+          })
         );
-      }),
+      })
     );
 
     // Übernimm sofort alle Clients
@@ -46,7 +46,7 @@ function setupLifecycle(CACHE_NAMES, SW_CONFIG) {
     self.clients.matchAll().then((clients) => {
       clients.forEach((client) => {
         client.postMessage({
-          type: "SW_ACTIVATED",
+          type: 'SW_ACTIVATED',
           version: SW_CONFIG.CACHE_VERSION,
         });
       });
@@ -55,6 +55,6 @@ function setupLifecycle(CACHE_NAMES, SW_CONFIG) {
 }
 
 // Support both ES6 modules and importScripts contexts
-if (typeof module !== "undefined" && module.exports) {
+if (typeof module !== 'undefined' && module.exports) {
   module.exports = { setupLifecycle };
 }

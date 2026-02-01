@@ -14,6 +14,12 @@ const THEME_ICONS = {
 };
 
 /**
+ * Store system theme change listener for cleanup
+ * @type {MediaQueryListListener|null}
+ */
+let systemThemeListener = null;
+
+/**
  * Generate manifest version timestamp
  * @returns {number} Current timestamp in seconds (for cache busting)
  */
@@ -71,6 +77,73 @@ function getSystemTheme() {
   return window.matchMedia("(prefers-color-scheme: dark)").matches
     ? "dark"
     : "light";
+}
+
+/**
+ * Setup listener for system theme changes
+ * Only active when theme is set to "device"
+ * @returns {void}
+ */
+function setupSystemThemeListener() {
+  // Remove existing listener if present
+  if (systemThemeListener) {
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .removeEventListener("change", systemThemeListener);
+    systemThemeListener = null;
+  }
+
+  const currentTheme = localStorage.getItem("joinTheme") || "device";
+
+  // Only setup listener if theme is set to "device"
+  if (currentTheme !== "device") {
+    return;
+  }
+
+  /**
+   * Handle system theme change
+   * @param {MediaQueryListEvent} e - Media query list event
+   */
+  systemThemeListener = (e) => {
+    const newSystemTheme = e.matches ? "dark" : "light";
+    console.log(
+      `[Theme Service] System theme changed to: ${newSystemTheme}`,
+    );
+
+    // Update data-theme attribute
+    document.documentElement.setAttribute("data-theme", newSystemTheme);
+
+    // Update manifest and favicon
+    updateManifestAndFavicon(newSystemTheme);
+
+    // Update icons
+    updateThemeIcon("device");
+    performSummaryIconUpdate(newSystemTheme);
+
+    // Sync with service worker
+    syncSettingsWithServiceWorker();
+  };
+
+  // Attach listener to media query
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", systemThemeListener);
+
+  console.log("[Theme Service] System theme listener activated (device mode)");
+}
+
+/**
+ * Remove system theme listener
+ * @returns {void}
+ */
+function removeSystemThemeListener() {
+  if (systemThemeListener) {
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .removeEventListener("change", systemThemeListener);
+    systemThemeListener = null;
+    console.log("[Theme Service] System theme listener removed");
+  }
 }
 
 // ============================================
@@ -200,12 +273,15 @@ async function updateSummaryIconsForTheme(theme) {
  */
 async function applyTheme(theme) {
   const realTheme = theme === "device" ? getSystemTheme() : theme;
+  localStorage.setItem("joinTheme", theme);
   document.documentElement.setAttribute("data-theme", realTheme);
+  void document.documentElement.offsetHeight;
+
   updateManifestAndFavicon(realTheme);
   updateThemeIcon(theme);
   await updateSummaryIconsForTheme(realTheme);
-  localStorage.setItem("joinTheme", theme);
   syncSettingsWithServiceWorker();
+  setupSystemThemeListener();
 }
 
 /**
@@ -214,9 +290,13 @@ async function applyTheme(theme) {
  */
 function applyThemeWithoutIcons(theme) {
   const realTheme = theme === "device" ? getSystemTheme() : theme;
-  document.documentElement.setAttribute("data-theme", realTheme);
-  updateManifestAndFavicon(realTheme);
   localStorage.setItem("joinTheme", theme);
+  document.documentElement.setAttribute("data-theme", realTheme);
+  void document.documentElement.offsetHeight;
+
+  updateManifestAndFavicon(realTheme);
+  syncSettingsWithServiceWorker();
+  setupSystemThemeListener();
 }
 
 /**
@@ -361,6 +441,8 @@ export {
   getManifestPaths,
   getNextTheme,
   getSystemTheme,
+  setupSystemThemeListener,
+  removeSystemThemeListener,
   createManifestLink,
   createFaviconLink,
   removeManifestAndFaviconLinks,

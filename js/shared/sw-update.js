@@ -4,8 +4,9 @@
  * @module shared/sw-update
  */
 
-// Load SW configuration
-import { SW_CONFIG } from "/config/sw-constants.js";
+// Update check configuration - Keep in sync with config/sw-constants.js
+// Service Worker config cannot be imported as ES6 module, so we define critical values here
+const UPDATE_CHECK_INTERVAL = 1 * 60 * 1000; // 1 minute for development (change to 5-30 min for production)
 
 let currentVersion = localStorage.getItem("app-version") || "0";
 let updateCheckInterval = null;
@@ -91,14 +92,17 @@ async function performInitialUpdateCheck() {
  * Start periodic update checks using configured interval
  */
 function startPeriodicUpdateChecks() {
-  updateCheckInterval = setInterval(async () => {
-    try {
-      if (!("serviceWorker" in navigator)) return;
-      await updateServiceWorker();
-    } catch (error) {
-      console.debug("[SW Update] Periodic check failed:", error);
-    }
-  }, SW_CONFIG.UPDATE_CHECK_INTERVAL);
+  updateCheckInterval = setInterval(
+    async () => {
+      try {
+        if (!("serviceWorker" in navigator)) return;
+        await updateServiceWorker();
+      } catch (error) {
+        console.debug("[SW Update] Periodic check failed:", error);
+      }
+    },
+    UPDATE_CHECK_INTERVAL,
+  );
 }
 
 /**

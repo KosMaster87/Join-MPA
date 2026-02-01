@@ -7,10 +7,10 @@
 
 const SW_CONFIG = {
   // Versioning - WICHTIG: Erhöhe dies bei jedem Deployment um alle Caches zu invalidieren!
-  CACHE_VERSION: "19",
+  CACHE_VERSION: '19',
 
   // Database Configuration
-  SETTINGS_DB: "join-mpa-settings",
+  SETTINGS_DB: 'join-mpa-settings',
 
   // Update Checking - Set to 1 minute during development, 5-30 minutes in production
   UPDATE_CHECK_INTERVAL: 1 * 60 * 1000, // 1 minute for development (change to 5-30 min for production)
@@ -51,7 +51,7 @@ const SW_CONFIG = {
   },
 };
 
-// Support both ES6 modules and importScripts contexts
-if (typeof module !== "undefined" && module.exports) {
-  module.exports = { SW_CONFIG };
-}
+// For Service Worker: Define in global scope (no ES6 export)
+// importScripts() in service-worker.js will have access to this globally
+// This is intentional - Service Workers don't support ES6 imports
+
