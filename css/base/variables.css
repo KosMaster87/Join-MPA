@@ -19,10 +19,18 @@
   /* Header Colors */
   --bg-header: #ffffff;
   --bg-header-hover: #f6f7f8;
+  --user-menu: #21262d;
+  --text-user-menu: #cdcdcd;
+  --text-user-menu-hover: #cdcdcd;
+  --bg-link-logout-hover: #ff3c0092;
+  --link-border-left-color-logout-hover: #ff3d00;
 
   /* Sidebar Colors */
   --bg-sidebar: #2a3647;
-  --bg-sidebar-hover: #f6f7f8;
+  --bg-link-hover: #2a3d59;
+  --bg-link-hover-bottom: var(--color-accent);
+  --bg-link-active: #091931;
+  --bg-link-active-bottom: var(--color-accent);
 
   /* Pages Colors */
   --bg-page: #f6f7f8;
@@ -37,8 +45,6 @@
   --text-secondary: #7a7a7a;
   --text-tertiary: #a8a8a8;
   --text-white: #ffffff;
-  --text-user-menu: #cdcdcd;
-  --text-user-menu-hover: #29abe2;
 
   /* Primary Brand Colors */
   --color-primary: #2a3647;
@@ -74,6 +80,8 @@
   --border-color: #cdcdcd;
   --border-light: #eeeeee;
   --border-dust: #cdcdcd;
+  --border-separator: #cdcdcd;
+  --border-menu-dropdown: rgba(255, 255, 255, 0.3);
 
   /* Task Categories */
   --color-user-story: #0038ff;
@@ -196,10 +204,18 @@
   /* Header Colors */
   --bg-header: #dfdfdf;
   --bg-header-hover: #ffffff;
+  --user-menu: #30363d;
+  --text-user-menu: #ffffff;
+  --text-user-menu-hover: #ffffff;
+  --bg-link-logout-hover: #ff3c0092;
+  --link-border-left-color-logout-hover: #ff3d00;
 
   /* Sidebar Colors */
-  --bg-sidebar: #0d47a1;
-  --bg-sidebar-hover: #30363d;
+  --bg-sidebar: #30363d;
+  --bg-link-hover: #5c5c5c;
+  --bg-link-hover-bottom: var(--color-gray-300);
+  --bg-link-active: #21262d;
+  --bg-link-active-bottom: var(--color-gray-300);
 
   /* Pages Colors */
   --bg-page: #21262d;
@@ -207,15 +223,13 @@
 
   /* Summary Colors */
   --bg-summary-card: #30363d;
-  --bg-summary-card-hover: #1f6feb;
+  --bg-summary-card-hover: #6e7681;
 
   /* Text Colors */
   --text-primary: #c9d1d9;
   --text-secondary: #8b949e;
   --text-tertiary: #6e7681;
   --text-white: #ffffff;
-  --text-user-menu: #ffffff;
-  --text-user-menu-hover: #58a6ff;
 
   /* Primary Brand Colors */
   --color-primary: #58a6ff;
@@ -249,6 +263,8 @@
   --border-color: #cdcdcd;
   --border-light: #21262d;
   --border-dust: #5c5c5c;
+  --border-separator: #6e7681;
+  --border-menu-dropdown: rgba(255, 255, 255, 0.1);
 
   /* Task Categories */
   --color-user-story: #58a6ff;
@@ -260,7 +276,7 @@
   --color-urgent-low: #3fb950;
 
   /* Shadows - Dark variant */
-  --shadow-xs: 0 1px 2px 0 rgba(255, 255, 255, 0.05);
+  --shadow-xs: 0 1px 2px 0 rgba(255, 255, 255, 0.272);
   --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.15);
   --shadow-md:
     0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.15);
@@ -272,7 +288,7 @@
 }
 
 /* ============================================================
-   Progress Bar Styling
+   Progress Bar Samsung s22+ in GoogleChrome Browser Fix
    ============================================================ */
 progress {
   display: block;

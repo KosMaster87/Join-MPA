@@ -5,6 +5,18 @@
  * @module js/shared/ui-helpers
  */
 
+import {
+  showSplash,
+  hideSplashDelayed,
+} from "../../services/splash.service.js";
+
+/**
+ * Tracks whether the viewport is currently in mobile mode.
+ * Mobile: ≤1080px, Desktop: ≥1081px
+ * @type {boolean}
+ */
+let isMobileView = window.innerWidth <= 1080;
+
 /**
  * Shows a toast notification message.
  *
@@ -197,40 +209,63 @@ async function copyToClipboard(text) {
 }
 
 /**
- * Tracks the last window width for resize detection.
- * @type {number}
- */
-let lastWindowWidth = window.innerWidth;
-
-/**
- * Sets up a resize listener that only triggers on width changes.
- * Ignores height-only changes (e.g., mobile keyboard).
+ * Sets up a resize listener that triggers only on viewport mode changes.
+ * Only fires callback when switching between mobile (≤1080px) and desktop (≥1081px).
  *
- * @param {Function} onWidthChange - Async callback to execute on width change
+ * @param {Function} onViewportModeChange - Async callback to execute on mode change
  * @param {number} debounceMs - Debounce delay in milliseconds (default: 500)
  */
-function setupResizeListenerOnWidthChange(onWidthChange, debounceMs = 500) {
+function setupResizeListenerOnWidthChange(
+  onViewportModeChange,
+  debounceMs = 500,
+) {
   let resizeTimeout;
-  
+  let isResizing = false;
+  let splashShown = false;
+
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      handleWindowResize(onWidthChange);
+
+    // Show splash only once at the start of resize sequence
+    if (!isResizing) {
+      const currentWidth = window.innerWidth;
+      const isCurrentlyMobile = currentWidth <= 1080;
+
+      // Only show splash if mode is about to change
+      if (isCurrentlyMobile !== isMobileView) {
+        showSplash();
+        isResizing = true;
+        splashShown = true;
+      }
+    }
+
+    resizeTimeout = setTimeout(async () => {
+      await handleWindowResize(onViewportModeChange);
+      isResizing = false;
+
+      // Hide splash if it was shown, even if no mode change happened
+      if (splashShown) {
+        hideSplashDelayed(300);
+        splashShown = false;
+      }
     }, debounceMs);
   });
 }
 
 /**
- * Handles window resize and executes callback if width changed.
+ * Handles window resize and executes callback only on viewport mode change.
+ * Checks if viewport switched between mobile (≤1080px) and desktop (≥1081px).
  *
- * @param {Function} onWidthChange - Async callback on width change
+ * @param {Function} onViewportModeChange - Async callback on mode change
  */
-async function handleWindowResize(onWidthChange) {
+async function handleWindowResize(onViewportModeChange) {
   try {
     const currentWidth = window.innerWidth;
-    if (currentWidth !== lastWindowWidth) {
-      lastWindowWidth = currentWidth;
-      await onWidthChange(currentWidth);
+    const isCurrentlyMobile = currentWidth <= 1080;
+
+    if (isCurrentlyMobile !== isMobileView) {
+      isMobileView = isCurrentlyMobile;
+      await onViewportModeChange(currentWidth, isMobileView);
     }
   } catch (error) {
     console.error("[handleWindowResize] Error:", error);
@@ -238,14 +273,14 @@ async function handleWindowResize(onWidthChange) {
 }
 
 /**
- * Updates the tracked last window width.
- * Useful for manual width synchronization.
+ * Updates the tracked viewport mode.
+ * Useful for manual synchronization after programmatic changes.
  *
- * @returns {number} Current window width
+ * @returns {boolean} Current mobile view state
  */
 function updateLastWindowWidth() {
-  lastWindowWidth = window.innerWidth;
-  return lastWindowWidth;
+  isMobileView = window.innerWidth <= 1080;
+  return isMobileView;
 }
 
 export {
