@@ -208,12 +208,14 @@
   position: absolute;
   top: calc(8% + var(--spacing-sm));
   right: 1rem;
-  background-color: var(--color-primary);
+
+  background-color: var(--bg-sidebar);
+  z-index: var(--z-dropdown);
+
   border-radius: var(--radius-lg) 0 var(--radius-lg) var(--radius-lg);
   box-shadow: var(--shadow-lg);
   min-width: 180px;
   padding: var(--spacing-sm) 0;
-  z-index: var(--z-dropdown);
   transition:
     background-color var(--transition-base),
     color var(--transition-base);
@@ -245,6 +247,7 @@
   background: none;
   border: none;
   cursor: pointer;
+
   font-size: var(--font-size-base);
   color: var(--text-user-menu);
   transition:

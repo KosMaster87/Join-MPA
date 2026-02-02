@@ -19,10 +19,13 @@
   /* Header Colors */
   --bg-header: #ffffff;
   --bg-header-hover: #f6f7f8;
+  --user-menu: #21262d;
+  --text-user-menu: #cdcdcd;
+  --text-user-menu-hover: #cdcdcd;
 
   /* Sidebar Colors */
   --bg-sidebar: #2a3647;
-  --bg-sidebar-hover: #f6f7f8;
+  --bg-sidebar-hover: #58a6ff;
 
   /* Pages Colors */
   --bg-page: #f6f7f8;
@@ -37,8 +40,6 @@
   --text-secondary: #7a7a7a;
   --text-tertiary: #a8a8a8;
   --text-white: #ffffff;
-  --text-user-menu: #cdcdcd;
-  --text-user-menu-hover: #29abe2;
 
   /* Primary Brand Colors */
   --color-primary: #2a3647;
@@ -196,10 +197,13 @@
   /* Header Colors */
   --bg-header: #dfdfdf;
   --bg-header-hover: #ffffff;
+  --user-menu: #30363d;
+  --text-user-menu: #ffffff;
+  --text-user-menu-hover: #ffffff;
 
   /* Sidebar Colors */
   --bg-sidebar: var(--bg-summary-card);
-  --bg-sidebar-hover: #30363d;
+  --bg-sidebar-hover: #6e7681;
 
   /* Pages Colors */
   --bg-page: #21262d;
@@ -214,8 +218,6 @@
   --text-secondary: #8b949e;
   --text-tertiary: #6e7681;
   --text-white: #ffffff;
-  --text-user-menu: #ffffff;
-  --text-user-menu-hover: #58a6ff;
 
   /* Primary Brand Colors */
   --color-primary: #58a6ff;

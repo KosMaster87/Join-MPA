@@ -136,21 +136,26 @@
 
 .menu__link:hover {
   background-color: rgba(255, 255, 255, 0.1);
-  border-bottom-color: var(--color-accent);
+  border-bottom-color: var(--bg-sidebar-hover);
+  border-radius: 0 0 0.5rem 0.5rem;
 
   @media (min-width: 1081px) {
+    background-color: var(--bg-sidebar-hover);
     border-bottom-color: transparent;
     border-left-color: var(--color-accent);
+    border-radius: 0.5rem;
   }
 }
 
 .menu__link--active {
   background-color: rgba(41, 171, 226, 0.15);
-  border-bottom-color: var(--color-accent);
+  border-bottom-color: var(--bg-sidebar-hover);
   font-weight: var(--font-weight-semibold);
   border-radius: 0.5rem;
 
+
   @media (min-width: 1081px) {
+    background-color: rgba(41, 171, 226, 0.15);
     border-bottom-color: transparent;
     border-left-color: var(--color-accent);
     border-radius: 0.5rem 0 0 0.5rem;
