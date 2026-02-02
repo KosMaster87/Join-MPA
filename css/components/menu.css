@@ -51,7 +51,6 @@
    Menu Elements
    ========================================================================== */
 
-/* Logo */
 .menu__logo {
   display: none;
 
@@ -127,35 +126,35 @@
     justify-content: flex-start;
     gap: var(--spacing-md);
     padding: var(--spacing-md) var(--spacing-lg);
-    border-bottom: none;
-    border-left: 4px solid transparent;
     text-align: left;
     font-size: var(--font-size-base);
+    border-bottom: none;
+    border-left: 4px solid transparent;
+    border-radius: 0.5rem 0 0 0.5rem;
   }
 }
 
 .menu__link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-bottom-color: var(--bg-sidebar-hover);
-  border-radius: 0 0 0.5rem 0.5rem;
+  background-color: var(--bg-link-hover);
+  border-bottom-color: var(--bg-link-hover-bottom);
+  border-radius: 0.5rem;
 
   @media (min-width: 1081px) {
-    background-color: var(--bg-sidebar-hover);
+    background-color: var(--bg-link-hover);
     border-bottom-color: transparent;
     border-left-color: var(--color-accent);
-    border-radius: 0.5rem;
+    border-radius: 0.5rem 0 0 0.5rem;
   }
 }
 
 .menu__link--active {
-  background-color: rgba(41, 171, 226, 0.15);
-  border-bottom-color: var(--bg-sidebar-hover);
+  background-color: var(--bg-link-active);
+  border-bottom-color: var(--bg-link-active-bottom);
   font-weight: var(--font-weight-semibold);
   border-radius: 0.5rem;
 
-
   @media (min-width: 1081px) {
-    background-color: rgba(41, 171, 226, 0.15);
+    background-color: var(--bg-link-active);
     border-bottom-color: transparent;
     border-left-color: var(--color-accent);
     border-radius: 0.5rem 0 0 0.5rem;
@@ -177,7 +176,6 @@
   flex: 1;
 }
 
-/* Legal Links Footer */
 .menu__footer {
   display: none;
 
@@ -185,8 +183,24 @@
     display: block;
     padding: var(--spacing-lg);
     margin-top: auto;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
   }
+}
+
+.menu__footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--spacing-xs);
+  right: var(--spacing-xs);
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    var(--border-separator) 20%,
+    var(--border-separator) 80%,
+    transparent 100%
+  );
 }
 
 .menu__footer-list {
@@ -245,21 +259,4 @@
 .menu__toggle-icon {
   width: 24px;
   height: 24px;
-}
-
-/* Backdrop */
-.menu__backdrop {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: calc(var(--z-dropdown) - 2);
-
-  @media (min-width: 1081px) {
-    display: none !important;
-  }
-}
-
-.menu__backdrop--visible {
-  display: block;
 }
