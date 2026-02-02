@@ -125,8 +125,13 @@
 
       <a href="../index.html" class="login__logo">
         <img
-          class="login__img"
+          class="login__img login__img--light"
           src="../assets/img/shared/join-logo-blue.svg"
+          alt="Join Logo"
+        />
+        <img
+          class="login__img login__img--dark"
+          src="../assets/img/shared/join-logo-white.svg"
           alt="Join Logo"
         />
       </a>
@@ -198,11 +203,22 @@
                   Remember me
                 </label>
               </div>
-              <span id="rememberMeError" class="login__checkbox-error"></span>
+            </div>
+
+            <!-- Forgot Password -->
+            <div class="login__forgot-password-wrapper">
+              <button
+                type="button"
+                id="forgotPasswordBtn"
+                class="login__forgot-password-btn"
+              >
+                Forgot your password?
+              </button>
             </div>
 
             <!-- Buttons -->
             <div class="login__btn-group">
+              <!-- Email Login -->
               <button type="submit" class="login__btn login__btn--primary">
                 Log in
               </button>
@@ -214,6 +230,15 @@
                 class="login__btn login__btn--secondary"
               >
                 Guest Log in
+              </button>
+
+              <!-- Google Login -->
+              <button
+                type="button"
+                id="googleLoginBtn"
+                class="login__btn login__btn--google"
+              >
+                Sign in with Google
               </button>
             </div>
           </form>
