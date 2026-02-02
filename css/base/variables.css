@@ -10,6 +10,28 @@
   /* ========================================================================
      Theme Colors - LIGHT (DEFAULT)
      ======================================================================== */
+  /* Auth Colors */
+  --checkbox-bg: #dfdfdf;
+  --privacy-label-text: #424242;
+
+  /* Button Colors */
+  --btn-primary-bg: #2a3647;
+  --btn-primary-bg-hover: #091931;
+  --btn-primary-text: #ffffff;
+  --btn-primary-border: #2a3647;
+  --btn-primary-border-hover: #2a3647;
+  --btn-secondary-bg: transparent;
+  --btn-secondary-bg-hover: #f0f0f0;
+  --btn-secondary-text: #58a6ff;
+  --btn-secondary-border: #58a6ff;
+  --btn-secondary-border-hover: #58a6ff;
+  --btn-google-bg: transparent;
+  --btn-google-bg-hover: #f0f0f0;
+  --btn-google-text: #ff3d00;
+  --btn-google-border: #ff3d00;
+  --btn-google-border-hover: #ff3d00;
+  --btn-disabled-bg: #a8a8a8;
+  --btn-disabled-text: #7a7a7a;
 
   /* Background Colors */
   --bg-primary: #dfdfdf;
@@ -196,6 +218,29 @@
    DARK THEME OVERRIDES
    ======================================================================== */
 :root[data-theme="dark"] {
+  /* Auth Colors */
+  --checkbox-bg: #dfdfdf;
+  --privacy-label-text: #424242;
+
+  /* Button Colors */
+  --btn-primary-bg: #2a3647;
+  --btn-primary-bg-hover: #091931;
+  --btn-primary-text: #ffffff;
+  --btn-primary-border: #2a3647;
+  --btn-primary-border-hover: #2a3647;
+  --btn-secondary-bg: transparent;
+  --btn-secondary-bg-hover: #f0f0f0;
+  --btn-secondary-text: #58a6ff;
+  --btn-secondary-border: #58a6ff;
+  --btn-secondary-border-hover: #58a6ff;
+  --btn-google-bg: transparent;
+  --btn-google-bg-hover: #f0f0f0;
+  --btn-google-text: #ff3d00;
+  --btn-google-border: #ff3d00;
+  --btn-google-border-hover: #ff3d00;
+  --btn-disabled-bg: #a8a8a8;
+  --btn-disabled-text: #7a7a7a;
+
   /* Background Colors */
   --bg-primary: #161b22;
   --bg-secondary: #161b22;
