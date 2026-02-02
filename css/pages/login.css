@@ -44,6 +44,18 @@ body {
   }
 }
 
+.login__img--dark {
+  display: none;
+}
+
+:root[data-theme="dark"] .login__img--light {
+  display: none;
+}
+
+:root[data-theme="dark"] .login__img--dark {
+  display: block;
+}
+
 /* ==========================================================================
     Sign Up Link
    ========================================================================== */
@@ -53,7 +65,7 @@ body {
   align-items: center;
   flex-direction: row;
   gap: var(--spacing-md);
-  margin-top: var(--spacing-md);
+  margin-top: var(--spacing-sm);
 
   @media (min-width: 768px) {
     position: absolute;
@@ -84,10 +96,25 @@ body {
   transition: all var(--transition-base);
   text-align: center;
   width: -webkit-fill-available;
+  border: 1px solid var(--color-primary);
 }
 
-.login__signup-btn:hover {
+.login__signup-btn:hover:not(:disabled) {
   background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.login__signup-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.login__signup-btn:disabled {
+  background-color: var(--btn-disabled-bg);
+  color: var(--btn-disabled-text);
+  border-color: var(--btn-disabled-bg);
+  cursor: not-allowed;
 }
 
 /* ==========================================================================
@@ -226,27 +253,72 @@ body {
 }
 
 .login__checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
   width: 18px;
   height: 18px;
   cursor: pointer;
-  accent-color: var(--color-accent);
+  flex-shrink: 0;
+
+  background-image: url("../../assets/img/auth/checkbox-default.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  &:checked {
+    background-image: url("../../assets/img/auth/checkbox-checked.svg");
+  }
+
+  &:hover {
+    background-color: var(--checkbox-bg);
+    border-radius: var(--radius-full);
+  }
 }
 
 .login__checkbox-label {
   font-size: var(--font-size-sm);
-  color: var(--color-gray-600);
+  color: var(--privacy-label-text);
   cursor: pointer;
   user-select: none;
 }
 
-.login__checkbox-error {
-  font-size: var(--font-size-sm);
-  color: var(--color-error);
-  padding: var(--spacing-xs);
-  /* TODO - smooth animation einblenden */
-  /* min-height: 1.8rem; */
+/* ==========================================================================
+    Forgot Password
+   ========================================================================== */
+
+.login__forgot-password-wrapper {
+  display: flex;
+  justify-content: center;
   width: 100%;
 }
+
+.login__forgot-password-btn {
+  color: var(--color-primary);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: 6px;
+  transition: all var(--transition-base);
+  background-color: transparent;
+}
+
+.login__forgot-password-btn:hover:not(:disabled) {
+  color: var(--color-accent);
+  background-color: var(--bg-hover);
+}
+
+.login__forgot-password-btn:active:not(:disabled) {
+  color: var(--color-accent);
+  transform: scale(0.98);
+}
+
+.login__forgot-password-btn:disabled {
+  color: var(--btn-disabled-text);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 
 /* ==========================================================================
     Buttons
@@ -263,6 +335,7 @@ body {
   @media (min-width: 768px) {
     flex-direction: row;
     justify-content: center;
+    flex-wrap: wrap;
   }
 }
 
@@ -276,22 +349,25 @@ body {
   transition: all var(--transition-base);
   text-align: center;
   width: 100%;
-  max-width: 50%;
+  max-width: 70%;
 
   @media (min-width: 768px) {
     max-width: fit-content;
+    flex: 0 0 auto;
   }
 }
 
 .login__btn--primary {
-  background-color: var(--color-primary);
-  color: var(--color-white);
+  background-color: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  border: 1px solid var(--btn-primary-border);
 }
 
 .login__btn--primary:hover:not(:disabled) {
-  background-color: var(--color-accent);
+  background-color: var(--btn-primary-bg-hover);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
+  border: 1px solid var(--btn-primary-border-hover);
 }
 
 .login__btn--primary:active:not(:disabled) {
@@ -299,25 +375,62 @@ body {
 }
 
 .login__btn--primary:disabled {
-  background-color: var(--color-gray-300);
+  background-color: var(--btn-disabled-bg);
+  color: var(--btn-disabled-text);
   cursor: not-allowed;
 }
 
 .login__btn--secondary {
-  background-color: transparent;
-  color: var(--color-accent);
-  border: 1px solid var(--color-accent);
+  background-color: var(--btn-secondary-bg);
+  color: var(--btn-secondary-text);
+  border: 1px solid var(--btn-secondary-border);
 }
 
-.login__btn--secondary:hover {
-  background-color: var(--color-accent);
-  color: var(--color-white);
+.login__btn--secondary:hover:not(:disabled) {
+  background-color: var(--btn-secondary-bg-hover);
+  color: var(--btn-secondary-text);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--btn-secondary-border-hover);
+}
+
+.login__btn--secondary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.login__btn--secondary:disabled {
+  background-color: var(--btn-disabled-bg);
+  color: var(--btn-disabled-text);
+  border-color: var(--btn-disabled-bg);
+  cursor: not-allowed;
+}
+
+.login__btn--google {
+  background-color: var(--btn-google-bg);
+  color: var(--btn-google-text);
+  border: 1px solid var(--btn-google-border);
+
+  @media (min-width: 768px) {
+    flex-basis: 100%;
+    width: 100%;
+  }
+}
+
+.login__btn--google:hover {
+  background-color: var(--btn-google-bg-hover);
+  border-color: var(--btn-google-border-hover);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
-.login__btn--secondary:active {
+.login__btn--google:active {
   transform: translateY(0);
+}
+
+.login__btn--google:disabled {
+  background-color: var(--btn-google-disabled-bg);
+  color: var(--btn-google-disabled-text);
+  cursor: not-allowed;
 }
 
 /* ==========================================================================
@@ -350,9 +463,22 @@ body {
   cursor: pointer;
   padding: var(--spacing-xs) var(--spacing-md);
   border-radius: 6px;
-  transition: color var(--transition-base);
+  transition: all var(--transition-base);
+  background-color: transparent;
+}
 
-  &:hover {
-    color: var(--color-accent);
-  }
+.mobilePolicyLegalLink:hover:not(:disabled) {
+  color: var(--color-accent);
+  background-color: var(--bg-hover);
+}
+
+.mobilePolicyLegalLink:active:not(:disabled) {
+  color: var(--color-accent);
+  transform: scale(0.98);
+}
+
+.mobilePolicyLegalLink:disabled {
+  color: var(--btn-disabled-text);
+  cursor: not-allowed;
+  opacity: 0.5;
 }
