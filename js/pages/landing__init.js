@@ -2,7 +2,6 @@
  * @fileoverview Landing Page Module
  * @description Displays splash screen and redirects users based on authentication status
  * @module js/pages/landing__init
- * DEPRECATED: Use index.html as landing page instead
  */
 
 import { onAuthChange } from "../../services/auth.service.js";
