@@ -1,0 +1,100 @@
+/**
+ * Landscape Warning Overlay
+ * Displayed only in browser (not PWA) when device is in landscape mode
+ */
+
+.landscape-warning {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background-color: var(--bg-primary);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+  text-align: center;
+  gap: var(--spacing-lg);
+}
+
+/* Show only in browser (not PWA) and only in landscape */
+@media (max-width: 1080px) and (orientation: landscape) {
+  .landscape-warning:not(.landscape-warning--hidden) {
+    display: flex;
+  }
+}
+
+.landscape-warning__icon {
+  width: 80px;
+  height: 80px;
+  animation: rotatePhone 2s ease-in-out infinite;
+}
+
+@keyframes rotatePhone {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(90deg);
+  }
+}
+
+.landscape-warning__title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.landscape-warning__text {
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  max-width: 400px;
+  margin: 0;
+  line-height: var(--line-height-relaxed);
+}
+
+.landscape-warning__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+  width: 100%;
+  max-width: 300px;
+}
+
+.landscape-warning__btn {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  transition: all var(--transition-base);
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.landscape-warning__btn--primary {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.landscape-warning__btn--primary:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.landscape-warning__btn--secondary {
+  background-color: transparent;
+  color: var(--color-accent);
+  border: 2px solid var(--color-accent);
+}
+
+.landscape-warning__btn--secondary:hover {
+  background-color: var(--color-accent);
+  color: var(--color-white);
+}

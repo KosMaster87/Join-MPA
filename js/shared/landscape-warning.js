@@ -1,0 +1,146 @@
+/**
+ * @fileoverview Landscape Warning Service
+ * @description Shows a warning overlay in browser (not PWA) when device is in landscape mode
+ * @module shared/landscape-warning
+ */
+
+/**
+ * Check if app is running in standalone mode (PWA)
+ * @returns {boolean} True if running as PWA
+ */
+function isPWA() {
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true ||
+    document.referrer.includes("android-app://")
+  );
+}
+
+/**
+ * Create landscape warning overlay HTML
+ * @returns {string} HTML string for the overlay
+ */
+function createLandscapeWarningHTML() {
+  return `
+    <div class="landscape-warning" id="landscapeWarning">
+      <svg class="landscape-warning__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+        <line x1="12" y1="18" x2="12.01" y2="18"></line>
+      </svg>
+
+      <h2 class="landscape-warning__title">Portrait-Modus empfohlen</h2>
+
+      <p class="landscape-warning__text">
+        Für die beste Nutzererfahrung drehen Sie bitte Ihr Gerät ins Hochformat
+        oder installieren Sie die App.
+      </p>
+
+      <div class="landscape-warning__actions">
+        <button id="installPWABtn" class="landscape-warning__btn landscape-warning__btn--primary">
+          App installieren
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Insert landscape warning into DOM
+ */
+function insertLandscapeWarning() {
+  // Check if already exists
+  if (document.getElementById("landscapeWarning")) {
+    return;
+  }
+
+  // Insert HTML
+  const wrapper = document.createElement("div");
+  wrapper.innerHTML = createLandscapeWarningHTML();
+  document.body.appendChild(wrapper.firstElementChild);
+
+  // Setup install button
+  setupInstallButton();
+}
+
+/**
+ * Setup PWA install button functionality
+ */
+function setupInstallButton() {
+  const installBtn = document.getElementById("installPWABtn");
+  if (!installBtn) return;
+
+  // Check if install prompt is available
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    window.deferredPrompt = e;
+    installBtn.style.display = "inline-block";
+  });
+
+  installBtn.addEventListener("click", async () => {
+    if (!window.deferredPrompt) {
+      alert("Installation ist bereits erfolgt oder nicht verfügbar.");
+      return;
+    }
+
+    window.deferredPrompt.prompt();
+    const { outcome } = await window.deferredPrompt.userChoice;
+
+    if (outcome === "accepted") {
+      console.log("[Landscape Warning] PWA installation accepted");
+    }
+
+    window.deferredPrompt = null;
+  });
+}
+
+/**
+ * Show or hide landscape warning based on PWA status
+ */
+function updateLandscapeWarningVisibility() {
+  const warning = document.getElementById("landscapeWarning");
+  if (!warning) return;
+
+  if (isPWA()) {
+    warning.classList.add("landscape-warning--hidden");
+  } else {
+    warning.classList.remove("landscape-warning--hidden");
+  }
+}
+
+/**
+ * Initialize landscape warning service
+ */
+function initLandscapeWarning() {
+  // Only initialize on mobile devices
+  const isMobile = window.innerWidth <= 1080;
+  if (!isMobile) return;
+
+  // Insert warning overlay
+  insertLandscapeWarning();
+
+  // Update visibility based on PWA status
+  updateLandscapeWarningVisibility();
+
+  // Listen for orientation changes
+  window.addEventListener("orientationchange", () => {
+    setTimeout(updateLandscapeWarningVisibility, 100);
+  });
+
+  // Listen for display mode changes (PWA installation)
+  window
+    .matchMedia("(display-mode: standalone)")
+    .addEventListener("change", (e) => {
+      if (e.matches) {
+        updateLandscapeWarningVisibility();
+      }
+    });
+}
+
+// Auto-initialize
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initLandscapeWarning);
+} else {
+  initLandscapeWarning();
+}
+
+export { isPWA, initLandscapeWarning, updateLandscapeWarningVisibility };
