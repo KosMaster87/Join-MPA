@@ -39,28 +39,34 @@ function getManifestPaths() {
   };
 }
 
-const MANIFEST_PATHS = getManifestPaths();
-
 const FAVICON_PATHS = {
   dark: "./assets/theme-dark/favicon.png",
   light: "./assets/theme-light/favicon.png",
 };
 
 /**
- * Theme color mapping for meta tag updates
- * Separate colors for auth pages (login/register) and app pages (summary, etc.)
- * @type {Object} Maps theme and context to theme-color hex value
+ * CSS variable names for theme colors by context
+ * Maps page context to the CSS variable that should be used for theme-color
+ * @type {Object}
  */
-const THEME_COLORS = {
-  auth: {
-    dark: "#161b22",  // Auth pages dark theme (--bg-primary in dark mode)
-    light: "#dfdfdf", // Auth pages light theme (--bg-primary in light mode)
-  },
-  app: {
-    dark: "#161b22",  // App pages dark theme (--bg-primary in dark mode)
-    light: "#f6f7f8", // App pages light theme (--bg-page in light mode)
-  },
+const THEME_COLOR_VARIABLES = {
+  auth: "--bg-primary", // Auth pages use body background
+  app: "--bg-header", // App pages use header background
 };
+
+/**
+ * Get theme color from CSS variables
+ * Reads the computed value of CSS variables based on page context
+ * @param {string} context - Page context ('auth' or 'app')
+ * @returns {string} Hex color value from CSS variable
+ */
+function getThemeColorFromCSS(context) {
+  const varName = THEME_COLOR_VARIABLES[context];
+  const color = getComputedStyle(document.documentElement)
+    .getPropertyValue(varName)
+    .trim();
+  return color || "#dfdfdf"; // Fallback color
+}
 
 // ============================================
 // Theme Utilities
@@ -113,9 +119,7 @@ function setupSystemThemeListener() {
    */
   systemThemeListener = (e) => {
     const newSystemTheme = e.matches ? "dark" : "light";
-    console.log(
-      `[Theme Service] System theme changed to: ${newSystemTheme}`,
-    );
+    console.log(`[Theme Service] System theme changed to: ${newSystemTheme}`);
 
     // Update data-theme attribute
     document.documentElement.setAttribute("data-theme", newSystemTheme);
@@ -220,9 +224,9 @@ function getPageContext() {
 /**
  * Update theme color meta tag for browser UI
  * Handles creation if missing, updates existing tag
- * Automatically detects page context (auth vs app)
+ * Automatically detects page context (auth vs app) and reads color from CSS variables
  * @private
- * @param {string} theme - Theme (light or dark)
+ * @param {string} theme - Theme (light or dark) - not used, color is read from CSS
  */
 function updateThemeColorMeta(theme) {
   let metaThemeColor = document.querySelector('meta[name="theme-color"]');
@@ -232,7 +236,7 @@ function updateThemeColorMeta(theme) {
     document.head.appendChild(metaThemeColor);
   }
   const context = getPageContext();
-  const color = THEME_COLORS[context][theme];
+  const color = getThemeColorFromCSS(context);
   metaThemeColor.setAttribute("content", color);
 }
 
