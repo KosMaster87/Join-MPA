@@ -2,8 +2,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100vw;
-  height: 100dvh;
+  /* width: 100vw; */
+  /* height: 100dvh; */
   overflow: hidden;
 }
 
@@ -12,9 +12,9 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100dvh;
   position: relative;
-  max-width: 1920px;
+  height: 100dvh;
+  max-width: 1080px;
   width: 100%;
   overflow: hidden;
 }
@@ -27,22 +27,27 @@ body {
   /* z-index for logo when Box growing to cover the Join logo */
   z-index: 1;
   position: absolute;
+  top: var(--spacing-md);
+  left: var(--spacing-lg);
   /* Erhöhter Abstand für PWA (safe-area + mehr Padding) */
-  top: calc(env(safe-area-inset-top, 0px) + var(--spacing-lg));
-  left: calc(env(safe-area-inset-left, 0px) + var(--spacing-lg));
+  /* top: calc(env(safe-area-inset-top, 0px) + var(--spacing-lg));
+  left: calc(env(safe-area-inset-left, 0px) + var(--spacing-lg)); */
 
   @media (min-width: 768px) {
-    top: calc(env(safe-area-inset-top, 0px) + var(--spacing-2xl));
-    left: calc(env(safe-area-inset-left, 0px) + var(--spacing-2xl));
+    top: var(--spacing-2xl);
+    left: var(--spacing-2xl);
+    /* top: calc(env(safe-area-inset-top, 0px) + var(--spacing-2xl));
+    left: calc(env(safe-area-inset-left, 0px) + var(--spacing-2xl)); */
   }
 }
 
 .login__img {
   width: 35%;
-  height: auto;
+  height: auto;  object-fit: contain;
+  display: block;
 
-  @media (min-width: 768px) {
-    width: 150%;
+  @media (min-width: 1080px) {
+    width: 60%;
   }
 }
 
