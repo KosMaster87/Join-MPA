@@ -7,7 +7,7 @@
 
 const SW_CONFIG = {
   // Versioning - WICHTIG: Erhöhe dies bei jedem Deployment um alle Caches zu invalidieren!
-  CACHE_VERSION: '19',
+  CACHE_VERSION: '20',
 
   // Database Configuration
   SETTINGS_DB: 'join-mpa-settings',
