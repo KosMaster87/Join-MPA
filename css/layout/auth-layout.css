@@ -16,9 +16,4 @@
     justify-content: center;
     margin: 0 auto;
   }
-
-  /* Lock to portrait orientation on mobile */
-  @media (max-width: 1080px) and (orientation: landscape) {
-    display: none;
-  }
 }
