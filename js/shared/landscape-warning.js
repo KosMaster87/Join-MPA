@@ -28,16 +28,19 @@ function createLandscapeWarningHTML() {
         <line x1="12" y1="18" x2="12.01" y2="18"></line>
       </svg>
 
-      <h2 class="landscape-warning__title">Portrait-Modus empfohlen</h2>
+      <h2 class="landscape-warning__title">Only Portrait Mode Supported</h2>
 
       <p class="landscape-warning__text">
-        Für die beste Nutzererfahrung drehen Sie bitte Ihr Gerät ins Hochformat
-        oder installieren Sie die App.
+        For the best user experience, please rotate your device to portrait mode.
+      </p>
+
+      <p class="landscape-warning__text">
+        It is also recommended to install the app for additional features.
       </p>
 
       <div class="landscape-warning__actions">
         <button id="installPWABtn" class="landscape-warning__btn landscape-warning__btn--primary">
-          App installieren
+          Install App
         </button>
       </div>
     </div>
@@ -46,19 +49,18 @@ function createLandscapeWarningHTML() {
 
 /**
  * Insert landscape warning into DOM
+ * Check if already exists before inserting
+ * @return {void}
  */
 function insertLandscapeWarning() {
-  // Check if already exists
   if (document.getElementById("landscapeWarning")) {
     return;
   }
 
-  // Insert HTML
   const wrapper = document.createElement("div");
   wrapper.innerHTML = createLandscapeWarningHTML();
   document.body.appendChild(wrapper.firstElementChild);
 
-  // Setup install button
   setupInstallButton();
 }
 

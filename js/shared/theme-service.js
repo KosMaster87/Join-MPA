@@ -243,7 +243,48 @@ function updateThemeColorMeta(theme) {
   const color = getThemeColorFromCSS(context);
   metaThemeColor.setAttribute("content", color);
 
-  console.log(`[Theme Service] Updated theme-color meta: ${color} (context: ${context}, theme: ${theme})`);
+  console.log(
+    `[Theme Service] Updated theme-color meta: ${color} (context: ${context}, theme: ${theme})`,
+  );
+
+  // Debug: Show color in dev mode (remove in production)
+  if (
+    window.location.hostname === "localhost" ||
+    window.location.search.includes("debug=true")
+  ) {
+    showDebugColorIndicator(color, context, theme);
+  }
+}
+
+/**
+ * Show debug color indicator on screen (for mobile debugging)
+ * @private
+ */
+function showDebugColorIndicator(color, context, theme) {
+  let indicator = document.getElementById("themeColorDebug");
+  if (!indicator) {
+    indicator = document.createElement("div");
+    indicator.id = "themeColorDebug";
+    indicator.style.cssText = `
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 11px;
+      z-index: 999999;
+      font-family: monospace;
+      pointer-events: none;
+    `;
+    document.body.appendChild(indicator);
+  }
+  indicator.innerHTML = `
+    🎨 ${color}<br>
+    📍 ${context}<br>
+    🌓 ${theme}
+  `;
 }
 
 /**
