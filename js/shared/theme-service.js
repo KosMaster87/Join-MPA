@@ -48,11 +48,18 @@ const FAVICON_PATHS = {
 
 /**
  * Theme color mapping for meta tag updates
- * @type {Object} Maps theme to theme-color hex value
+ * Separate colors for auth pages (login/register) and app pages (summary, etc.)
+ * @type {Object} Maps theme and context to theme-color hex value
  */
 const THEME_COLORS = {
-  dark: "#dfdfdf",
-  light: "#ffffff",
+  auth: {
+    dark: "#161b22",  // Auth pages dark theme (--bg-primary in dark mode)
+    light: "#dfdfdf", // Auth pages light theme (--bg-primary in light mode)
+  },
+  app: {
+    dark: "#161b22",  // App pages dark theme (--bg-primary in dark mode)
+    light: "#f6f7f8", // App pages light theme (--bg-page in light mode)
+  },
 };
 
 // ============================================
@@ -195,8 +202,25 @@ function addManifestAndFaviconLinks(theme) {
 }
 
 /**
+ * Detect current page context (auth or app)
+ * @private
+ * @returns {string} Context ('auth' or 'app')
+ */
+function getPageContext() {
+  const path = window.location.pathname;
+  const isAuthPage =
+    path.includes("/index.html") ||
+    path.includes("/login.html") ||
+    path.includes("/register.html") ||
+    path === "/" ||
+    /\/$/.test(path);
+  return isAuthPage ? "auth" : "app";
+}
+
+/**
  * Update theme color meta tag for browser UI
  * Handles creation if missing, updates existing tag
+ * Automatically detects page context (auth vs app)
  * @private
  * @param {string} theme - Theme (light or dark)
  */
@@ -207,7 +231,9 @@ function updateThemeColorMeta(theme) {
     metaThemeColor.setAttribute("name", "theme-color");
     document.head.appendChild(metaThemeColor);
   }
-  metaThemeColor.setAttribute("content", THEME_COLORS[theme]);
+  const context = getPageContext();
+  const color = THEME_COLORS[context][theme];
+  metaThemeColor.setAttribute("content", color);
 }
 
 /**

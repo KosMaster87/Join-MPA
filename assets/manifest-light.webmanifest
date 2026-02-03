@@ -1,7 +1,7 @@
 {
   "name": "Join - Project Management",
   "short_name": "Join",
-  "description": "Join – Das intuitive Kanban-Tool für Aufgaben, Teams und Projekte.",
+  "description": "Join – The intuitive Kanban tool for tasks, teams and projects.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
