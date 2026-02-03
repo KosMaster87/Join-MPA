@@ -27,16 +27,13 @@ body {
   /* z-index for logo when Box growing to cover the Join logo */
   z-index: 1;
   position: absolute;
-  /* top: var(--spacing-md);
-  left: var(--spacing-lg); */
-  top: calc(env(safe-area-inset-top) + var(--spacing-md));
-  left: calc(env(safe-area-inset-left) + var(--spacing-lg));
+  /* Erhöhter Abstand für PWA (safe-area + mehr Padding) */
+  top: calc(env(safe-area-inset-top, 0px) + var(--spacing-lg));
+  left: calc(env(safe-area-inset-left, 0px) + var(--spacing-lg));
 
   @media (min-width: 768px) {
-    /* top: var(--spacing-2xl);
-    left: var(--spacing-2xl); */
-    top: calc(env(safe-area-inset-top) + var(--spacing-2xl));
-    left: calc(env(safe-area-inset-left) + var(--spacing-2xl));
+    top: calc(env(safe-area-inset-top, 0px) + var(--spacing-2xl));
+    left: calc(env(safe-area-inset-left, 0px) + var(--spacing-2xl));
   }
 }
 
