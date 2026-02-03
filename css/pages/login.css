@@ -27,12 +27,16 @@ body {
   /* z-index for logo when Box growing to cover the Join logo */
   z-index: 1;
   position: absolute;
-  top: var(--spacing-md);
-  left: var(--spacing-lg);
+  /* top: var(--spacing-md);
+  left: var(--spacing-lg); */
+  top: calc(env(safe-area-inset-top) + var(--spacing-md));
+  left: calc(env(safe-area-inset-left) + var(--spacing-lg));
 
   @media (min-width: 768px) {
-    top: var(--spacing-2xl);
-    left: var(--spacing-2xl);
+    /* top: var(--spacing-2xl);
+    left: var(--spacing-2xl); */
+    top: calc(env(safe-area-inset-top) + var(--spacing-2xl));
+    left: calc(env(safe-area-inset-left) + var(--spacing-2xl));
   }
 }
 
@@ -43,6 +47,10 @@ body {
   @media (min-width: 768px) {
     width: 150%;
   }
+}
+
+.login__img--light {
+  display: block;
 }
 
 .login__img--dark {
@@ -319,7 +327,6 @@ body {
   cursor: not-allowed;
   opacity: 0.5;
 }
-
 
 /* ==========================================================================
     Buttons
