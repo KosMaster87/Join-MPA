@@ -94,16 +94,52 @@ function setupInstallButton() {
 }
 
 /**
- * Show or hide landscape warning based on PWA status
+ * Check if device is currently in landscape orientation
+ * @returns {boolean} True if landscape
+ */
+function isLandscape() {
+  return window.innerWidth > window.innerHeight && window.innerWidth <= 1080;
+}
+
+/**
+ * Lock body scrolling when landscape warning is visible
+ */
+function lockBodyScroll() {
+  document.body.style.overflow = "hidden";
+  document.body.style.position = "fixed";
+  document.body.style.width = "100%";
+  document.body.style.top = `-${window.scrollY}px`;
+}
+
+/**
+ * Unlock body scrolling
+ */
+function unlockBodyScroll() {
+  const scrollY = document.body.style.top;
+  document.body.style.overflow = "";
+  document.body.style.position = "";
+  document.body.style.width = "";
+  document.body.style.top = "";
+  if (scrollY) {
+    window.scrollTo(0, parseInt(scrollY || "0") * -1);
+  }
+}
+
+/**
+ * Show or hide landscape warning based on PWA status and orientation
  */
 function updateLandscapeWarningVisibility() {
   const warning = document.getElementById("landscapeWarning");
   if (!warning) return;
 
-  if (isPWA()) {
-    warning.classList.add("landscape-warning--hidden");
-  } else {
+  const shouldShow = !isPWA() && isLandscape();
+
+  if (shouldShow) {
     warning.classList.remove("landscape-warning--hidden");
+    lockBodyScroll();
+  } else {
+    warning.classList.add("landscape-warning--hidden");
+    unlockBodyScroll();
   }
 }
 
@@ -124,6 +160,11 @@ function initLandscapeWarning() {
   // Listen for orientation changes
   window.addEventListener("orientationchange", () => {
     setTimeout(updateLandscapeWarningVisibility, 100);
+  });
+
+  // Listen for resize (catches rotation on some devices)
+  window.addEventListener("resize", () => {
+    updateLandscapeWarningVisibility();
   });
 
   // Listen for display mode changes (PWA installation)

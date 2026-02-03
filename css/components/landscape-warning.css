@@ -15,6 +15,8 @@
   padding: var(--spacing-xl);
   text-align: center;
   gap: var(--spacing-lg);
+  touch-action: none; /* Prevent touch scrolling */
+  overscroll-behavior: contain; /* Prevent pull-to-refresh */
 }
 
 /* Show only in browser (not PWA) and only in landscape */

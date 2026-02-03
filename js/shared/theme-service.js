@@ -65,7 +65,11 @@ function getThemeColorFromCSS(context) {
   const color = getComputedStyle(document.documentElement)
     .getPropertyValue(varName)
     .trim();
-  return color || "#dfdfdf"; // Fallback color
+
+  console.log(`[Theme Service] Reading ${varName} for ${context}: ${color}`);
+
+  // Return color or fallback
+  return color || "#dfdfdf";
 }
 
 // ============================================
@@ -238,6 +242,8 @@ function updateThemeColorMeta(theme) {
   const context = getPageContext();
   const color = getThemeColorFromCSS(context);
   metaThemeColor.setAttribute("content", color);
+
+  console.log(`[Theme Service] Updated theme-color meta: ${color} (context: ${context}, theme: ${theme})`);
 }
 
 /**
