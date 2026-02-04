@@ -45,34 +45,20 @@ const FAVICON_PATHS = {
 };
 
 /**
- * CSS variable names for theme colors by context
- * Maps page context to the CSS variable that should be used for theme-color
- * @type {Object}
+ * Theme color mapping for meta tag updates
+ * Separate colors for auth pages (login/register) and app pages (summary, etc.)
+ * @type {Object} Maps theme and context to theme-color hex value
  */
-const THEME_COLOR_VARIABLES = {
-  auth: "--bg-primary", // Auth pages use body background
-  // app: "--bg-header", // App pages use header background
-  app: "--bg-sidebar", // App pages use sidebar/menu background
+const THEME_COLORS = {
+  auth: {
+    dark: "#161b22", // Auth pages dark theme (--bg-primary in dark mode)
+    light: "#dfdfdf", // Auth pages light theme (--bg-primary in light mode)
+  },
+  app: {
+    dark: "#161b22", // App pages dark theme (--bg-primary in dark mode)
+    light: "#f6f7f8", // App pages light theme (--bg-page in light mode)
+  },
 };
-
-/**
- * Get theme color from CSS variables
- * Reads the computed value of CSS variables based on page context
- * @param {string} context - Page context ('auth' or 'app')
- * @returns {string} Hex color value from CSS variable
- */
-function getThemeColorFromCSS(context) {
-  const varName = THEME_COLOR_VARIABLES[context];
-  const color = getComputedStyle(document.documentElement)
-    .getPropertyValue(varName)
-    .trim();
-
-  // console.log(`[Theme Service] Reading ${varName} for ${context}: ${color}`);
-
-  // Return color or fallback
-  return color || "#dfdfdf";
-  // NOTE - Andere möglichkeit siehe commit: bb8344356747bb172a05ab5f9f64fb1d187fcdf0
-}
 
 // ============================================
 // Theme Utilities
@@ -230,9 +216,9 @@ function getPageContext() {
 /**
  * Update theme color meta tag for browser UI
  * Handles creation if missing, updates existing tag
- * Automatically detects page context (auth vs app) and reads color from CSS variables
+ * Automatically detects page context (auth vs app) and uses hardcoded colors
  * @private
- * @param {string} theme - Theme (light or dark) - not used, color is read from CSS
+ * @param {string} theme - Theme (light or dark)
  */
 function updateThemeColorMeta(theme) {
   let metaThemeColor = document.querySelector('meta[name="theme-color"]');
@@ -242,20 +228,20 @@ function updateThemeColorMeta(theme) {
     document.head.appendChild(metaThemeColor);
   }
   const context = getPageContext();
-  const color = getThemeColorFromCSS(context);
+  const color = THEME_COLORS[context][theme];
   metaThemeColor.setAttribute("content", color);
 
-  // console.log(
-  //   `[Theme Service] Updated theme-color meta: ${color} (context: ${context}, theme: ${theme})`,
-  // );
+  console.log(
+    `[Theme Service] Updated theme-color meta: ${color} (context: ${context}, theme: ${theme})`,
+  );
 
-  // // Debug: Show color in dev mode (remove in production)
-  // if (
-  //   window.location.hostname === "localhost" ||
-  //   window.location.search.includes("debug=true")
-  // ) {
-  //   showDebugColorIndicator(color, context, theme);
-  // }
+  // Debug: Show color in dev mode (remove in production)
+  if (
+    window.location.hostname === "localhost" ||
+    window.location.search.includes("debug=true")
+  ) {
+    showDebugColorIndicator(color, context, theme);
+  }
 }
 
 /**
