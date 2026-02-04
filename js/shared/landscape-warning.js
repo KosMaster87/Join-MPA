@@ -24,15 +24,12 @@ function createLandscapeWarningHTML() {
   return `
     <div class="landscape-warning" id="landscapeWarning">
       <h2 class="landscape-warning__title">Only Portrait Mode Supported</h2>
-
       <p class="landscape-warning__text">
         For the best user experience, please rotate your device to portrait mode.
       </p>
-
       <p class="landscape-warning__text">
         It is also recommended to install the app for additional features.
       </p>
-
       <div class="landscape-warning__actions">
         <button id="installPWABtn" class="landscape-warning__btn landscape-warning__btn--primary">
           Install App
@@ -60,34 +57,47 @@ function insertLandscapeWarning() {
 }
 
 /**
+ * Handle before install prompt event
+ * @param {Event} event - Install prompt event
+ * @param {HTMLElement} installBtn - Install button element
+ */
+function handleBeforeInstallPrompt(event, installBtn) {
+  event.preventDefault();
+  window.deferredPrompt = event;
+  installBtn.style.display = "inline-block";
+}
+
+/**
+ * Handle install button click
+ * @async
+ */
+async function handleInstallClick() {
+  try {
+    if (!window.deferredPrompt) {
+      alert("Installation has already been completed or is not available.");
+      return;
+    }
+    window.deferredPrompt.prompt();
+    const { outcome } = await window.deferredPrompt.userChoice;
+    if (outcome === "accepted") {
+      console.log("[Landscape Warning] PWA installation accepted");
+    }
+    window.deferredPrompt = null;
+  } catch (error) {
+    console.error("[Landscape Warning] Install failed:", error);
+  }
+}
+
+/**
  * Setup PWA install button functionality
  */
 function setupInstallButton() {
   const installBtn = document.getElementById("installPWABtn");
   if (!installBtn) return;
-
-  // Check if install prompt is available
-  window.addEventListener("beforeinstallprompt", (e) => {
-    e.preventDefault();
-    window.deferredPrompt = e;
-    installBtn.style.display = "inline-block";
-  });
-
-  installBtn.addEventListener("click", async () => {
-    if (!window.deferredPrompt) {
-      alert("Installation has already been completed or is not available.");
-      return;
-    }
-
-    window.deferredPrompt.prompt();
-    const { outcome } = await window.deferredPrompt.userChoice;
-
-    if (outcome === "accepted") {
-      console.log("[Landscape Warning] PWA installation accepted");
-    }
-
-    window.deferredPrompt = null;
-  });
+  window.addEventListener("beforeinstallprompt", (e) =>
+    handleBeforeInstallPrompt(e, installBtn),
+  );
+  installBtn.addEventListener("click", handleInstallClick);
 }
 
 /**
@@ -141,40 +151,51 @@ function updateLandscapeWarningVisibility() {
 }
 
 /**
+ * Check if device is mobile
+ * @returns {boolean} True if mobile device
+ */
+function isMobileDevice() {
+  return window.innerWidth <= 1080;
+}
+
+/**
+ * Handle orientation change event
+ */
+function handleOrientationChange() {
+  setTimeout(updateLandscapeWarningVisibility, 100);
+}
+
+/**
+ * Handle display mode change event
+ * @param {MediaQueryListEvent} event - Display mode change event
+ */
+function handleDisplayModeChange(event) {
+  if (event.matches) {
+    updateLandscapeWarningVisibility();
+  }
+}
+
+/**
+ * Setup event listeners for landscape warning
+ */
+function setupLandscapeListeners() {
+  window.addEventListener("orientationchange", handleOrientationChange);
+  window.addEventListener("resize", updateLandscapeWarningVisibility);
+  window
+    .matchMedia("(display-mode: standalone)")
+    .addEventListener("change", handleDisplayModeChange);
+}
+
+/**
  * Initialize landscape warning service
  */
 function initLandscapeWarning() {
-  // Only initialize on mobile devices
-  const isMobile = window.innerWidth <= 1080;
-  if (!isMobile) return;
-
-  // Insert warning overlay
+  if (!isMobileDevice()) return;
   insertLandscapeWarning();
-
-  // Update visibility based on PWA status
   updateLandscapeWarningVisibility();
-
-  // Listen for orientation changes
-  window.addEventListener("orientationchange", () => {
-    setTimeout(updateLandscapeWarningVisibility, 100);
-  });
-
-  // Listen for resize (catches rotation on some devices)
-  window.addEventListener("resize", () => {
-    updateLandscapeWarningVisibility();
-  });
-
-  // Listen for display mode changes (PWA installation)
-  window
-    .matchMedia("(display-mode: standalone)")
-    .addEventListener("change", (e) => {
-      if (e.matches) {
-        updateLandscapeWarningVisibility();
-      }
-    });
+  setupLandscapeListeners();
 }
 
-// Auto-initialize
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initLandscapeWarning);
 } else {
