@@ -75,7 +75,7 @@ function setupInstallButton() {
 
   installBtn.addEventListener("click", async () => {
     if (!window.deferredPrompt) {
-      alert("Installation ist bereits erfolgt oder nicht verfügbar.");
+      alert("Installation has already been completed or is not available.");
       return;
     }
 
