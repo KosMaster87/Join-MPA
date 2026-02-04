@@ -51,8 +51,8 @@ const FAVICON_PATHS = {
  */
 const THEME_COLOR_VARIABLES = {
   auth: "--bg-primary", // Auth pages use body background
-  app: "--bg-header", // App pages use header background
-  // app: "--bg-sidebar", // App pages use sidebar/menu background
+  // app: "--bg-header", // App pages use header background
+  app: "--bg-sidebar", // App pages use sidebar/menu background
 };
 
 /**
@@ -67,10 +67,11 @@ function getThemeColorFromCSS(context) {
     .getPropertyValue(varName)
     .trim();
 
-  console.log(`[Theme Service] Reading ${varName} for ${context}: ${color}`);
+  // console.log(`[Theme Service] Reading ${varName} for ${context}: ${color}`);
 
   // Return color or fallback
   return color || "#dfdfdf";
+  // NOTE - Andere möglichkeit siehe commit: bb8344356747bb172a05ab5f9f64fb1d187fcdf0
 }
 
 // ============================================
