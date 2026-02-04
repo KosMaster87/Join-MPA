@@ -7,21 +7,28 @@
  */
 
 const THEMES = ["device", "light", "dark"];
+
 const THEME_ICONS = {
   device: "../assets/img/theme/device.svg",
   light: "../assets/img/theme/light-mode.svg",
   dark: "../assets/img/theme/dark-mode.svg",
 };
 
-/**
- * Store system theme change listener for cleanup
- * @type {MediaQueryListListener|null}
- */
+const FAVICON_PATHS = {
+  dark: "./assets/theme-dark/favicon.png",
+  light: "./assets/theme-light/favicon.png",
+};
+
+const THEME_COLOR_VARIABLES = {
+  auth: "--bg-primary",
+  app: "--bg-header",
+};
+
 let systemThemeListener = null;
 
 /**
  * Generate manifest version timestamp
- * @returns {number} Current timestamp in seconds (for cache busting)
+ * @returns {number} Current timestamp in seconds
  */
 function getManifestVersion() {
   return Math.floor(Date.now() / 1000);
@@ -39,30 +46,18 @@ function getManifestPaths() {
   };
 }
 
-const FAVICON_PATHS = {
-  dark: "./assets/theme-dark/favicon.png",
-  light: "./assets/theme-light/favicon.png",
-};
-
 /**
- * Theme color mapping for meta tag updates
- * Separate colors for auth pages (login/register) and app pages (summary, etc.)
- * @type {Object} Maps theme and context to theme-color hex value
+ * Get theme color from CSS variables
+ * @param {string} context - Page context ('auth' or 'app')
+ * @returns {string} Hex color value from CSS variable
  */
-const THEME_COLORS = {
-  auth: {
-    dark: "#161b22", // Auth pages dark theme (--bg-primary in dark mode)
-    light: "#dfdfdf", // Auth pages light theme (--bg-primary in light mode)
-  },
-  app: {
-    dark: "#161b22", // App pages dark theme (--bg-primary in dark mode)
-    light: "#f6f7f8", // App pages light theme (--bg-page in light mode)
-  },
-};
-
-// ============================================
-// Theme Utilities
-// ============================================
+function getThemeColorFromCSS(context) {
+  const varName = THEME_COLOR_VARIABLES[context];
+  const color = getComputedStyle(document.documentElement)
+    .getPropertyValue(varName)
+    .trim();
+  return color || "#dfdfdf";
+}
 
 /**
  * Get next theme in rotation cycle
@@ -85,78 +80,66 @@ function getSystemTheme() {
 }
 
 /**
- * Setup listener for system theme changes
- * Only active when theme is set to "device"
- * @returns {void}
+ * Remove existing system theme listener
+ * @private
  */
-function setupSystemThemeListener() {
-  // Remove existing listener if present
+function removeExistingListener() {
   if (systemThemeListener) {
     window
       .matchMedia("(prefers-color-scheme: dark)")
       .removeEventListener("change", systemThemeListener);
     systemThemeListener = null;
   }
+}
 
-  const currentTheme = localStorage.getItem("joinTheme") || "device";
+/**
+ * Handle system theme change event
+ * @param {MediaQueryListEvent} event - Media query change event
+ */
+function handleSystemThemeChange(event) {
+  const newSystemTheme = event.matches ? "dark" : "light";
+  console.log(`[Theme Service] System theme changed to: ${newSystemTheme}`);
+  document.documentElement.setAttribute("data-theme", newSystemTheme);
+  updateManifestAndFavicon(newSystemTheme);
+  updateThemeIcon("device");
+  performSummaryIconUpdate(newSystemTheme);
+  syncSettingsWithServiceWorker();
+}
 
-  // Only setup listener if theme is set to "device"
-  if (currentTheme !== "device") {
-    return;
-  }
-
-  /**
-   * Handle system theme change
-   * @param {MediaQueryListEvent} e - Media query list event
-   */
-  systemThemeListener = (e) => {
-    const newSystemTheme = e.matches ? "dark" : "light";
-    console.log(`[Theme Service] System theme changed to: ${newSystemTheme}`);
-
-    // Update data-theme attribute
-    document.documentElement.setAttribute("data-theme", newSystemTheme);
-
-    // Update manifest and favicon
-    updateManifestAndFavicon(newSystemTheme);
-
-    // Update icons
-    updateThemeIcon("device");
-    performSummaryIconUpdate(newSystemTheme);
-
-    // Sync with service worker
-    syncSettingsWithServiceWorker();
-  };
-
-  // Attach listener to media query
+/**
+ * Attach listener to media query
+ * @private
+ */
+function attachMediaQueryListener() {
   window
     .matchMedia("(prefers-color-scheme: dark)")
     .addEventListener("change", systemThemeListener);
+  console.log("[Theme Service] System theme listener activated");
+}
 
-  console.log("[Theme Service] System theme listener activated (device mode)");
+/**
+ * Setup listener for system theme changes
+ */
+function setupSystemThemeListener() {
+  removeExistingListener();
+  const currentTheme = localStorage.getItem("joinTheme") || "device";
+  if (currentTheme !== "device") return;
+  systemThemeListener = handleSystemThemeChange;
+  attachMediaQueryListener();
 }
 
 /**
  * Remove system theme listener
- * @returns {void}
  */
 function removeSystemThemeListener() {
-  if (systemThemeListener) {
-    window
-      .matchMedia("(prefers-color-scheme: dark)")
-      .removeEventListener("change", systemThemeListener);
-    systemThemeListener = null;
-    console.log("[Theme Service] System theme listener removed");
-  }
+  removeExistingListener();
+  console.log("[Theme Service] System theme listener removed");
 }
-
-// ============================================
-// DOM Updates
-// ============================================
 
 /**
  * Create manifest link element
  * @param {string} theme - Theme (light or dark)
- * @returns {HTMLLinkElement} Manifest link element with current version
+ * @returns {HTMLLinkElement} Manifest link element
  */
 function createManifestLink(theme) {
   const manifest = document.createElement("link");
@@ -189,7 +172,7 @@ function removeManifestAndFaviconLinks() {
 }
 
 /**
- * Add manifest and favicon links to document head for theme
+ * Add manifest and favicon links to document head
  * @param {string} theme - Theme (light or dark)
  */
 function addManifestAndFaviconLinks(theme) {
@@ -198,8 +181,7 @@ function addManifestAndFaviconLinks(theme) {
 }
 
 /**
- * Detect current page context (auth or app)
- * @private
+ * Detect current page context
  * @returns {string} Context ('auth' or 'app')
  */
 function getPageContext() {
@@ -214,65 +196,28 @@ function getPageContext() {
 }
 
 /**
- * Update theme color meta tag for browser UI
- * Handles creation if missing, updates existing tag
- * Automatically detects page context (auth vs app) and uses hardcoded colors
- * @private
- * @param {string} theme - Theme (light or dark)
+ * Get or create theme color meta tag
+ * @returns {HTMLMetaElement} Theme color meta element
  */
-function updateThemeColorMeta(theme) {
+function getOrCreateThemeColorMeta() {
   let metaThemeColor = document.querySelector('meta[name="theme-color"]');
   if (!metaThemeColor) {
     metaThemeColor = document.createElement("meta");
     metaThemeColor.setAttribute("name", "theme-color");
     document.head.appendChild(metaThemeColor);
   }
-  const context = getPageContext();
-  const color = THEME_COLORS[context][theme];
-  metaThemeColor.setAttribute("content", color);
-
-  console.log(
-    `[Theme Service] Updated theme-color meta: ${color} (context: ${context}, theme: ${theme})`,
-  );
-
-  // Debug: Show color in dev mode (remove in production)
-  if (
-    window.location.hostname === "localhost" ||
-    window.location.search.includes("debug=true")
-  ) {
-    showDebugColorIndicator(color, context, theme);
-  }
+  return metaThemeColor;
 }
 
 /**
- * Show debug color indicator on screen (for mobile debugging)
- * @private
+ * Update theme color meta tag for browser UI
+ * @param {string} theme - Theme (light or dark)
  */
-function showDebugColorIndicator(color, context, theme) {
-  let indicator = document.getElementById("themeColorDebug");
-  if (!indicator) {
-    indicator = document.createElement("div");
-    indicator.id = "themeColorDebug";
-    indicator.style.cssText = `
-      position: fixed;
-      bottom: 10px;
-      right: 10px;
-      background: rgba(0,0,0,0.8);
-      color: white;
-      padding: 8px 12px;
-      border-radius: 4px;
-      font-size: 11px;
-      z-index: 999999;
-      font-family: monospace;
-      pointer-events: none;
-    `;
-    document.body.appendChild(indicator);
-  }
-  indicator.innerHTML = `
-    🎨 ${color}<br>
-    📍 ${context}<br>
-    🌓 ${theme}
-  `;
+function updateThemeColorMeta(theme) {
+  const metaThemeColor = getOrCreateThemeColorMeta();
+  const context = getPageContext();
+  const color = getThemeColorFromCSS(context);
+  metaThemeColor.setAttribute("content", color);
 }
 
 /**
@@ -319,46 +264,63 @@ function performSummaryIconUpdate(theme) {
  * @returns {Promise<void>}
  */
 async function updateSummaryIconsForTheme(theme) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      performSummaryIconUpdate(theme);
-      resolve();
-    }, 100);
-  });
+  try {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        performSummaryIconUpdate(theme);
+        resolve();
+      }, 100);
+    });
+  } catch (error) {
+    console.error("[Theme Service] Icon update failed:", error);
+  }
 }
 
-// ============================================
-// Theme Management
-// ============================================
+/**
+ * Set theme in local storage
+ * @param {string} theme - Theme to store
+ */
+function storeTheme(theme) {
+  localStorage.setItem("joinTheme", theme);
+}
 
 /**
- * Apply theme to document with all visual updates
+ * Apply theme to document root
+ * @param {string} theme - Theme to apply
+ * @param {string} realTheme - Resolved theme (light or dark)
+ */
+function applyThemeToDocument(theme, realTheme) {
+  storeTheme(theme);
+  document.documentElement.setAttribute("data-theme", realTheme);
+  void document.documentElement.offsetHeight;
+}
+
+/**
+ * Apply theme with all visual updates
  * @async
  * @param {string} theme - Theme (device, light, or dark)
  */
 async function applyTheme(theme) {
-  const realTheme = theme === "device" ? getSystemTheme() : theme;
-  localStorage.setItem("joinTheme", theme);
-  document.documentElement.setAttribute("data-theme", realTheme);
-  void document.documentElement.offsetHeight;
-
-  updateManifestAndFavicon(realTheme);
-  updateThemeIcon(theme);
-  await updateSummaryIconsForTheme(realTheme);
-  syncSettingsWithServiceWorker();
-  setupSystemThemeListener();
+  try {
+    const realTheme = theme === "device" ? getSystemTheme() : theme;
+    applyThemeToDocument(theme, realTheme);
+    updateManifestAndFavicon(realTheme);
+    updateThemeIcon(theme);
+    await updateSummaryIconsForTheme(realTheme);
+    syncSettingsWithServiceWorker();
+    setupSystemThemeListener();
+  } catch (error) {
+    console.error("[Theme Service] Apply theme failed:", error);
+  }
 }
 
 /**
- * Apply theme without triggering icon updates
+ * Apply theme without icon updates
  * @param {string} theme - Theme (device, light, or dark)
  */
 function applyThemeWithoutIcons(theme) {
   const realTheme = theme === "device" ? getSystemTheme() : theme;
-  localStorage.setItem("joinTheme", theme);
-  document.documentElement.setAttribute("data-theme", realTheme);
-  void document.documentElement.offsetHeight;
-
+  applyThemeToDocument(theme, realTheme);
   updateManifestAndFavicon(realTheme);
   syncSettingsWithServiceWorker();
   setupSystemThemeListener();
@@ -370,7 +332,11 @@ function applyThemeWithoutIcons(theme) {
  * @param {string} theme - Theme to apply (device, light, or dark)
  */
 async function setTheme(theme) {
-  await applyTheme(theme);
+  try {
+    await applyTheme(theme);
+  } catch (error) {
+    console.error("[Theme Service] Set theme failed:", error);
+  }
 }
 
 /**
@@ -378,8 +344,12 @@ async function setTheme(theme) {
  * @async
  */
 async function initTheme() {
-  const theme = localStorage.getItem("joinTheme") || "device";
-  await applyTheme(theme);
+  try {
+    const theme = localStorage.getItem("joinTheme") || "device";
+    await applyTheme(theme);
+  } catch (error) {
+    console.error("[Theme Service] Init theme failed:", error);
+  }
 }
 
 /**
@@ -403,10 +373,6 @@ function setupThemeToggle() {
   }
 }
 
-// ============================================
-// Service Worker Integration
-// ============================================
-
 /**
  * Sync user theme settings with Service Worker
  */
@@ -421,10 +387,6 @@ function syncSettingsWithServiceWorker() {
     });
   }
 }
-
-// ============================================
-// Initialization
-// ============================================
 
 /**
  * Get existing manifest link from document
@@ -459,43 +421,56 @@ function manifestLinkIsStale(existingLink, realTheme) {
 }
 
 /**
+ * Update existing manifest link href
+ * @param {HTMLLinkElement} link - Manifest link element
+ * @param {string} realTheme - Resolved theme (light or dark)
+ */
+function updateManifestLinkHref(link, realTheme) {
+  const freshPaths = getManifestPaths();
+  link.href = freshPaths[realTheme];
+}
+
+/**
  * Ensure manifest link is up-to-date with current version
  * @param {string} theme - Theme from localStorage
  */
 function ensureManifestIsUpToDate(theme) {
   const realTheme = theme === "device" ? getSystemTheme() : theme;
   const existingLink = getExistingManifestLink();
-
   if (!existingLink) {
     const freshLink = createFreshManifestLink(realTheme);
     document.head.appendChild(freshLink);
-    // console.log("[Theme Service] Created manifest link:", freshLink.href);
   } else if (manifestLinkIsStale(existingLink, realTheme)) {
-    const freshPaths = getManifestPaths();
-    existingLink.href = freshPaths[realTheme];
-    // console.log("[Theme Service] Updated manifest link:", existingLink.href);
+    updateManifestLinkHref(existingLink, realTheme);
   }
 }
 
 /**
+ * Setup theme on DOMContentLoaded
+ * @param {string} theme - Theme to setup
+ */
+function setupThemeOnLoad(theme) {
+  setupThemeToggle();
+  ensureManifestIsUpToDate(theme);
+}
+
+/**
  * Initialize theme service on module load
+ * @async
  */
 async function initializeThemeService() {
   try {
     const theme = localStorage.getItem("joinTheme") || "device";
     applyThemeWithoutIcons(theme);
-
     if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", () => {
-        setupThemeToggle();
-        ensureManifestIsUpToDate(theme);
-      });
+      document.addEventListener("DOMContentLoaded", () =>
+        setupThemeOnLoad(theme),
+      );
     } else {
-      setupThemeToggle();
-      ensureManifestIsUpToDate(theme);
+      setupThemeOnLoad(theme);
     }
   } catch (error) {
-    // console.error("[Theme Service] Initialization failed:", error);
+    console.error("[Theme Service] Initialization failed:", error);
   }
 }
 

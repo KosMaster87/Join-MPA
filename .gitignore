@@ -88,8 +88,8 @@ docs/
 .netlify/
 
 # Old Project files
-
 other-projects/
+
 # JSDoc output
 /jsdoc-output/
 /docs-generated/
