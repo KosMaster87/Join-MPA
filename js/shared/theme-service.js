@@ -51,7 +51,7 @@ const FAVICON_PATHS = {
  */
 const THEME_COLOR_VARIABLES = {
   auth: "--bg-primary", // Auth pages use body background
-  app: "--bg-header", // App pages use header background
+  app: "--bg-sidebar", // App pages use sidebar/menu background
 };
 
 /**
