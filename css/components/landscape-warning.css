@@ -14,7 +14,7 @@
   justify-content: center;
   padding: var(--spacing-xl);
   text-align: center;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-md);
   touch-action: none; /* Prevent touch scrolling */
   overscroll-behavior: contain; /* Prevent pull-to-refresh */
 }
@@ -23,22 +23,6 @@
 @media (max-width: 1080px) and (orientation: landscape) {
   .landscape-warning:not(.landscape-warning--hidden) {
     display: flex;
-  }
-}
-
-.landscape-warning__icon {
-  width: 80px;
-  height: 80px;
-  animation: rotatePhone 2s ease-in-out infinite;
-}
-
-@keyframes rotatePhone {
-  0%,
-  100% {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(90deg);
   }
 }
 
