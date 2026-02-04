@@ -51,7 +51,8 @@ const FAVICON_PATHS = {
  */
 const THEME_COLOR_VARIABLES = {
   auth: "--bg-primary", // Auth pages use body background
-  app: "--bg-sidebar", // App pages use sidebar/menu background
+  app: "--bg-header", // App pages use header background
+  // app: "--bg-sidebar", // App pages use sidebar/menu background
 };
 
 /**
@@ -243,17 +244,17 @@ function updateThemeColorMeta(theme) {
   const color = getThemeColorFromCSS(context);
   metaThemeColor.setAttribute("content", color);
 
-  console.log(
-    `[Theme Service] Updated theme-color meta: ${color} (context: ${context}, theme: ${theme})`,
-  );
+  // console.log(
+  //   `[Theme Service] Updated theme-color meta: ${color} (context: ${context}, theme: ${theme})`,
+  // );
 
-  // Debug: Show color in dev mode (remove in production)
-  if (
-    window.location.hostname === "localhost" ||
-    window.location.search.includes("debug=true")
-  ) {
-    showDebugColorIndicator(color, context, theme);
-  }
+  // // Debug: Show color in dev mode (remove in production)
+  // if (
+  //   window.location.hostname === "localhost" ||
+  //   window.location.search.includes("debug=true")
+  // ) {
+  //   showDebugColorIndicator(color, context, theme);
+  // }
 }
 
 /**
@@ -481,11 +482,11 @@ function ensureManifestIsUpToDate(theme) {
   if (!existingLink) {
     const freshLink = createFreshManifestLink(realTheme);
     document.head.appendChild(freshLink);
-    console.log("[Theme Service] Created manifest link:", freshLink.href);
+    // console.log("[Theme Service] Created manifest link:", freshLink.href);
   } else if (manifestLinkIsStale(existingLink, realTheme)) {
     const freshPaths = getManifestPaths();
     existingLink.href = freshPaths[realTheme];
-    console.log("[Theme Service] Updated manifest link:", existingLink.href);
+    // console.log("[Theme Service] Updated manifest link:", existingLink.href);
   }
 }
 
@@ -507,7 +508,7 @@ async function initializeThemeService() {
       ensureManifestIsUpToDate(theme);
     }
   } catch (error) {
-    console.error("[Theme Service] Initialization failed:", error);
+    // console.error("[Theme Service] Initialization failed:", error);
   }
 }
 
