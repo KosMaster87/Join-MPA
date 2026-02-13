@@ -18,12 +18,6 @@ config/firebase.config.js
 *.sublime-workspace
 .history/*
 
-# CI/CD
-.gemini/
-
-# GitHub Actions workflows should be committed!
-# .github/ is removed from here - workflows must be in version control
-
 # Logs
 *.log
 npm-debug.log*
@@ -79,16 +73,13 @@ docs/
 
 # Markdown files (documentation)
 # Exclude all markdown files by default
-*.md
+# *.md
 
 # But include the main README
-!README.md
+# !README.md
 
 # Netlify
 .netlify/
-
-# Old Project files
-other-projects/
 
 # JSDoc output
 /jsdoc-output/
