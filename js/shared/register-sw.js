@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Service Worker registration for PWA support
+ * @description Registers the service worker to enable offline capabilities
+ *              and improve performance for the Progressive Web App (PWA).
+ * @module js/shared/register-sw
+ */
+
 // Register the service worker for PWA support
 // (function () {
 //   if ("serviceWorker" in navigator) {
